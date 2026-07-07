@@ -1,8 +1,8 @@
 export const NAV_LINKS = [
   { href: "/#home", label: "Home" },
-  { href: "/#why", label: "About" },
-  { href: "/#offers", label: "Curriculum" },
-  { href: "/#gallery", label: "Gallery" },
+  { href: "/about", label: "About the Owner" },
+  { href: "/curriculum", label: "Curriculum" },
+  { href: "/gallery", label: "Gallery" },
 ] as const;
 
 export const WHY_CHOOSE_ITEMS = [
@@ -93,7 +93,34 @@ export const GALLERY_IMAGES = [
     caption: "Celebrating progress",
     size: "wide" as const,
   },
+  {
+    id: "hands-1",
+    src: "/images/gallery/_test2/hands1.jpg",
+    alt: "Student hands on piano keys",
+    caption: "First notes at the keyboard",
+    size: "square" as const,
+  },
+  {
+    id: "hands-2",
+    src: "/images/gallery/_test2/hands2.jpg",
+    alt: "Close-up of piano practice",
+    caption: "Building technique",
+    size: "tall" as const,
+  },
+  {
+    id: "hands-3",
+    src: "/images/gallery/_test2/hands3.jpg",
+    alt: "Piano lesson in progress",
+    caption: "One-on-one guidance",
+    size: "wide" as const,
+  },
 ] as const;
+
+export const GALLERY_PREVIEW_LIMIT = 10;
+
+export function getGalleryPreviewImages() {
+  return GALLERY_IMAGES.slice(-GALLERY_PREVIEW_LIMIT);
+}
 
 export const DIRECTOR_STATS = [
   { value: "20+", label: "Years Teaching" },

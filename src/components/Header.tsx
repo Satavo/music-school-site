@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/content";
+import { scrollToContact } from "@/lib/scroll";
+import { withHomeReturn } from "@/lib/navigation";
 
 const SCROLL_SECTIONS = ["home", "why", "offers", "gallery"] as const;
 
@@ -37,7 +39,7 @@ function resolveActiveSection() {
   return active;
 }
 
-const PAGE_HERO_PATHS = ["/", "/about", "/curriculum"] as const;
+const PAGE_HERO_PATHS = ["/", "/about", "/curriculum", "/gallery"] as const;
 
 function hasPageHero(pathname: string) {
   return PAGE_HERO_PATHS.includes(pathname as (typeof PAGE_HERO_PATHS)[number]);
@@ -118,8 +120,26 @@ export function Header() {
     };
   }, [menuOpen]);
 
+  const contactHref = isHome ? "/#contact" : "#contact";
+
   const handleNavClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+      if ((href === "/" || href === "/#home") && isHome) {
+        event.preventDefault();
+        setActiveSection("#home");
+        scrollToHash("#home");
+        window.history.pushState(null, "", "/#home");
+        setMenuOpen(false);
+        return;
+      }
+
+      if (href === "#contact" || href === "/#contact") {
+        event.preventDefault();
+        scrollToContact(pathname);
+        setMenuOpen(false);
+        return;
+      }
+
       const hashIndex = href.indexOf("#");
       if (hashIndex === -1) return;
 
@@ -130,9 +150,13 @@ export function Header() {
 
       if (isHome) {
         event.preventDefault();
-        setActiveSection(hash === "#home" || !hash ? "#home" : hash);
-        scrollToHash(hash);
-        window.history.pushState(null, "", href);
+        if (hash === "#contact") {
+          scrollToContact(pathname);
+        } else {
+          setActiveSection(hash === "#home" || !hash ? "#home" : hash);
+          scrollToHash(hash);
+          window.history.pushState(null, "", href);
+        }
         setMenuOpen(false);
         return;
       }
@@ -145,13 +169,13 @@ export function Header() {
         requestAnimationFrame(() => scrollToHash(hash));
       });
     },
-    [isHome, router],
+    [isHome, pathname, router],
   );
 
   const isLinkActive = (href: string) => {
+    if (href === "/" || href === "/#home") return isHome && activeSection === "#home";
+    if (!href.includes("#")) return pathname === href;
     if (isHome) return getHashFromHref(href) === activeSection;
-    if (pathname === "/about" && href === "/#why") return true;
-    if (pathname === "/curriculum" && href === "/#offers") return true;
     return false;
   };
 
@@ -206,7 +230,7 @@ export function Header() {
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={isHome ? withHomeReturn(link.href, activeSection) : link.href}
               onClick={(e) => handleNavClick(e, link.href)}
               aria-current={isLinkActive(link.href) ? "page" : undefined}
               className={`text-sm font-medium tracking-wide transition-colors md:text-base ${desktopLinkClass(link.href)}`}
@@ -215,8 +239,8 @@ export function Header() {
             </Link>
           ))}
           <Link
-            href="/#contact"
-            onClick={(e) => handleNavClick(e, "/#contact")}
+            href={contactHref}
+            onClick={(e) => handleNavClick(e, contactHref)}
             className="btn-primary !px-5 !py-2.5 !text-sm md:!text-base"
           >
             Book a Lesson
@@ -248,7 +272,7 @@ export function Header() {
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={isHome ? withHomeReturn(link.href, activeSection) : link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
                 aria-current={isLinkActive(link.href) ? "page" : undefined}
                 className={`rounded-xl px-3 py-3 font-medium transition-colors ${mobileLinkClass(link.href)}`}
@@ -257,8 +281,8 @@ export function Header() {
               </Link>
             ))}
             <Link
-              href="/#contact"
-              onClick={(e) => handleNavClick(e, "/#contact")}
+              href={contactHref}
+              onClick={(e) => handleNavClick(e, contactHref)}
               className="btn-primary mt-2 w-full !py-3 !text-sm"
             >
               Book a Lesson

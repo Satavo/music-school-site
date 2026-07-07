@@ -1,19 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
+import { ContactLink } from "@/components/ContactLink";
+import { HeroBackground } from "@/components/HeroBackground";
+import { pageHref } from "@/lib/navigation";
 
 export function Hero() {
   return (
     <section id="home" className="relative flex min-h-screen items-center overflow-hidden">
-      <Image
-        src="/images/main.jpg"
-        alt="Piano keyboard in a music studio"
-        fill
-        priority
-        unoptimized
-        className="object-cover object-[center_30%]"
-        sizes="100vw"
-      />
-      <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark/80 via-secondary-dark/55 to-secondary-dark/40" />
+      <HeroBackground />      <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark/80 via-secondary-dark/55 to-secondary-dark/40" />
       <div className="absolute inset-0 bg-gradient-to-t from-secondary-dark/70 via-transparent to-secondary-dark/50" />
 
       <div className="relative mx-auto w-full max-w-6xl px-6 pt-36 pb-28">
@@ -23,20 +16,18 @@ export function Hero() {
           </p>
           <h1 className="animate-fade-up-delay-1 font-serif text-4xl leading-[1.08] font-semibold text-secondary-foreground sm:text-5xl md:text-6xl lg:text-7xl">
             Where Music Becomes a{" "}
-            <span className="bg-gradient-to-r from-accent-light to-accent bg-clip-text text-transparent">
-              Family Legacy
-            </span>
+            <span className="text-gradient-shimmer">Family Legacy</span>
           </h1>
           <p className="animate-fade-up-delay-2 mt-6 max-w-2xl text-lg leading-relaxed text-secondary-foreground/90 md:text-xl">
             Welcome to Family Music Academy — a warm, supportive studio offering
             professional one-on-one piano instruction for students of all ages.
           </p>
           <div className="animate-fade-up-delay-2 mt-10 flex flex-wrap gap-4">
-            <Link href="/#contact" className="btn-primary">
+            <ContactLink className="btn-primary">
               Schedule a Consultation
-            </Link>
-            <Link href="/about" className="btn-secondary">
-              Meet the Director
+            </ContactLink>
+            <Link href={pageHref("/about", "home")} className="btn-secondary">
+              About the Owner
             </Link>
           </div>
         </div>

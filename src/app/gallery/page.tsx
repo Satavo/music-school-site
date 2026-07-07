@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
+import { Gallery } from "@/components/Gallery";
 import { PageHero } from "@/components/PageHero";
 
 export const metadata: Metadata = {
-  title: "About the Owner",
+  title: "Gallery",
   description:
-    "Learn about the owner and founder of Family Music Academy — a third-generation professional musician dedicated to classical piano education.",
+    "Browse photos from Family Music Academy — lessons, recitals, and moments from our musical community.",
 };
 
-export default async function AboutPage({
+export default async function GalleryPage({
   searchParams,
 }: {
   searchParams: Promise<{ from?: string }>;
@@ -21,10 +21,10 @@ export default async function AboutPage({
       <PageHero
         from={from}
         minimal
-        imageSrc="/images/about.jpg"
-        imageAlt="Owner of Family Music Academy at the piano"
+        imageSrc="/images/gallery/studio.jpg"
+        imageAlt="Grand piano in the academy studio"
       />
-      <About />
+      <Gallery variant="full" />
       <Contact />
     </>
   );

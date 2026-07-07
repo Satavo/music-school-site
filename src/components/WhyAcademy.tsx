@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimateIn } from "@/components/AnimateIn";
+import { ContactLink } from "@/components/ContactLink";
 import { WHY_CHOOSE_ITEMS } from "@/lib/content";
+import { pageHref } from "@/lib/navigation";
 
 export function WhyAcademy() {
   return (
@@ -49,9 +51,9 @@ export function WhyAcademy() {
 
               <div className="flex h-full min-h-0 flex-col gap-3">
                 <DiscoverCard
-                  href="/about"
+                  href={pageHref("/about", "why")}
                   eyebrow="About"
-                  title="Meet the Director"
+                  title="About the Owner"
                   description="Learn about the third-generation musician behind the academy and her teaching philosophy."
                   cta="Read her story"
                   imageSrc="/images/about.jpg"
@@ -60,7 +62,7 @@ export function WhyAcademy() {
                   stretch
                 />
                 <DiscoverCard
-                  href="/#gallery"
+                  href={pageHref("/gallery", "why")}
                   eyebrow="Gallery"
                   title="Photo Gallery"
                   description="Moments from lessons, recitals, and our vibrant musical community."
@@ -70,9 +72,9 @@ export function WhyAcademy() {
                   compact
                   stretch
                 />
-                <Link href="/#contact" className="btn-primary w-full shrink-0">
+                <ContactLink className="btn-primary w-full shrink-0">
                   Enroll
-                </Link>
+                </ContactLink>
               </div>
             </div>
           </AnimateIn>
@@ -88,7 +90,7 @@ export function WhyAcademy() {
             <div className="mt-6 grid items-stretch gap-8 md:mt-8 lg:grid-cols-2 lg:gap-10">
               <div className="flex h-full min-h-0 flex-col gap-3">
                 <DiscoverCard
-                  href="/curriculum"
+                  href={pageHref("/curriculum", "offers")}
                   eyebrow="Curriculum"
                   title="Our Program"
                   description="Explore structured paths for beginners through advanced students, including ABRSM exam preparation."
@@ -98,9 +100,9 @@ export function WhyAcademy() {
                   compact
                   stretch
                 />
-                <Link href="/#contact" className="btn-primary w-full shrink-0">
+                <ContactLink className="btn-primary w-full shrink-0">
                   Enroll
-                </Link>
+                </ContactLink>
               </div>
               <OffersPanel />
             </div>

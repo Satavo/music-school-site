@@ -200,6 +200,42 @@ body {
   @apply text-base leading-snug text-dominant-foreground/90 md:text-[1.0625rem] md:leading-relaxed;
 }
 
+.curriculum-content .story-block,
+.curriculum-content .story-block:hover {
+  @apply translate-y-0 border-secondary/10 bg-dominant-surface/60 shadow-none;
+}
+
+.curriculum-content .story-block {
+  @apply transition-none;
+}
+
+.curriculum-content .story-block::before,
+.curriculum-content .story-block:hover::before {
+  @apply w-1 bg-accent/70;
+}
+
+.curriculum-content .story-block::before {
+  @apply transition-none;
+}
+
+.curriculum-content .story-block-label,
+.curriculum-content .story-block:hover .story-block-label {
+  @apply text-secondary;
+}
+
+.curriculum-content .story-block-label {
+  @apply transition-none;
+}
+
+.curriculum-content .offers-item,
+.curriculum-content .offers-item:hover {
+  @apply border-secondary/8 bg-dominant/40;
+}
+
+.curriculum-content .offers-item {
+  @apply transition-none;
+}
+
 .glass-card {
   @apply rounded-3xl border border-secondary/10 bg-dominant-surface/70 shadow-[0_8px_40px_rgba(61,24,35,0.06)] backdrop-blur-sm;
 }
@@ -266,6 +302,46 @@ body {
   }
 }
 
+@keyframes lightbox-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lightbox-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes lightbox-content-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lightbox-content-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
 .animate-fade-up {
   animation: fade-up 0.85s ease-out both;
 }
@@ -282,8 +358,61 @@ body {
   animation: float 4s ease-in-out infinite;
 }
 
+@keyframes gradient-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-gradient-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    var(--accent-light) 0%,
+    #f8edd4 20%,
+    var(--accent) 45%,
+    #e8d9b0 65%,
+    var(--accent-light) 85%,
+    var(--accent) 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shimmer 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-shimmer {
+    animation: none;
+    background-size: 100% auto;
+    background-image: linear-gradient(110deg, var(--accent-light), var(--accent));
+  }
+}
+
 .panel-expand {
   animation: panel-open 0.45s ease-out both;
+}
+
+.animate-lightbox-backdrop-in {
+  animation: lightbox-backdrop-in 0.28s ease-out both;
+}
+
+.animate-lightbox-backdrop-out {
+  animation: lightbox-backdrop-out 0.22s ease-in both;
+}
+
+.animate-lightbox-content-in {
+  animation: lightbox-content-in 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-lightbox-content-out {
+  animation: lightbox-content-out 0.22s ease-in both;
 }
 
 .masonry-grid {

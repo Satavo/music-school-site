@@ -47,13 +47,13 @@ export function Footer() {
         </div>
         <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-accent/15 pt-6 text-center text-sm text-dominant-subtle sm:flex-row sm:text-left">
           <p>© {new Date().getFullYear()} Family Music Academy. All rights reserved.</p>
-          <p>
+          <p className="text-sm text-dominant-subtle/35">
             Developed by{" "}
             <a
               href="https://t.me/Satavo"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-secondary transition-colors hover:text-secondary-dark"
+              className="transition-colors hover:text-dominant-subtle/55"
             >
               @Satavo
             </a>
