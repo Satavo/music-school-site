@@ -34,7 +34,7 @@ export function BackToHomeLink({ from, variant = "hero" }: BackToHomeLinkProps) 
   return (
     <Link
       href={href}
-      className={`animate-fade-up mb-4 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${VARIANT_CLASS[variant]}`}
+      className={`animate-fade-up mb-3 inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${VARIANT_CLASS[variant]}`}
     >
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
         <path d="M19 12H5M12 19l-7-7 7-7" />

@@ -21,8 +21,8 @@ export default async function CurriculumPage({
       <PageHero
         from={from}
         minimal
-        imageSrc="/images/gallery/sheet-music.jpg"
-        imageAlt="Classical sheet music on piano"
+        imageSrc="/images/sheet-music.jpg"
+        imageAlt="Piano performance in a concert hall"
       />
       <Curriculum />
       <Contact />

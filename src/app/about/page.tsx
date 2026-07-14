@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
-import { PageHero } from "@/components/PageHero";
 
 export const metadata: Metadata = {
-  title: "About the Owner",
+  title: "Meet Maria Alexeeva",
   description:
-    "Learn about the owner and founder of Family Music Academy — a third-generation professional musician dedicated to classical piano education.",
+    "Meet Maria Alexeeva, third-generation pianist and owner of Family Music Academy — St. Petersburg Conservatory graduate with over 15 years of teaching experience.",
 };
 
 export default async function AboutPage({
@@ -18,13 +17,7 @@ export default async function AboutPage({
 
   return (
     <>
-      <PageHero
-        from={from}
-        minimal
-        imageSrc="/images/about.jpg"
-        imageAlt="Owner of Family Music Academy at the piano"
-      />
-      <About />
+      <About from={from} />
       <Contact />
     </>
   );

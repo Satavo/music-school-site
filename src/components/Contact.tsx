@@ -5,21 +5,20 @@ import { AnimateIn } from "@/components/AnimateIn";
 export function Contact() {
   return (
     <section id="contact" className="py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-7xl px-6">
         <AnimateIn>
           <div className="overflow-hidden rounded-3xl bg-secondary shadow-[0_20px_60px_rgba(61,24,35,0.25)]">
             <div className="grid lg:grid-cols-2">
               <div className="p-10 md:p-14">
                 <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-accent-light md:text-base">
-                  Get in Touch
+                  Contact
                 </p>
                 <h2 className="font-serif text-3xl font-semibold text-secondary-foreground md:text-4xl lg:text-5xl">
-                  Begin Your Musical Journey
+                  Get in Touch
                 </h2>
                 <p className="mt-6 text-base leading-relaxed text-secondary-foreground/85 md:text-lg">
-                  Ready to start lessons or have questions about our program? We&apos;d
-                  love to hear from you. Schedule a free consultation to discuss your
-                  goals and find the right path forward.
+                  Questions about lessons or ready to enroll? Schedule a free
+                  consultation and we&apos;ll help you get started.
                 </p>
 
                 <div className="mt-10 space-y-4">

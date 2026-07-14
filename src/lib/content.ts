@@ -1,18 +1,39 @@
 export const NAV_LINKS = [
   { href: "/#home", label: "Home" },
-  { href: "/about", label: "About the Owner" },
+  { href: "/about", label: "Meet the Owner" },
   { href: "/curriculum", label: "Curriculum" },
   { href: "/gallery", label: "Gallery" },
 ] as const;
+
+export const SCHOOL_CONTACT = {
+  phone: "(555) 123-4567",
+  phoneHref: "tel:+15551234567",
+  email: "info@familymusicacademy.com",
+  emailHref: "mailto:info@familymusicacademy.com",
+  addressLines: ["123 Harmony Lane", "Your City, ST 00000"],
+} as const;
+
+export const HOME_INTRO =
+  "At Family Music Academy, we believe every child deserves an education that builds not only strong musical skills but also confidence, discipline, creativity, and a love of learning. Teaching combines the rich traditions of the European piano school with modern American teaching methods.";
 
 export const WHY_CHOOSE_ITEMS = [
   "Individualized one-on-one instruction",
   "Professional classical piano education",
   "Preparation for ABRSM exams and competitions",
-  "Performance opportunities through studio recitals",
+  "Performance opportunities",
   "A positive, encouraging learning environment",
   "Lessons for children, teens, and adults",
 ] as const;
+
+export const DIRECTOR = {
+  name: "Maria Alexeeva",
+  paragraphs: [
+    "Music has always been a natural part of my life. I began playing the violin at the age of four before switching to the piano a year later. Growing up in a family of professional musicians, with both of my parents being pianists, I was surrounded by classical music from an early age. Watching my mother and father work with their students gave me an understanding of what it means to be a teacher and inspired me to continue our family's musical tradition. Today, I am proud to continue my family's legacy as a third-generation professional musician, and I am passionate about inspiring children to develop their musical abilities and confidence through music.",
+    "I earned both my Bachelor's and Master's degrees in Piano Performance from the St. Petersburg State Conservatory, followed by an Artist Diploma from Ball State University in Indiana. Throughout my career, I have performed as a soloist with symphony orchestras, collaborated with opera, ballet, and chamber ensembles, and worked alongside internationally acclaimed musicians in master classes and concerts. I have also been honored with numerous national and international piano competition awards.",
+    "For more than 15 years, I have taught students of all ages—from preschool beginners to advanced pianists. I also have extensive experience accompanying instrumentalists, singers, and orchestras, giving me a deep understanding of musical collaboration and performance.",
+    "I believe music has the power to bring families together. Our academy welcomes students of all ages, from young beginners to advanced musicians, and many families enjoy learning together. Whether siblings, parents and children, or adults pursuing a lifelong dream, we strive to create a warm, supportive community where every student feels encouraged to grow.",
+  ],
+} as const;
 
 export const CURRICULUM_LEVELS = [
   {
@@ -50,80 +71,8 @@ export const CURRICULUM_LEVELS = [
   },
 ] as const;
 
-export const GALLERY_IMAGES = [
-  {
-    id: "studio",
-    src: "/images/gallery/studio.jpg",
-    alt: "Grand piano in a warm studio",
-    caption: "Our welcoming studio",
-    size: "tall" as const,
-  },
-  {
-    id: "practice",
-    src: "/images/gallery/practice.jpg",
-    alt: "Hands playing piano during practice",
-    caption: "Focused practice",
-    size: "square" as const,
-  },
-  {
-    id: "sheet-music",
-    src: "/images/gallery/sheet-music.jpg",
-    alt: "Sheet music on piano",
-    caption: "Classical repertoire",
-    size: "wide" as const,
-  },
-  {
-    id: "piano-keys",
-    src: "/images/gallery/piano-keys.jpg",
-    alt: "Piano keys close-up",
-    caption: "The beauty of music",
-    size: "tall" as const,
-  },
-  {
-    id: "concert-hall",
-    src: "/images/gallery/concert-hall.jpg",
-    alt: "Concert hall stage",
-    caption: "Recital performances",
-    size: "square" as const,
-  },
-  {
-    id: "performance",
-    src: "/images/gallery/performance.jpg",
-    alt: "Musical performance",
-    caption: "Celebrating progress",
-    size: "wide" as const,
-  },
-  {
-    id: "hands-1",
-    src: "/images/gallery/_test2/hands1.jpg",
-    alt: "Student hands on piano keys",
-    caption: "First notes at the keyboard",
-    size: "square" as const,
-  },
-  {
-    id: "hands-2",
-    src: "/images/gallery/_test2/hands2.jpg",
-    alt: "Close-up of piano practice",
-    caption: "Building technique",
-    size: "tall" as const,
-  },
-  {
-    id: "hands-3",
-    src: "/images/gallery/_test2/hands3.jpg",
-    alt: "Piano lesson in progress",
-    caption: "One-on-one guidance",
-    size: "wide" as const,
-  },
-] as const;
-
-export const GALLERY_PREVIEW_LIMIT = 10;
-
-export function getGalleryPreviewImages() {
-  return GALLERY_IMAGES.slice(-GALLERY_PREVIEW_LIMIT);
-}
-
 export const DIRECTOR_STATS = [
-  { value: "20+", label: "Years Teaching" },
-  { value: "100+", label: "Students Taught" },
-  { value: "ABRSM", label: "Certified Examiner" },
+  { value: "15+", label: "Years Teaching" },
+  { value: "St. Petersburg", label: "Conservatory" },
+  { value: "ABRSM", label: "Exam Prep" },
 ] as const;

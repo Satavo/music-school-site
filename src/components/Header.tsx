@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { NAV_LINKS } from "@/lib/content";
-import { scrollToContact } from "@/lib/scroll";
+import { scrollToContact, getHeroHeaderSwitchY } from "@/lib/scroll";
 import { withHomeReturn } from "@/lib/navigation";
 
 const SCROLL_SECTIONS = ["home", "why", "offers", "gallery"] as const;
@@ -39,16 +39,14 @@ function resolveActiveSection() {
   return active;
 }
 
-const PAGE_HERO_PATHS = ["/", "/about", "/curriculum", "/gallery"] as const;
+const PAGE_HERO_PATHS = ["/", "/curriculum", "/gallery"] as const;
 
 function hasPageHero(pathname: string) {
   return PAGE_HERO_PATHS.includes(pathname as (typeof PAGE_HERO_PATHS)[number]);
 }
 
 function resolveScrolledPastHero() {
-  const hero = document.getElementById("home") ?? document.getElementById("page-hero");
-  if (!hero) return window.scrollY > 80;
-  return window.scrollY > hero.offsetHeight - 120;
+  return window.scrollY > getHeroHeaderSwitchY();
 }
 
 export function Header() {
@@ -181,7 +179,7 @@ export function Header() {
 
   const shellClass = useLightHeader
     ? "bg-dominant-muted/92 backdrop-blur-xl border-b border-accent/15 shadow-sm"
-    : "bg-secondary-dark/40 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.15)]";
+    : "bg-transparent border-b border-transparent";
 
   const logoTextClass = useLightHeader ? "text-secondary-dark" : "text-secondary-foreground";
   const menuIconClass = useLightHeader ? "text-secondary-dark" : "text-secondary-foreground";
@@ -203,15 +201,15 @@ export function Header() {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${shellClass}`}>
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${shellClass}`}>
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
         <Link
           href="/#home"
           className="group flex items-center gap-3"
           onClick={(e) => handleNavClick(e, "/#home")}
         >
           <span
-            className={`flex h-10 w-10 items-center justify-center rounded-2xl transition-all duration-500 group-hover:scale-105 ${
+            className={`flex h-10 w-10 items-center justify-center rounded-2xl transition-all duration-200 group-hover:scale-105 ${
               useLightHeader
                 ? "bg-secondary text-accent-light"
                 : "bg-white/15 text-accent-light ring-1 ring-white/20"
@@ -221,7 +219,7 @@ export function Header() {
               <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
             </svg>
           </span>
-          <span className={`font-serif text-lg font-semibold tracking-wide transition-colors duration-500 md:text-xl ${logoTextClass}`}>
+          <span className={`font-serif text-lg font-semibold tracking-wide transition-colors duration-200 md:text-xl ${logoTextClass}`}>
             Family Music Academy
           </span>
         </Link>
@@ -233,7 +231,7 @@ export function Header() {
               href={isHome ? withHomeReturn(link.href, activeSection) : link.href}
               onClick={(e) => handleNavClick(e, link.href)}
               aria-current={isLinkActive(link.href) ? "page" : undefined}
-              className={`text-sm font-medium tracking-wide transition-colors md:text-base ${desktopLinkClass(link.href)}`}
+              className={`text-sm font-medium tracking-wide transition-colors duration-200 md:text-base ${desktopLinkClass(link.href)}`}
             >
               {link.label}
             </Link>
@@ -249,7 +247,7 @@ export function Header() {
 
         <button
           type="button"
-          className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-500 lg:hidden ${menuIconClass}`}
+          className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-200 lg:hidden ${menuIconClass}`}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}

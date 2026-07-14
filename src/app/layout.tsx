@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Family Music Academy",
   },
   description:
-    "Professional classical piano education for children, teens, and adults. Individualized instruction, ABRSM exam preparation, and a warm family-centered learning community.",
+    "Classical piano lessons for children, teens, and adults. One-on-one instruction, ABRSM exam preparation, and performance opportunities.",
 };
 
 export default function RootLayout({

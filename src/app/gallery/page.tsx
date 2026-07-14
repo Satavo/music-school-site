@@ -21,8 +21,8 @@ export default async function GalleryPage({
       <PageHero
         from={from}
         minimal
-        imageSrc="/images/gallery/studio.jpg"
-        imageAlt="Grand piano in the academy studio"
+        imageSrc="/images/piano.jpg"
+        imageAlt="Grand piano in a warmly lit studio"
       />
       <Gallery variant="full" />
       <Contact />

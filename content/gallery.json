@@ -1,0 +1,39 @@
+{
+  "items": [
+    {
+      "id": "recital-group",
+      "type": "image",
+      "src": "/images/gallery/recital-group.png",
+      "alt": "Family Music Academy students and teachers after a recital",
+      "caption": "Studio recital"
+    },
+    {
+      "id": "recital-students",
+      "type": "image",
+      "src": "/images/gallery/recital-students.png",
+      "alt": "Maria with students after a performance",
+      "caption": "With students"
+    },
+    {
+      "id": "recital-performance",
+      "type": "image",
+      "src": "/images/gallery/recital-performance.png",
+      "alt": "Maria with a young performer on stage",
+      "caption": "On stage together"
+    },
+    {
+      "id": "concert-stage",
+      "type": "image",
+      "src": "/images/gallery/concert-stage.png",
+      "alt": "Piano performance in a concert hall",
+      "caption": "Live performance"
+    },
+    {
+      "id": "piano-practice-video",
+      "type": "video",
+      "src": "/videos/gallery-piano.mp4",
+      "alt": "Piano practice video",
+      "caption": "At the piano"
+    }
+  ]
+}

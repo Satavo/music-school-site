@@ -7,7 +7,7 @@ import { CURRICULUM_LEVELS, WHY_CHOOSE_ITEMS } from "@/lib/content";
 export function CurriculumContent({ compact = false }: { compact?: boolean }) {
   return (
     <section className={`curriculum-content${compact ? "" : " py-16 md:py-24"}`}>
-      <div className={compact ? undefined : "mx-auto max-w-6xl px-6"}>
+      <div className={compact ? undefined : "mx-auto max-w-7xl px-6"}>
         <div>
           <CurriculumLevels compact={compact} />
           {!compact && <CurriculumSecondary />}
@@ -69,8 +69,8 @@ function CurriculumSecondary() {
         <AnimateIn className="h-full">
           <div className="offers-panel h-full">
             <div className="offers-panel-header">
-              <p className="section-eyebrow !mb-2">For every student</p>
-              <h3 className="offers-panel-title">What&apos;s included in your lessons</h3>
+              <p className="section-eyebrow !mb-2">Why choose us</p>
+              <h3 className="offers-panel-title">Why Choose Family Music Academy?</h3>
             </div>
             <ul className="offers-list">
               {WHY_CHOOSE_ITEMS.map((item, index) => (
@@ -88,7 +88,7 @@ function CurriculumSecondary() {
         <AnimateIn delay={100} className="h-full">
           <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-secondary shadow-[0_20px_60px_rgba(61,24,35,0.2)]">
             <Image
-              src="/images/gallery/sheet-music.jpg"
+              src="/images/gallery/concert-stage.png"
               alt="Classical sheet music on piano"
               fill
               className="object-cover opacity-25"
@@ -131,7 +131,7 @@ function CurriculumSecondary() {
             Inquire About Lessons
           </ContactLink>
           <Link href="/about" className="btn-secondary-dark">
-            About the Owner
+            Meet the Owner
           </Link>
         </div>
       </AnimateIn>

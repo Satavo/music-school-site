@@ -4,15 +4,14 @@ import { NAV_LINKS } from "@/lib/content";
 export function Footer() {
   return (
     <footer className="border-t border-accent/15 bg-dominant-muted">
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mx-auto max-w-7xl px-6 py-12">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
             <p className="font-serif text-xl font-semibold text-secondary-dark">
               Family Music Academy
             </p>
             <p className="mt-2 max-w-xs text-base leading-relaxed text-dominant-subtle">
-              Classical piano education for the whole family — individualized instruction
-              in a warm, encouraging studio.
+            One-on-one classical piano instruction for children, teens, and adults.
             </p>
           </div>
           <div>

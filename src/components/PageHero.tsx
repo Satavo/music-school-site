@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { BackToHomeLink } from "@/components/BackToHomeLink";
 
 type PageHeroProps = {
   eyebrow?: string;
@@ -19,12 +18,12 @@ export function PageHero({
   description,
   imageSrc,
   imageAlt = "",
-  from,
   minimal = false,
 }: PageHeroProps) {
   return (
     <section
       id="page-hero"
+      key={imageSrc}
       className={`relative flex items-end overflow-hidden ${
         minimal ? "min-h-[20vh] md:min-h-[24vh]" : "min-h-[28vh] md:min-h-[32vh]"
       }`}
@@ -34,19 +33,17 @@ export function PageHero({
         alt={imageAlt}
         fill
         priority
-        className="object-cover"
+        className="animate-hero-media object-cover"
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark/85 via-secondary-dark/55 to-secondary-dark/40" />
       <div className="absolute inset-0 bg-gradient-to-t from-secondary-dark/75 via-transparent to-secondary-dark/45" />
 
       <div
-        className={`relative mx-auto w-full max-w-6xl px-6 pt-28 md:pt-32 ${
+        className={`relative mx-auto w-full max-w-7xl px-6 pt-28 md:pt-32 ${
           minimal ? "pb-6 md:pb-8" : "pb-8 md:pb-10"
         }`}
       >
-        <BackToHomeLink from={from} />
-
         {!minimal && eyebrow && title && (
           <>
             <p className="animate-fade-up-delay-1 section-eyebrow !mb-2 !text-accent-light">{eyebrow}</p>

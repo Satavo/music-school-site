@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-const VIDEO_SRC = "/videos/hero-piano.mp4";
+const VIDEO_SRC = "/videos/hero-bg.mp4";
 
 export function HeroBackground() {
   const [useImage, setUseImage] = useState(false);
