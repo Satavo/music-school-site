@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Contact } from "@/components/Contact";
 import { Curriculum } from "@/components/Curriculum";
 import { PageHero } from "@/components/PageHero";
 
@@ -8,18 +9,23 @@ export const metadata: Metadata = {
     "Explore the Family Music Academy piano curriculum — from young beginners to advanced students and ABRSM exam preparation.",
 };
 
-export default function CurriculumPage() {
+export default async function CurriculumPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ from?: string }>;
+}) {
+  const { from } = await searchParams;
+
   return (
     <>
       <PageHero
-        eyebrow="Curriculum"
-        title="Our"
-        titleAccent="Curriculum"
-        description="Structured, individualized piano instruction designed for every age and stage — from first notes to competition-ready performance."
-        imageSrc="/images/gallery/sheet-music.jpg"
-        imageAlt="Classical sheet music on piano"
+        from={from}
+        minimal
+        imageSrc="/images/sheet-music.jpg"
+        imageAlt="Piano performance in a concert hall"
       />
       <Curriculum />
+      <Contact />
     </>
   );
 }

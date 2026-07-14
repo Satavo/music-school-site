@@ -1,13 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimateIn } from "@/components/AnimateIn";
+import { ContactLink } from "@/components/ContactLink";
 import { CURRICULUM_LEVELS, WHY_CHOOSE_ITEMS } from "@/lib/content";
 
 export function CurriculumContent({ compact = false }: { compact?: boolean }) {
   return (
-    <section className={compact ? undefined : "py-16 md:py-24"}>
-      <div className={compact ? undefined : "mx-auto max-w-6xl px-6"}>
-        <div className="space-y-12 md:space-y-14">
+    <section className={`curriculum-content${compact ? "" : " py-16 md:py-24"}`}>
+      <div className={compact ? undefined : "mx-auto max-w-7xl px-6"}>
+        <div>
           <CurriculumLevels compact={compact} />
           {!compact && <CurriculumSecondary />}
         </div>
@@ -63,13 +64,13 @@ function CurriculumLevels({ compact = false }: { compact?: boolean }) {
 
 function CurriculumSecondary() {
   return (
-    <div className="border-t border-accent/10 pt-12 md:pt-14">
+    <div className="mt-6 md:mt-8">
       <div className="grid items-stretch gap-8 lg:grid-cols-2 lg:gap-10">
         <AnimateIn className="h-full">
           <div className="offers-panel h-full">
             <div className="offers-panel-header">
-              <p className="section-eyebrow !mb-2">For every student</p>
-              <h3 className="offers-panel-title">What&apos;s included in your lessons</h3>
+              <p className="section-eyebrow !mb-2">Why choose us</p>
+              <h3 className="offers-panel-title">Why Choose Family Music Academy?</h3>
             </div>
             <ul className="offers-list">
               {WHY_CHOOSE_ITEMS.map((item, index) => (
@@ -87,7 +88,7 @@ function CurriculumSecondary() {
         <AnimateIn delay={100} className="h-full">
           <div className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-secondary shadow-[0_20px_60px_rgba(61,24,35,0.2)]">
             <Image
-              src="/images/gallery/sheet-music.jpg"
+              src="/images/gallery/concert-stage.png"
               alt="Classical sheet music on piano"
               fill
               className="object-cover opacity-25"
@@ -126,11 +127,11 @@ function CurriculumSecondary() {
 
       <AnimateIn delay={80}>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link href="/#contact" className="btn-primary">
+          <ContactLink className="btn-primary">
             Inquire About Lessons
-          </Link>
+          </ContactLink>
           <Link href="/about" className="btn-secondary-dark">
-            Meet the Director
+            Meet the Owner
           </Link>
         </div>
       </AnimateIn>

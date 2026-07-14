@@ -1,25 +1,24 @@
 import type { Metadata } from "next";
 import { About } from "@/components/About";
-import { PageHero } from "@/components/PageHero";
+import { Contact } from "@/components/Contact";
 
 export const metadata: Metadata = {
-  title: "About the Director",
+  title: "Meet Maria Alexeeva",
   description:
-    "Meet the founder and director of Family Music Academy — a third-generation professional musician dedicated to classical piano education.",
+    "Meet Maria Alexeeva, third-generation pianist and owner of Family Music Academy — St. Petersburg Conservatory graduate with over 15 years of teaching experience.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ from?: string }>;
+}) {
+  const { from } = await searchParams;
+
   return (
     <>
-      <PageHero
-        eyebrow="About"
-        title="Meet the"
-        titleAccent="Director"
-        description="A lifelong musician, educator, and keeper of a three-generation family tradition in classical music."
-        imageSrc="/images/about.jpg"
-        imageAlt="Director at the piano"
-      />
-      <About />
+      <About from={from} />
+      <Contact />
     </>
   );
 }

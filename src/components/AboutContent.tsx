@@ -1,49 +1,64 @@
 import Image from "next/image";
-import Link from "next/link";
+import type { ReactNode } from "react";
 import { AnimateIn } from "@/components/AnimateIn";
-import { DIRECTOR_STATS } from "@/lib/content";
+import { DIRECTOR } from "@/lib/content";
 
-const STORY_BLOCKS = [
-  {
-    label: "Classical Training",
-    text: (
-      <>
-        Trained in the classical tradition, I have performed internationally and dedicated my
-        career to sharing the joy and discipline of piano with students of every age and
-        ability level.
-      </>
-    ),
-  },
-  {
-    label: "Teaching Philosophy",
-    text: (
-      <>
-        My teaching philosophy centers on meeting each student where they are — building
-        technique and musicality through patience, encouragement, and a genuine love for the
-        art form.
-      </>
-    ),
-  },
-  {
-    label: "A Family Legacy",
-    text: (
-      <>
-        Music has been the thread connecting generations of my family. That legacy shapes
-        everything we do at the academy: rigorous classical training delivered with warmth,
-        respect, and a genuine belief in every student&apos;s potential.
-      </>
-    ),
-  },
-] as const;
+const BIO_HIGHLIGHTS: { phrase: string; tone: "burgundy" | "gold" }[] = [
+  { phrase: "third-generation professional musician", tone: "burgundy" },
+  { phrase: "St. Petersburg State Conservatory", tone: "burgundy" },
+  { phrase: "Artist Diploma from Ball State University in Indiana", tone: "burgundy" },
+  { phrase: "more than 15 years", tone: "gold" },
+  { phrase: "music has the power to bring families together", tone: "gold" },
+];
 
-export function AboutContent({ compact = false }: { compact?: boolean }) {
+function highlightBio(text: string): ReactNode[] {
+  type Piece = { start: number; end: number; tone: "burgundy" | "gold" };
+  const matches: Piece[] = [];
+
+  for (const { phrase, tone } of BIO_HIGHLIGHTS) {
+    const start = text.indexOf(phrase);
+    if (start === -1) continue;
+    matches.push({ start, end: start + phrase.length, tone });
+  }
+
+  matches.sort((a, b) => a.start - b.start);
+
+  const nodes: ReactNode[] = [];
+  let cursor = 0;
+
+  for (const match of matches) {
+    if (match.start < cursor) continue;
+    if (match.start > cursor) {
+      nodes.push(text.slice(cursor, match.start));
+    }
+    nodes.push(
+      <span
+        key={`${match.start}-${match.end}`}
+        className={match.tone === "gold" ? "text-highlight-gold" : "text-highlight"}
+      >
+        {text.slice(match.start, match.end)}
+      </span>,
+    );
+    cursor = match.end;
+  }
+
+  if (cursor < text.length) {
+    nodes.push(text.slice(cursor));
+  }
+
+  return nodes;
+}
+
+export function AboutContent({
+  compact = false,
+}: {
+  compact?: boolean;
+  from?: string;
+}) {
   return (
-    <section className={compact ? undefined : "py-16 md:py-24"}>
-      <div className={compact ? undefined : "mx-auto max-w-6xl px-6"}>
-        <div className="space-y-12 md:space-y-14">
-          <AboutMain compact={compact} />
-          {!compact && <AboutSecondary />}
-        </div>
+    <section className={compact ? undefined : "pt-20 pb-16 md:pt-24 md:pb-24"}>
+      <div className={compact ? undefined : "mx-auto max-w-7xl px-6"}>
+        <AboutMain compact={compact} />
       </div>
     </section>
   );
@@ -54,111 +69,60 @@ function AboutMain({ compact = false }: { compact?: boolean }) {
     <div>
       {!compact && (
         <AnimateIn>
-          <p className="section-eyebrow">Her Story</p>
-          <h2 className="section-title max-w-2xl">A lifelong dedication to music</h2>
+          <h1 className="section-title max-w-2xl">Meet {DIRECTOR.name}</h1>
         </AnimateIn>
       )}
 
-      <div className={`grid items-start gap-10 lg:grid-cols-2 lg:gap-14 ${compact ? "" : "mt-8"}`}>
-        <AnimateIn>
-          <div className="relative">
-            <div className="absolute -inset-3 rounded-[2rem] bg-gradient-to-br from-accent/20 via-secondary/10 to-transparent" />
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl shadow-[0_20px_60px_rgba(61,24,35,0.18)] ring-1 ring-secondary/15">
+      <div
+        className={`grid items-start gap-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)] lg:gap-8 xl:grid-cols-[minmax(0,24rem)_minmax(0,1fr)] xl:gap-10 ${
+          compact ? "" : "mt-8 md:mt-10"
+        }`}
+      >
+        <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
+          <div className="animate-fade-up">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-dominant-muted shadow-[0_16px_48px_rgba(61,24,35,0.14)] ring-1 ring-secondary/15">
               <Image
-                src="/images/about.jpg"
-                alt="Director of Family Music Academy at the piano"
+                src="/images/about.png"
+                alt={`${DIRECTOR.name}, owner of Family Music Academy`}
                 fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+                unoptimized
+                className="object-cover object-[center_12%]"
+                sizes="(max-width: 1024px) 90vw, 24rem"
               />
             </div>
-            <div className="absolute -bottom-4 -right-3 hidden rounded-2xl border border-accent/30 bg-secondary px-5 py-4 text-secondary-foreground shadow-xl md:block">
-              <p className="font-serif text-3xl font-bold text-accent-light">3rd</p>
-              <p className="mt-1 max-w-[8rem] text-sm leading-snug text-secondary-foreground/90">
-                Generation of professional musicians
-              </p>
-            </div>
           </div>
-        </AnimateIn>
+        </div>
 
-        <div className="space-y-5">
-          <AnimateIn delay={80}>
-            <p className="story-intro">
-              As the founder and director of Family Music Academy, I bring decades of
-              professional performance experience and a deep commitment to nurturing the next
-              generation of musicians.
+        <div>
+          <AnimateIn>
+            <blockquote className="about-quote">
+              <span className="about-quote-open" aria-hidden>
+                “
+              </span>
+              <div className="about-quote-body">
+                {DIRECTOR.paragraphs.map((paragraph, index) => {
+                  const isLast = index === DIRECTOR.paragraphs.length - 1;
+                  return (
+                    <p key={paragraph.slice(0, 40)} className="about-bio-text">
+                      {highlightBio(paragraph)}
+                      {isLast && (
+                        <span className="about-quote-close" aria-hidden>
+                          ”
+                        </span>
+                      )}
+                    </p>
+                  );
+                })}
+              </div>
+            </blockquote>
+
+            <p className="about-quote-sign">
+              — {DIRECTOR.name}, Owner of the Family Music Academy
             </p>
           </AnimateIn>
-
-          {STORY_BLOCKS.map((block, index) => (
-            <AnimateIn key={block.label} delay={120 + index * 80}>
-              <article className="story-block">
-                <h3 className="story-block-label">{block.label}</h3>
-                <p className="story-block-text">{block.text}</p>
-              </article>
-            </AnimateIn>
-          ))}
         </div>
       </div>
     </div>
-  );
-}
-
-function AboutSecondary() {
-  return (
-    <>
-      <div className="grid gap-4 border-t border-accent/10 pt-12 sm:grid-cols-3 md:pt-14">
-        {DIRECTOR_STATS.map((stat, index) => (
-          <AnimateIn key={stat.label} delay={index * 80}>
-            <div className="offers-panel !p-6 text-center md:!p-8">
-              <p className="font-serif text-4xl font-bold text-secondary md:text-5xl">{stat.value}</p>
-              <p className="mt-2 text-sm font-semibold uppercase tracking-[0.15em] text-dominant-subtle">
-                {stat.label}
-              </p>
-            </div>
-          </AnimateIn>
-        ))}
-      </div>
-
-      <AnimateIn delay={100}>
-        <div className="overflow-hidden rounded-3xl bg-secondary shadow-[0_20px_60px_rgba(61,24,35,0.2)]">
-          <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="p-8 md:p-10 lg:p-12">
-              <p className="section-eyebrow !mb-2 !text-accent-light">Philosophy</p>
-              <blockquote className="font-serif text-2xl leading-snug font-semibold text-secondary-foreground md:text-3xl">
-                &ldquo;Every student carries unique potential — my role is to help them hear it,
-                trust it, and bring it to life at the piano.&rdquo;
-              </blockquote>
-            </div>
-            <div className="flex flex-col justify-center gap-3 bg-secondary-dark/35 p-8 md:p-10">
-              {[
-                "One-on-one individualized instruction",
-                "Warm, encouraging studio environment",
-                "Performance opportunities through recitals",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/8 px-4 py-3 text-base text-secondary-foreground/90"
-                >
-                  <span className="text-accent-light">✓</span>
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </AnimateIn>
-
-      <AnimateIn delay={80}>
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link href="/#contact" className="btn-primary">
-            Schedule a Consultation
-          </Link>
-          <Link href="/curriculum" className="btn-secondary-dark">
-            Explore Our Curriculum
-          </Link>
-        </div>
-      </AnimateIn>
-    </>
   );
 }

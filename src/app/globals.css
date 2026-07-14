@@ -18,7 +18,7 @@
 
   /* 30% — secondary */
   --secondary: #7a3344;
-  --secondary-dark: #3d1823;
+  --secondary-dark: #21030E;
   --secondary-foreground: #f3ede4;
 
   /* 10% — accent */
@@ -70,12 +70,18 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5.5rem;
-  font-size: 16px;
+  font-size: 16.5px;
 }
 
 @media (min-width: 768px) {
   html {
-    font-size: 17px;
+    font-size: 17.5px;
+  }
+}
+
+@media (min-width: 1280px) {
+  html {
+    font-size: 18px;
   }
 }
 
@@ -116,23 +122,23 @@ body {
 /* ── Typography & components ── */
 
 .section-eyebrow {
-  @apply mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-accent md:text-sm;
+  @apply mb-3 text-sm font-bold uppercase tracking-[0.25em] text-accent md:text-base;
 }
 
 .section-title {
-  @apply font-serif text-3xl font-semibold leading-tight text-secondary-dark md:text-4xl lg:text-[2.75rem];
+  @apply font-serif text-[2rem] font-bold leading-tight text-secondary-dark md:text-4xl lg:text-[3rem];
 }
 
 .section-lead {
-  @apply text-base leading-relaxed text-dominant-foreground/70 md:text-lg;
+  @apply text-[1.0625rem] leading-relaxed text-dominant-foreground/70 md:text-lg;
 }
 
 .text-body {
-  @apply text-base leading-relaxed md:text-lg;
+  @apply text-[1.0625rem] leading-relaxed md:text-lg;
 }
 
 .story-intro {
-  @apply text-base leading-relaxed text-dominant-foreground/80 md:text-lg md:leading-loose;
+  @apply text-[1.0625rem] leading-relaxed text-dominant-foreground/80 md:text-lg md:leading-loose;
 }
 
 .story-block {
@@ -161,7 +167,55 @@ body {
 }
 
 .story-block-text {
-  @apply text-base leading-[1.75] text-dominant-foreground/80 md:text-[1.0625rem] md:leading-[1.85];
+  @apply text-[1.0625rem] leading-[1.75] text-dominant-foreground/80 md:text-lg md:leading-[1.85];
+}
+
+.about-bio-text {
+  @apply text-lg leading-[1.8] text-dominant-foreground md:text-[1.1875rem] md:leading-[1.85];
+}
+
+.about-quote {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding-bottom: 0.25rem;
+}
+
+.about-quote-open,
+.about-quote-close {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(3.5rem, 5vw, 4.75rem);
+  color: color-mix(in srgb, var(--secondary) 42%, transparent);
+  pointer-events: none;
+  user-select: none;
+}
+
+.about-quote-open {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  line-height: 0.75;
+}
+
+.about-quote-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.about-quote-close {
+  display: inline-block;
+  margin-left: 0.06em;
+  height: 0;
+  line-height: 0;
+  overflow: visible;
+  vertical-align: baseline;
+  transform: translateY(0.35em);
+}
+
+.about-quote-sign {
+  @apply mt-2 text-right font-serif text-xl font-semibold leading-snug text-secondary md:text-[1.375rem];
 }
 
 .text-highlight {
@@ -197,7 +251,43 @@ body {
 }
 
 .offers-item-text {
-  @apply text-base leading-snug text-dominant-foreground/90 md:text-[1.0625rem] md:leading-relaxed;
+  @apply text-[1.0625rem] leading-snug text-dominant-foreground/90 md:text-lg md:leading-relaxed;
+}
+
+.curriculum-content .story-block,
+.curriculum-content .story-block:hover {
+  @apply translate-y-0 border-secondary/10 bg-dominant-surface/60 shadow-none;
+}
+
+.curriculum-content .story-block {
+  @apply transition-none;
+}
+
+.curriculum-content .story-block::before,
+.curriculum-content .story-block:hover::before {
+  @apply w-1 bg-accent/70;
+}
+
+.curriculum-content .story-block::before {
+  @apply transition-none;
+}
+
+.curriculum-content .story-block-label,
+.curriculum-content .story-block:hover .story-block-label {
+  @apply text-secondary;
+}
+
+.curriculum-content .story-block-label {
+  @apply transition-none;
+}
+
+.curriculum-content .offers-item,
+.curriculum-content .offers-item:hover {
+  @apply border-secondary/8 bg-dominant/40;
+}
+
+.curriculum-content .offers-item {
+  @apply transition-none;
 }
 
 .glass-card {
@@ -225,11 +315,20 @@ body {
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(-28px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes hero-media-in {
+  from {
+    transform: scale(1.04);
+  }
+  to {
+    transform: scale(1);
   }
 }
 
@@ -266,6 +365,46 @@ body {
   }
 }
 
+@keyframes lightbox-backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lightbox-backdrop-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes lightbox-content-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes lightbox-content-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
 .animate-fade-up {
   animation: fade-up 0.85s ease-out both;
 }
@@ -278,12 +417,76 @@ body {
   animation: fade-up 0.85s ease-out 0.24s both;
 }
 
+.animate-hero-media {
+  animation: hero-media-in 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .animate-float {
   animation: float 4s ease-in-out infinite;
 }
 
+@keyframes gradient-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.text-gradient-shimmer {
+  background-image: linear-gradient(
+    110deg,
+    var(--accent-light) 0%,
+    #f8edd4 20%,
+    var(--accent) 45%,
+    #e8d9b0 65%,
+    var(--accent-light) 85%,
+    var(--accent) 100%
+  );
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-shimmer 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-shimmer {
+    animation: none;
+    background-size: 100% auto;
+    background-image: linear-gradient(110deg, var(--accent-light), var(--accent));
+  }
+
+  .animate-hero-media,
+  .animate-fade-up,
+  .animate-fade-up-delay-1,
+  .animate-fade-up-delay-2 {
+    animation: none;
+  }
+}
+
 .panel-expand {
   animation: panel-open 0.45s ease-out both;
+}
+
+.animate-lightbox-backdrop-in {
+  animation: lightbox-backdrop-in 0.28s ease-out both;
+}
+
+.animate-lightbox-backdrop-out {
+  animation: lightbox-backdrop-out 0.22s ease-in both;
+}
+
+.animate-lightbox-content-in {
+  animation: lightbox-content-in 0.38s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-lightbox-content-out {
+  animation: lightbox-content-out 0.22s ease-in both;
 }
 
 .masonry-grid {
