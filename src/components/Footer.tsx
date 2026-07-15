@@ -35,11 +35,8 @@ export function Footer() {
               Contact
             </p>
             <div className="mt-4 space-y-2 text-base text-dominant-foreground/70">
-              <a href="mailto:info@familymusicacademy.com" className="block hover:text-secondary">
-                info@familymusicacademy.com
-              </a>
-              <a href="tel:+15551234567" className="block hover:text-secondary">
-                (555) 123-4567
+              <a href="mailto:familymusicacademyglenview@gmail.com" className="block hover:text-secondary">
+                familymusicacademyglenview@gmail.com
               </a>
             </div>
           </div>

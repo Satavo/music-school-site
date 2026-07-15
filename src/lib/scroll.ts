@@ -5,11 +5,21 @@ export function getHeroHeaderSwitchY() {
   return HERO_HEADER_SWITCH_Y;
 }
 
-/** Top of the Who we are section (where the white background begins). */
+/** Scroll so the About us block sits roughly in the middle of the viewport. */
 export function scrollToWhoSectionStart() {
-  const hero = document.getElementById("home");
-  const top = hero ? hero.offsetHeight : 0;
-  window.scrollTo({ top, behavior: "smooth" });
+  const el = document.getElementById("who");
+  if (!el) {
+    const hero = document.getElementById("home");
+    window.scrollTo({ top: hero ? hero.offsetHeight : 0, behavior: "smooth" });
+    window.history.pushState(null, "", "#who");
+    return;
+  }
+
+  const rect = el.getBoundingClientRect();
+  const absoluteTop = rect.top + window.scrollY;
+  const top = absoluteTop - (window.innerHeight - rect.height) / 2;
+
+  window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   window.history.pushState(null, "", "#who");
 }
 
@@ -23,6 +33,11 @@ export function scrollToSection(id: string) {
 
   window.scrollTo({ top, behavior: "smooth" });
   window.history.pushState(null, "", `#${id}`);
+}
+
+/** Scroll to performances on Meet the Owner. */
+export function scrollToPerformances() {
+  scrollToSection("performances");
 }
 
 export function scrollToContact(pathname: string) {
