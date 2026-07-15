@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { About } from "@/components/About";
+import { AboutPerformances } from "@/components/AboutPerformances";
 import { Contact } from "@/components/Contact";
 
 export const metadata: Metadata = {
@@ -18,7 +19,8 @@ export default async function AboutPage({
   return (
     <>
       <About from={from} />
-      <Contact />
+      <AboutPerformances />
+      <Contact className="!pt-32 md:!pt-44" />
     </>
   );
 }

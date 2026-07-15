@@ -24,7 +24,7 @@ export function PageHero({
     <section
       id="page-hero"
       key={imageSrc}
-      className={`relative flex items-end overflow-hidden ${
+      className={`relative flex items-end overflow-hidden bg-secondary-dark ${
         minimal ? "min-h-[20vh] md:min-h-[24vh]" : "min-h-[28vh] md:min-h-[32vh]"
       }`}
     >
@@ -36,8 +36,8 @@ export function PageHero({
         className="animate-hero-media object-cover"
         sizes="100vw"
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark/85 via-secondary-dark/55 to-secondary-dark/40" />
-      <div className="absolute inset-0 bg-gradient-to-t from-secondary-dark/75 via-transparent to-secondary-dark/45" />
+      <div className="absolute inset-0 bg-gradient-to-br from-secondary-dark/90 via-secondary-dark/60 to-secondary-dark/45" />
+      <div className="absolute inset-0 bg-gradient-to-t from-secondary-dark/80 via-secondary-dark/20 to-secondary-dark/50" />
 
       <div
         className={`relative mx-auto w-full max-w-7xl px-6 pt-28 md:pt-32 ${

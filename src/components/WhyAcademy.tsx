@@ -14,7 +14,7 @@ export function WhyAcademy() {
             <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10">
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-[0_16px_48px_rgba(61,24,35,0.12)] ring-1 ring-secondary/10">
                 <Image
-                  src="/images/who-we-are.png"
+                  src="/images/who-we-are.jpg"
                   alt="Family Music Academy students and teachers at a recital"
                   fill
                   className="object-cover object-center"

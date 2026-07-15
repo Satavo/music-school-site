@@ -278,33 +278,31 @@ function GalleryGrid({
   onSelect: (item: GalleryItem) => void;
 }) {
   return (
-    <div className="mt-14 columns-2 gap-4 md:columns-3 lg:gap-5">
-      {items.map((item, index) => (
-        <AnimateIn
-          key={item.id}
-          delay={Math.min(index * 60, 360)}
-          className="mb-4 break-inside-avoid md:mb-5"
-        >
-          <button
-            type="button"
-            onClick={() => onSelect(item)}
-            className="group relative block w-full overflow-hidden rounded-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
-          >
-            <MediaThumb
-              item={item}
-              className="block h-auto w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-            />
-            <div className="pointer-events-none absolute inset-0 bg-secondary-dark/0 transition-colors duration-300 group-hover:bg-secondary-dark/15" />
-            {item.type === "video" && <PlayBadge />}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent px-4 py-5 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100">
-              <p className="text-sm font-medium text-white/90">
-                {item.type === "video" ? `Video · ${item.caption}` : item.caption}
-              </p>
-            </div>
-          </button>
-        </AnimateIn>
-      ))}
-    </div>
+    <AnimateIn motion="fade" className="mt-14">
+      <div className="columns-2 gap-4 md:columns-3 lg:gap-5">
+        {items.map((item) => (
+          <div key={item.id} className="mb-4 break-inside-avoid md:mb-5">
+            <button
+              type="button"
+              onClick={() => onSelect(item)}
+              className="group relative block w-full overflow-hidden rounded-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
+            >
+              <MediaThumb
+                item={item}
+                className="block h-auto w-full transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-secondary-dark/0 transition-colors duration-300 group-hover:bg-secondary-dark/15" />
+              {item.type === "video" && <PlayBadge />}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 via-black/25 to-transparent px-4 py-5 opacity-100 transition-opacity duration-300 sm:opacity-0 sm:group-hover:opacity-100">
+                <p className="text-sm font-medium text-white/90">
+                  {item.type === "video" ? `Video · ${item.caption}` : item.caption}
+                </p>
+              </div>
+            </button>
+          </div>
+        ))}
+      </div>
+    </AnimateIn>
   );
 }
 

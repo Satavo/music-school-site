@@ -6,11 +6,9 @@ export const NAV_LINKS = [
 ] as const;
 
 export const SCHOOL_CONTACT = {
-  phone: "(555) 123-4567",
-  phoneHref: "tel:+15551234567",
-  email: "info@familymusicacademy.com",
-  emailHref: "mailto:info@familymusicacademy.com",
-  addressLines: ["123 Harmony Lane", "Your City, ST 00000"],
+  email: "familymusicacademyglenview@gmail.com",
+  emailHref: "mailto:familymusicacademyglenview@gmail.com",
+  addressLines: ["1740 Waukegan Rd,", "Glenview, IL 60025"],
 } as const;
 
 export const HOME_INTRO =
@@ -27,6 +25,18 @@ export const WHY_CHOOSE_ITEMS = [
 
 export const DIRECTOR = {
   name: "Maria Alexeeva",
+  photos: [
+    {
+      src: "/images/about.png",
+      alt: "Maria Alexeeva, owner of Family Music Academy",
+      objectPosition: "object-[center_12%]",
+    },
+    {
+      src: "/images/maria_2.jpg",
+      alt: "Maria Alexeeva before a performance",
+      objectPosition: "object-[center_20%]",
+    },
+  ],
   paragraphs: [
     "Music has always been a natural part of my life. I began playing the violin at the age of four before switching to the piano a year later. Growing up in a family of professional musicians, with both of my parents being pianists, I was surrounded by classical music from an early age. Watching my mother and father work with their students gave me an understanding of what it means to be a teacher and inspired me to continue our family's musical tradition. Today, I am proud to continue my family's legacy as a third-generation professional musician, and I am passionate about inspiring children to develop their musical abilities and confidence through music.",
     "I earned both my Bachelor's and Master's degrees in Piano Performance from the St. Petersburg State Conservatory, followed by an Artist Diploma from Ball State University in Indiana. Throughout my career, I have performed as a soloist with symphony orchestras, collaborated with opera, ballet, and chamber ensembles, and worked alongside internationally acclaimed musicians in master classes and concerts. I have also been honored with numerous national and international piano competition awards.",
@@ -34,6 +44,20 @@ export const DIRECTOR = {
     "I believe music has the power to bring families together. Our academy welcomes students of all ages, from young beginners to advanced musicians, and many families enjoy learning together. Whether siblings, parents and children, or adults pursuing a lifelong dream, we strive to create a warm, supportive community where every student feels encouraged to grow.",
   ],
 } as const;
+
+/** YouTube performance videos on the Meet the Owner page. */
+export const DIRECTOR_PERFORMANCES = [
+  {
+    id: "glinka-trio",
+    title: "M. Glinka — Trio Pathétique",
+    youtubeId: "mpZlMjmsSd8",
+  },
+  {
+    id: "rachmaninoff",
+    title: "Rachmaninoff",
+    youtubeId: "h2XlCNvkFt0",
+  },
+] as const;
 
 export const CURRICULUM_LEVELS = [
   {

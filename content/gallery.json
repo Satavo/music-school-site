@@ -29,11 +29,18 @@
       "caption": "Live performance"
     },
     {
-      "id": "piano-practice-video",
-      "type": "video",
-      "src": "/videos/gallery-piano.mp4",
-      "alt": "Piano practice video",
-      "caption": "At the piano"
+      "id": "group-photo",
+      "type": "image",
+      "src": "/images/gallery/group-photo.jpg",
+      "alt": "Family music academy group photo",
+      "caption": "Family music academy group photo"
+    },
+    {
+      "id": "piano-two",
+      "type": "image",
+      "src": "/images/gallery/piano-two.jpg",
+      "alt": "Piano performance in a concert hall",
+      "caption": "Live performance"
     }
   ]
 }
