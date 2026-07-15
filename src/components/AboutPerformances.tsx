@@ -3,8 +3,6 @@ import { ContactLink } from "@/components/ContactLink";
 import { DIRECTOR_PERFORMANCES } from "@/lib/content";
 
 export function AboutPerformances() {
-  if (DIRECTOR_PERFORMANCES.length === 0) return null;
-
   return (
     <section id="performances" className="border-t border-accent/10 bg-dominant-muted/50 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6">
