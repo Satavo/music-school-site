@@ -39,7 +39,7 @@ function resolveActiveSection() {
   return active;
 }
 
-const PAGE_HERO_PATHS = ["/", "/curriculum", "/gallery"] as const;
+const PAGE_HERO_PATHS = ["/", "/curriculum", "/policies", "/gallery"] as const;
 
 function hasPageHero(pathname: string) {
   return PAGE_HERO_PATHS.includes(pathname as (typeof PAGE_HERO_PATHS)[number]);

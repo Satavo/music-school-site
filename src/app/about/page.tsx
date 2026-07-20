@@ -20,7 +20,7 @@ export default async function AboutPage({
     <>
       <About from={from} />
       <AboutPerformances />
-      <Contact className="!pt-32 md:!pt-44" />
+      <Contact deferred className="!pt-32 md:!pt-44" />
     </>
   );
 }

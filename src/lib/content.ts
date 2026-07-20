@@ -2,6 +2,7 @@ export const NAV_LINKS = [
   { href: "/#home", label: "Home" },
   { href: "/about", label: "Meet the Owner" },
   { href: "/curriculum", label: "Curriculum" },
+  { href: "/policies", label: "Policies & Tuition" },
   { href: "/gallery", label: "Gallery" },
 ] as const;
 
@@ -16,7 +17,7 @@ export const HOME_INTRO =
 
 export const WHY_CHOOSE_ITEMS = [
   "Individualized one-on-one instruction",
-  "Professional classical piano education",
+  "Classical piano education",
   "Preparation for ABRSM exams and competitions",
   "Performance opportunities",
   "A positive, encouraging learning environment",
@@ -100,3 +101,53 @@ export const DIRECTOR_STATS = [
   { value: "St. Petersburg", label: "Conservatory" },
   { value: "ABRSM", label: "Exam Prep" },
 ] as const;
+
+export const POLICIES_INTRO =
+  "Family Music Academy operates on an annual tuition model. Tuition includes 46 private lessons per academic year and reserves each student's weekly lesson time throughout the studio year. The annual schedule is designed around the local Glenview/Northbrook school calendar and includes planned breaks for major holidays and family vacations. Monthly tuition payments provide families with a convenient and predictable payment schedule while ensuring consistent weekly instruction.";
+
+export const STUDIO_HOLIDAYS = [
+  { name: "Labor Day Weekend", dates: "September 5–7, 2026" },
+  { name: "Thanksgiving Break", dates: "November 23–28, 2026" },
+  { name: "Winter Break", dates: "December 21, 2026 – January 2, 2027" },
+  { name: "Spring Break", dates: "March 22–27, 2027" },
+  { name: "Memorial Day Weekend", dates: "May 29–31, 2027" },
+  { name: "Summer Break", dates: "Two weeks in July 2027" },
+] as const;
+
+export const MAKEUP_RULES = [
+  "Parents must provide at least 24 hours advance notice before the scheduled lesson time.",
+  "Missed lessons without advance notice are not eligible for a makeup lesson.",
+  "Makeup lessons must be completed within the same academic year.",
+  "Unused makeup lessons do not carry over to the following year.",
+] as const;
+
+export const POLICY_SECTIONS = [
+  {
+    id: "teacher-absences",
+    title: "Teacher Absences",
+    body: "If a lesson is canceled due to teacher illness, emergency, or professional obligation, Family Music Academy will provide a rescheduled makeup lesson.",
+  },
+  {
+    id: "attendance",
+    title: "Lesson Attendance & Punctuality",
+    body: "Students should arrive on time and prepared for each lesson with all required materials, including music books and assignments. Because each lesson time is reserved specifically for each student, late arrivals will not extend the scheduled lesson time.",
+  },
+  {
+    id: "practice",
+    title: "Practice & Student Progress",
+    body: "Consistent practice between lessons is essential for progress. Students are expected to maintain a regular practice routine appropriate to their age and level. Parents of younger students are encouraged to support healthy practice habits at home.",
+  },
+  {
+    id: "recitals",
+    title: "Recitals & Performance Opportunities",
+    body: "Students are encouraged to participate in studio recitals, competitions, examinations, and other performance opportunities. These experiences help students develop confidence, musical expression, and a deeper appreciation for music.",
+  },
+  {
+    id: "communication",
+    title: "Studio Communication",
+    body: "Important announcements, schedule updates, and studio information will be communicated through email or by phone.",
+  },
+] as const;
+
+export const POLICIES_CLOSING =
+  "By enrolling at Family Music Academy, families agree to these policies and commit to creating a positive, respectful, and successful musical learning experience.";

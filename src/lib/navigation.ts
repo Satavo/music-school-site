@@ -18,7 +18,14 @@ export function backToHomeHref(from?: string | null): string {
 }
 
 export function withHomeReturn(href: string, activeSection: string): string {
-  if (href !== "/about" && href !== "/curriculum" && href !== "/gallery") return href;
+  if (
+    href !== "/about" &&
+    href !== "/curriculum" &&
+    href !== "/policies" &&
+    href !== "/gallery"
+  ) {
+    return href;
+  }
 
   const section = activeSection.replace("#", "") || "home";
   return pageHref(href, isHomeSection(section) ? section : "home");

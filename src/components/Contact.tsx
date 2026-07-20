@@ -1,8 +1,32 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { AnimateIn } from "@/components/AnimateIn";
+import { CONTACT_REVEAL_EVENT } from "@/lib/scroll";
 
-export function Contact({ className = "" }: { className?: string }) {
+type ContactProps = {
+  className?: string;
+  /** Hide until a consultation CTA is clicked */
+  deferred?: boolean;
+};
+
+export function Contact({ className = "", deferred = false }: ContactProps) {
+  const [visible, setVisible] = useState(!deferred);
+
+  useEffect(() => {
+    if (!deferred) return;
+
+    if (window.location.hash === "#contact") {
+      setVisible(true);
+    }
+
+    const onReveal = () => setVisible(true);
+    window.addEventListener(CONTACT_REVEAL_EVENT, onReveal);
+    return () => window.removeEventListener(CONTACT_REVEAL_EVENT, onReveal);
+  }, [deferred]);
+
+  if (!visible) return null;
+
   return (
     <section id="contact" className={`py-24 md:py-32 ${className}`.trim()}>
       <div className="mx-auto max-w-7xl px-6">
