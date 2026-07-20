@@ -25,7 +25,7 @@ export default async function GalleryPage({
         imageAlt="Grand piano in a warmly lit studio"
       />
       <Gallery variant="full" />
-      <Contact />
+      <Contact deferred />
     </>
   );
 }

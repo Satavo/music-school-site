@@ -40,8 +40,18 @@ export function scrollToPerformances() {
   scrollToSection("performances");
 }
 
+export const CONTACT_REVEAL_EVENT = "fma-reveal-contact";
+
+export function revealContact() {
+  window.dispatchEvent(new CustomEvent(CONTACT_REVEAL_EVENT));
+}
+
 export function scrollToContact(pathname: string) {
-  scrollToSection("contact");
+  revealContact();
   const base = pathname === "/" ? "/" : pathname;
   window.history.pushState(null, "", `${base}#contact`);
+
+  window.setTimeout(() => {
+    scrollToSection("contact");
+  }, 80);
 }
