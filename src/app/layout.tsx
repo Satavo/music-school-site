@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
+import { ContactModalProvider } from "@/components/ContactModalProvider";
+import { FloatingContactButton } from "@/components/FloatingContactButton";
 import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -25,6 +26,13 @@ export const metadata: Metadata = {
     "Classical piano lessons for children, teens, and adults. One-on-one instruction, ABRSM exam preparation, and performance opportunities.",
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  interactiveWidget: "overlays-content",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,12 +41,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${cormorant.variable} ${sourceSans.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <ContactModalProvider>
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <FloatingContactButton />
+        </ContactModalProvider>
       </body>
     </html>
   );

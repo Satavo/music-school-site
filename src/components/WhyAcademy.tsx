@@ -3,16 +3,28 @@ import Link from "next/link";
 import { AnimateIn } from "@/components/AnimateIn";
 import { ContactLink } from "@/components/ContactLink";
 import { HOME_INTRO, WHY_CHOOSE_ITEMS } from "@/lib/content";
-import { pageHref } from "@/lib/navigation";
+
+function AboutHeadings({ className = "" }: { className?: string }) {
+  return (
+    <div className={`w-full ${className}`.trim()}>
+      <p className="section-eyebrow max-lg:mb-2.5">About us</p>
+      <h2 className="section-title max-lg:text-[clamp(1.875rem,7.5vw,2.25rem)] max-lg:leading-[1.12] text-balance">
+        Family Music Academy
+      </h2>
+    </div>
+  );
+}
 
 export function WhyAcademy() {
   return (
     <>
-      <section className="py-24 md:py-32">
-        <div id="who" className="mx-auto max-w-7xl px-6">
+      <section className="section-pad">
+        <div id="who" className="section-shell">
           <AnimateIn>
-            <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-10">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-[0_16px_48px_rgba(61,24,35,0.12)] ring-1 ring-secondary/10">
+            <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:items-center lg:gap-10">
+              <AboutHeadings className="order-1 max-lg:text-center lg:hidden" />
+
+              <div className="relative order-2 aspect-[4/3] overflow-hidden rounded-2xl shadow-[0_16px_48px_rgba(61,24,35,0.12)] ring-1 ring-secondary/10 max-lg:shadow-[0_20px_52px_rgba(61,24,35,0.14)] lg:order-1 lg:col-start-1">
                 <Image
                   src="/images/who-we-are.jpg"
                   alt="Family Music Academy students and teachers at a recital"
@@ -22,37 +34,24 @@ export function WhyAcademy() {
                   priority
                 />
               </div>
-              <div>
-                <p className="section-eyebrow">About us</p>
-                <h2 className="section-title">
-                  Family Music
-                  <br />
-                  Academy
-                </h2>
-                <p className="mt-6 text-[1.0625rem] leading-relaxed text-dominant-foreground md:text-lg md:leading-[1.8]">
-                  {HOME_INTRO}
-                </p>
-                <div className="mt-8">
-                  <Link href={pageHref("/gallery", "home")} className="btn-primary">
-                    Look at our gallery
-                  </Link>
-                </div>
+
+              <div className="order-3 flex flex-col gap-5 sm:gap-6 lg:order-2 lg:col-start-2">
+                <AboutHeadings className="hidden lg:block" />
+                <p className="about-bio-text">{HOME_INTRO}</p>
               </div>
             </div>
           </AnimateIn>
         </div>
       </section>
 
-      <section id="why" className="border-t border-accent/10 bg-dominant-muted/50 py-24 md:py-32">
-        <div className="mx-auto max-w-7xl px-6">
+      <section id="why" className="section-pad border-t border-secondary/10 bg-dominant-muted/50">
+        <div className="section-shell">
           <AnimateIn>
             <div className="grid items-stretch gap-8 lg:grid-cols-2 lg:gap-10">
-              <div className="flex h-full flex-col">
+              <div className="mx-auto w-full max-w-2xl lg:mx-0 lg:max-w-none">
                 <p className="section-eyebrow">Why choose us</p>
-                <h2 className="section-title">
-                  Why you should choose our academy?
-                </h2>
-                <ul className="mt-8 flex-1 space-y-4">
+                <h2 className="section-title">What our students get:</h2>
+                <ul className="mt-8 space-y-4 lg:flex-1">
                   {WHY_CHOOSE_ITEMS.map((item) => (
                     <li key={item} className="flex items-start gap-3">
                       <span
@@ -63,20 +62,18 @@ export function WhyAcademy() {
                           <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
                         </svg>
                       </span>
-                      <span className="text-[1.0625rem] leading-relaxed text-dominant-foreground/90 md:text-lg">
-                        {item}
-                      </span>
+                      <span className="about-bio-text">{item}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8">
+                <div className="mt-8 flex justify-center lg:justify-start">
                   <ContactLink className="btn-primary">Enroll on lessons</ContactLink>
                 </div>
               </div>
 
-              <div className="flex h-full min-h-0 flex-col gap-3">
+              <div className="hidden min-h-0 flex-col gap-3 lg:flex">
                 <DiscoverCard
-                  href={pageHref("/about", "why")}
+                  href="/#about"
                   eyebrow="Meet the Owner"
                   title="Maria Alexeeva"
                   description="Third-generation pianist. St. Petersburg Conservatory graduate. Over 15 years of teaching experience."
@@ -86,7 +83,7 @@ export function WhyAcademy() {
                   variant="burgundy"
                 />
                 <DiscoverCard
-                  href={pageHref("/curriculum", "why")}
+                  href="/#curriculum"
                   eyebrow="Curriculum"
                   title="Our Program"
                   description="Structured paths for beginners through advanced students, including ABRSM exam preparation."
@@ -147,16 +144,14 @@ function DiscoverCard({
       <div className={`absolute inset-0 bg-gradient-to-t ${gradient}`} />
 
       <div className="relative flex flex-1 flex-col p-4 md:p-5">
-        <p className="section-eyebrow !mb-0 !text-accent-light">
-          {eyebrow}
-        </p>
+        <p className="section-eyebrow !mb-0 !text-secondary-foreground/90">{eyebrow}</p>
         <h3 className="mt-2 font-serif text-xl font-semibold text-secondary-foreground md:text-2xl">
           {title}
         </h3>
-        <p className="mt-2.5 line-clamp-2 flex-1 text-sm leading-relaxed text-secondary-foreground/85 md:text-base">
+        <p className="about-bio-text mt-2.5 line-clamp-2 flex-1 !text-secondary-foreground/85">
           {description}
         </p>
-        <span className="mt-auto inline-flex items-center gap-2 pt-2 text-sm font-semibold text-accent-light md:text-base">
+        <span className="about-bio-text mt-auto inline-flex items-center gap-2 pt-2 font-semibold !text-secondary-foreground">
           {cta}
           <svg
             viewBox="0 0 24 24"

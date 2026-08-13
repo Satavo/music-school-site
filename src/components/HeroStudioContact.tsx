@@ -1,57 +1,73 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { ContactLink } from "@/components/ContactLink";
+import { InstagramIcon } from "@/components/ContactDetails";
+import { PhoneIcon } from "@/components/icons/PhoneIcon";
 import { SCHOOL_CONTACT } from "@/lib/content";
 
-export function HeroStudioContact() {
-  const addressRef = useRef<HTMLParagraphElement>(null);
-  const emailRef = useRef<HTMLAnchorElement>(null);
+const HERO_CONTACT_ICON_CLASS = "h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 lg:h-9 lg:w-9";
 
-  useLayoutEffect(() => {
-    const address = addressRef.current;
-    const email = emailRef.current;
-    if (!address || !email) return;
+const HERO_CONTACT_TEXT_CLASS =
+  "whitespace-nowrap font-sans text-[clamp(0.875rem,3.4vw,1.5rem)] font-normal leading-snug tracking-normal text-secondary-foreground/70 underline-offset-4 group-hover:text-secondary-foreground/90 group-hover:underline";
 
-    const fit = () => {
-      email.style.fontSize = "";
-      const target = address.getBoundingClientRect().width;
-      const current = email.getBoundingClientRect().width;
-      if (target <= 0 || current <= 0 || current <= target) return;
+function MapPinIcon({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className} aria-hidden>
+      <path d="M12 11.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+    </svg>
+  );
+}
 
-      const base = parseFloat(getComputedStyle(email).fontSize);
-      email.style.fontSize = `${(base * target) / current}px`;
-    };
-
-    fit();
-    const observer = new ResizeObserver(fit);
-    observer.observe(address);
-    window.addEventListener("resize", fit);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", fit);
-    };
-  }, []);
+export function HeroAddress({ className = "" }: { className?: string }) {
+  const addressLabel = SCHOOL_CONTACT.addressLines.join(" ");
 
   return (
-    <aside className="animate-fade-up-delay-2 justify-self-end lg:pt-11">
-      <div className="inline-block max-w-full text-right">
-        <p
-          ref={addressRef}
-          className="font-sans text-[1.35rem] font-medium leading-[1.35] tracking-wide text-secondary-foreground md:text-[1.5rem]"
-        >
-          {SCHOOL_CONTACT.addressLines.map((line) => (
-            <span key={line} className="block whitespace-nowrap">
-              {line}
-            </span>
-          ))}
-        </p>
-        <a
-          ref={emailRef}
-          href={SCHOOL_CONTACT.emailHref}
-          className="mt-5 block whitespace-nowrap font-serif text-lg leading-none text-secondary-foreground/80 transition-colors hover:text-accent-light md:text-xl"
-        >
-          {SCHOOL_CONTACT.email}
-        </a>
+    <a
+      href={SCHOOL_CONTACT.mapsHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Open studio location: ${addressLabel}`}
+      className={`group inline-flex max-w-full items-center gap-3 transition-opacity hover:opacity-90 sm:gap-4 lg:flex-row-reverse lg:justify-end ${className}`}
+    >
+      <span className="shrink-0 text-secondary-foreground/70">
+        <MapPinIcon className={HERO_CONTACT_ICON_CLASS} />
+      </span>
+      <p className={HERO_CONTACT_TEXT_CLASS}>{addressLabel}</p>
+    </a>
+  );
+}
+
+export function HeroInstagram({ className = "" }: { className?: string }) {
+  return (
+    <a
+      href={SCHOOL_CONTACT.instagramHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Instagram ${SCHOOL_CONTACT.instagramHandle}`}
+      className={`group inline-flex max-w-full items-center gap-3 transition-opacity hover:opacity-90 sm:gap-4 lg:flex-row-reverse lg:justify-end ${className}`}
+    >
+      <span className="shrink-0 text-secondary-foreground/70">
+        <InstagramIcon className={`${HERO_CONTACT_ICON_CLASS} text-current`} strokeWidth={2} />
+      </span>
+      <p className={HERO_CONTACT_TEXT_CLASS}>{SCHOOL_CONTACT.instagramHandle}</p>
+    </a>
+  );
+}
+
+export function HeroStudioContact() {
+  return (
+    <aside className="hidden shrink-0 animate-fade-up-delay-1 lg:flex lg:w-max lg:max-w-none lg:flex-col lg:items-end lg:justify-self-end lg:self-center lg:gap-6">
+      <div className="animate-fade-up-delay-2 flex flex-col items-end gap-2.5 sm:gap-3">
+        <HeroAddress />
+        <HeroInstagram />
+      </div>
+
+      <div className="mr-4 flex animate-fade-up-delay-2 justify-end xl:mr-6">
+        <ContactLink className="btn-primary gap-2.5 whitespace-nowrap py-3">
+          <PhoneIcon className="h-5 w-5 shrink-0" />
+          Schedule a Consultation
+        </ContactLink>
       </div>
     </aside>
   );

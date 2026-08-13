@@ -1,26 +1,23 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
+import { CarouselDots } from "@/components/CarouselDots";
 import { DIRECTOR } from "@/lib/content";
+import { useSwipeCarousel } from "@/lib/use-swipe-carousel";
 
 const photos = DIRECTOR.photos;
 
-export function AboutPhotoCarousel() {
-  const [index, setIndex] = useState(0);
-  const count = photos.length;
+const sideBtnClass =
+  "hidden h-9 w-9 shrink-0 items-center justify-center rounded-full border border-secondary/15 bg-transparent text-secondary/55 transition-all duration-300 hover:border-secondary/25 hover:bg-secondary/8 hover:text-secondary md:flex md:h-10 md:w-10";
 
-  const go = useCallback(
-    (next: number) => {
-      setIndex(((next % count) + count) % count);
-    },
-    [count],
-  );
+export function AboutPhotoCarousel() {
+  const { index, go, swipeRef } = useSwipeCarousel(photos.length);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") go(index - 1);
-      if (e.key === "ArrowRight") go(index + 1);
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") go(index - 1);
+      if (event.key === "ArrowRight") go(index + 1);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -28,7 +25,12 @@ export function AboutPhotoCarousel() {
 
   return (
     <div>
-      <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-dominant-muted shadow-[0_16px_48px_rgba(61,24,35,0.14)] ring-1 ring-secondary/15">
+      <div
+        ref={swipeRef}
+        className="carousel-swipe relative aspect-[3/4] overflow-hidden rounded-2xl bg-dominant-muted shadow-[0_16px_48px_rgba(61,24,35,0.14)] ring-1 ring-secondary/15"
+        aria-roledescription="carousel"
+        aria-label={`Photo ${index + 1} of ${photos.length}`}
+      >
         {photos.map((photo, i) => (
           <Image
             key={photo.src}
@@ -37,35 +39,48 @@ export function AboutPhotoCarousel() {
             fill
             priority={i === 0}
             unoptimized
+            draggable={false}
             sizes="(max-width: 1024px) 90vw, 24rem"
-            className={`object-cover transition-opacity duration-700 ease-out ${photo.objectPosition} ${
+            className={`pointer-events-none object-cover transition-opacity duration-700 ease-out select-none ${photo.objectPosition} ${
               i === index ? "opacity-100" : "opacity-0"
             }`}
           />
         ))}
       </div>
 
-      <div
-        className="mt-3.5 flex items-center justify-center gap-1.5 opacity-45 transition-opacity duration-300 hover:opacity-80"
-        role="tablist"
-        aria-label="Photo gallery"
-      >
-        {photos.map((photo, i) => (
+      {photos.length > 1 && (
+        <div className="mt-4 flex items-center justify-center gap-3 md:gap-5">
           <button
-            key={photo.src}
             type="button"
-            role="tab"
-            aria-selected={i === index}
-            aria-label={`Show photo ${i + 1}`}
-            onClick={() => go(i)}
-            className={`h-1 rounded-full transition-all duration-300 ${
-              i === index
-                ? "w-4 bg-secondary/50"
-                : "w-1 bg-secondary/20 hover:bg-secondary/35"
-            }`}
+            onClick={() => go(index - 1)}
+            className={sideBtnClass}
+            aria-label="Previous photo"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="h-4 w-4">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+
+          <CarouselDots
+            count={photos.length}
+            index={index}
+            onSelect={go}
+            label="Photo gallery"
+            className=""
           />
-        ))}
-      </div>
+
+          <button
+            type="button"
+            onClick={() => go(index + 1)}
+            className={sideBtnClass}
+            aria-label="Next photo"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" className="h-4 w-4">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { Logo } from "@/components/Logo";
 import { NAV_LINKS } from "@/lib/content";
-import { scrollToContact, getHeroHeaderSwitchY } from "@/lib/scroll";
-import { withHomeReturn } from "@/lib/navigation";
+import { scrollToContact, scrollToSection } from "@/lib/scroll";
 
-const SCROLL_SECTIONS = ["home", "why", "offers", "gallery"] as const;
+const SCROLL_SECTIONS = [
+  "home",
+  "who",
+  "why",
+  "curriculum",
+  "policies",
+  "about",
+  "gallery",
+  "contact",
+] as const;
 
 function getHashFromHref(href: string) {
   const hashIndex = href.indexOf("#");
@@ -17,9 +25,16 @@ function getHashFromHref(href: string) {
 function scrollToHash(hash: string) {
   if (hash === "#home" || !hash) {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    window.history.pushState(null, "", "#home");
     return;
   }
-  document.querySelector(hash)?.scrollIntoView({ behavior: "smooth" });
+
+  if (hash === "#contact") {
+    scrollToContact("/");
+    return;
+  }
+
+  scrollToSection(hash.slice(1));
 }
 
 function resolveActiveSection() {
@@ -39,56 +54,23 @@ function resolveActiveSection() {
   return active;
 }
 
-const PAGE_HERO_PATHS = ["/", "/curriculum", "/policies", "/gallery"] as const;
-
-function hasPageHero(pathname: string) {
-  return PAGE_HERO_PATHS.includes(pathname as (typeof PAGE_HERO_PATHS)[number]);
-}
-
-function resolveScrolledPastHero() {
-  return window.scrollY > getHeroHeaderSwitchY();
-}
-
 export function Header() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const isHome = pathname === "/";
-  const pageHasHero = hasPageHero(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("#home");
-  const [scrolledPastHero, setScrolledPastHero] = useState(!pageHasHero);
-
-  const useLightHeader = !pageHasHero || scrolledPastHero || menuOpen;
 
   useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    setScrolledPastHero(!hasPageHero(pathname));
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!pageHasHero) {
-      setActiveSection("");
-      return;
-    }
-
-    if (pathname === "/") {
-      const hash = window.location.hash;
-      setActiveSection(hash && SCROLL_SECTIONS.includes(hash.slice(1) as (typeof SCROLL_SECTIONS)[number]) ? hash : "#home");
-    } else {
-      setActiveSection("");
-    }
+    const hash = window.location.hash;
+    setActiveSection(
+      hash && SCROLL_SECTIONS.includes(hash.slice(1) as (typeof SCROLL_SECTIONS)[number])
+        ? hash
+        : "#home",
+    );
 
     let frame = 0;
     const onScroll = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        if (pathname === "/") {
-          setActiveSection(resolveActiveSection());
-        }
-        setScrolledPastHero(resolveScrolledPastHero());
+        setActiveSection(resolveActiveSection());
       });
     };
 
@@ -101,15 +83,14 @@ export function Header() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("hashchange", onScroll);
     };
-  }, [pathname, pageHasHero]);
+  }, []);
 
   useEffect(() => {
-    if (pathname !== "/") return;
     const hash = window.location.hash;
     if (!hash) return;
     const timer = window.setTimeout(() => scrollToHash(hash), 50);
     return () => window.clearTimeout(timer);
-  }, [pathname]);
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -118,22 +99,11 @@ export function Header() {
     };
   }, [menuOpen]);
 
-  const contactHref = isHome ? "/#contact" : "#contact";
-
   const handleNavClick = useCallback(
     (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-      if ((href === "/" || href === "/#home") && isHome) {
-        event.preventDefault();
-        setActiveSection("#home");
-        scrollToHash("#home");
-        window.history.pushState(null, "", "/#home");
-        setMenuOpen(false);
-        return;
-      }
-
       if (href === "#contact" || href === "/#contact") {
         event.preventDefault();
-        scrollToContact(pathname);
+        scrollToContact("/");
         setMenuOpen(false);
         return;
       }
@@ -141,85 +111,42 @@ export function Header() {
       const hashIndex = href.indexOf("#");
       if (hashIndex === -1) return;
 
-      const path = href.slice(0, hashIndex) || "/";
       const hash = href.slice(hashIndex);
 
-      if (path !== "/" && path !== "") return;
-
-      if (isHome) {
-        event.preventDefault();
-        if (hash === "#contact") {
-          scrollToContact(pathname);
-        } else {
-          setActiveSection(hash === "#home" || !hash ? "#home" : hash);
-          scrollToHash(hash);
-          window.history.pushState(null, "", href);
-        }
-        setMenuOpen(false);
-        return;
-      }
-
       event.preventDefault();
-      setActiveSection(hash);
+      setActiveSection(hash === "#home" || !hash ? "#home" : hash);
+      scrollToHash(hash);
+      window.history.pushState(null, "", href);
       setMenuOpen(false);
-      router.push(href);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => scrollToHash(hash));
-      });
     },
-    [isHome, pathname, router],
+    [],
   );
 
-  const isLinkActive = (href: string) => {
-    if (href === "/" || href === "/#home") return isHome && activeSection === "#home";
-    if (!href.includes("#")) return pathname === href;
-    if (isHome) return getHashFromHref(href) === activeSection;
-    return false;
-  };
-
-  const shellClass = useLightHeader
-    ? "bg-dominant-muted/92 backdrop-blur-xl border-b border-accent/15 shadow-sm"
-    : "bg-transparent border-b border-transparent";
-
-  const logoTextClass = useLightHeader ? "text-secondary-dark" : "text-secondary-foreground";
-  const menuIconClass = useLightHeader ? "text-secondary-dark" : "text-secondary-foreground";
+  const isLinkActive = (href: string) => getHashFromHref(href) === activeSection;
 
   const desktopLinkClass = (href: string) => {
     if (isLinkActive(href)) {
-      return useLightHeader ? "font-semibold text-secondary" : "font-semibold text-accent-light";
+      return "font-semibold text-secondary-foreground";
     }
-    return useLightHeader
-      ? "text-dominant-foreground/75 hover:text-secondary"
-      : "text-secondary-foreground/85 hover:text-secondary-foreground";
-  };
-
-  const mobileLinkClass = (href: string) => {
-    if (isLinkActive(href)) {
-      return "bg-secondary/10 font-semibold text-secondary";
-    }
-    return "text-dominant-foreground/80 hover:bg-secondary/5 hover:text-secondary";
+    return "text-secondary-foreground/85 hover:text-secondary-foreground";
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${shellClass}`}>
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3.5">
+    <header
+      className={`absolute top-0 left-0 right-0 z-50 border-b transition-all duration-300 ease-out pt-[calc(env(safe-area-inset-top,0px)+0.5rem)] lg:pt-[env(safe-area-inset-top,0px)] ${
+        menuOpen
+          ? "border-white/10 bg-secondary-dark/45 backdrop-blur-xl lg:border-transparent lg:bg-transparent lg:backdrop-blur-none"
+          : "border-transparent bg-transparent"
+      }`}
+    >
+      <div className="section-shell flex items-center justify-between py-3 sm:py-3.5 md:py-5">
         <Link
           href="/#home"
-          className="group flex items-center gap-3"
+          className="group flex min-w-0 shrink items-center gap-2.5 transition-opacity duration-200 hover:opacity-90 sm:gap-3 lg:transition-none lg:hover:opacity-100"
           onClick={(e) => handleNavClick(e, "/#home")}
         >
-          <span
-            className={`flex h-10 w-10 items-center justify-center rounded-2xl transition-all duration-200 group-hover:scale-105 ${
-              useLightHeader
-                ? "bg-secondary text-accent-light"
-                : "bg-white/15 text-accent-light ring-1 ring-white/20"
-            }`}
-          >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden>
-              <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-            </svg>
-          </span>
-          <span className={`font-serif text-lg font-semibold tracking-wide transition-colors duration-200 md:text-xl ${logoTextClass}`}>
+          <Logo variant="header" tone="light" priority />
+          <span className="font-serif text-[clamp(1.125rem,4.5vw,1.625rem)] font-semibold leading-tight text-secondary-foreground sm:text-2xl lg:text-lg xl:text-xl">
             Family Music Academy
           </span>
         </Link>
@@ -228,7 +155,7 @@ export function Header() {
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
-              href={isHome ? withHomeReturn(link.href, activeSection) : link.href}
+              href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
               aria-current={isLinkActive(link.href) ? "page" : undefined}
               className={`text-sm font-medium tracking-wide transition-colors duration-200 md:text-base ${desktopLinkClass(link.href)}`}
@@ -236,18 +163,11 @@ export function Header() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href={contactHref}
-            onClick={(e) => handleNavClick(e, contactHref)}
-            className="btn-primary !px-5 !py-2.5 !text-sm md:!text-base"
-          >
-            Book a Lesson
-          </Link>
         </nav>
 
         <button
           type="button"
-          className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-200 lg:hidden ${menuIconClass}`}
+          className="flex h-10 w-10 items-center justify-center rounded-xl text-secondary-foreground transition-colors duration-200 lg:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           aria-expanded={menuOpen}
@@ -264,30 +184,37 @@ export function Header() {
         </button>
       </div>
 
-      {menuOpen && (
-        <nav className="border-t border-accent/15 bg-dominant-muted px-6 py-6 lg:hidden">
-          <div className="flex flex-col gap-1">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={isHome ? withHomeReturn(link.href, activeSection) : link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                aria-current={isLinkActive(link.href) ? "page" : undefined}
-                className={`rounded-xl px-3 py-3 font-medium transition-colors ${mobileLinkClass(link.href)}`}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href={contactHref}
-              onClick={(e) => handleNavClick(e, contactHref)}
-              className="btn-primary mt-2 w-full !py-3 !text-sm"
-            >
-              Book a Lesson
-            </Link>
+      <nav
+        aria-hidden={!menuOpen}
+        className={`mobile-menu lg:hidden ${
+          menuOpen
+            ? "mobile-menu-open pointer-events-auto border-t border-white/10"
+            : "pointer-events-none border-transparent"
+        }`}
+      >
+        <div className="mobile-menu-inner">
+          <div className="mobile-menu-content safe-x py-5 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+            <div className="flex flex-col gap-1">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  aria-current={isLinkActive(link.href) ? "page" : undefined}
+                  tabIndex={menuOpen ? 0 : -1}
+                  className={`rounded-xl px-3 py-3 font-medium transition-colors ${
+                    isLinkActive(link.href)
+                      ? "bg-white/12 font-semibold text-secondary-foreground"
+                      : "text-secondary-foreground/85 hover:bg-white/8 hover:text-secondary-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
-        </nav>
-      )}
+        </div>
+      </nav>
     </header>
   );
 }

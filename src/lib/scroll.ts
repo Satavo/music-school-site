@@ -1,10 +1,3 @@
-/** After this much scroll, header switches from transparent to solid white. */
-export const HERO_HEADER_SWITCH_Y = 56;
-
-export function getHeroHeaderSwitchY() {
-  return HERO_HEADER_SWITCH_Y;
-}
-
 /** Scroll so the About us block sits roughly in the middle of the viewport. */
 export function scrollToWhoSectionStart() {
   const el = document.getElementById("who");
@@ -23,35 +16,25 @@ export function scrollToWhoSectionStart() {
   window.history.pushState(null, "", "#who");
 }
 
-export function scrollToSection(id: string) {
+export function scrollToSection(id: string, updateHash = true) {
   const el = document.getElementById(id);
   if (!el) return;
 
   const scrollPadding =
     parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
-  const top = el.getBoundingClientRect().top + window.scrollY - scrollPadding;
+  const scrollMargin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+  const top = el.getBoundingClientRect().top + window.scrollY - scrollPadding - scrollMargin;
 
-  window.scrollTo({ top, behavior: "smooth" });
-  window.history.pushState(null, "", `#${id}`);
+  window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+
+  if (updateHash) {
+    const hashId = id === "contact-form" ? "contact" : id;
+    window.history.pushState(null, "", `#${hashId}`);
+  }
 }
 
-/** Scroll to performances on Meet the Owner. */
-export function scrollToPerformances() {
-  scrollToSection("performances");
-}
+import { openContactModal } from "@/lib/contact-modal";
 
-export const CONTACT_REVEAL_EVENT = "fma-reveal-contact";
-
-export function revealContact() {
-  window.dispatchEvent(new CustomEvent(CONTACT_REVEAL_EVENT));
-}
-
-export function scrollToContact(pathname: string) {
-  revealContact();
-  const base = pathname === "/" ? "/" : pathname;
-  window.history.pushState(null, "", `${base}#contact`);
-
-  window.setTimeout(() => {
-    scrollToSection("contact");
-  }, 80);
+export function scrollToContact(_pathname = "/") {
+  openContactModal();
 }
