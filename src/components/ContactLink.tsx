@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { scrollToContact } from "@/lib/scroll";
+import { openContactModal } from "@/lib/contact-modal";
 
 type ContactLinkProps = {
   children: ReactNode;
@@ -11,16 +10,13 @@ type ContactLinkProps = {
 };
 
 export function ContactLink({ children, className }: ContactLinkProps) {
-  const pathname = usePathname();
-  const href = pathname === "/" ? "/#contact" : "#contact";
-
   return (
     <Link
-      href={href}
+      href="/#contact"
       className={className}
       onClick={(event) => {
         event.preventDefault();
-        scrollToContact(pathname);
+        openContactModal();
       }}
     >
       {children}

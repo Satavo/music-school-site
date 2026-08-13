@@ -1,16 +1,13 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimateIn } from "@/components/AnimateIn";
-import { ContactLink } from "@/components/ContactLink";
-import { GALLERY_ITEMS, getGalleryPreviewImages, type GalleryItem } from "@/lib/gallery";
-import { pageHref } from "@/lib/navigation";
+import { GALLERY_ITEMS, getGalleryLatestItems, type GalleryItem } from "@/lib/gallery";
 
 const LIGHTBOX_CLOSE_MS = 220;
 
 type GalleryProps = {
-  variant?: "preview" | "full";
+  variant?: "home" | "full";
 };
 
 function PlayBadge({ size = "md" }: { size?: "sm" | "md" }) {
@@ -165,111 +162,6 @@ function Lightbox({
   );
 }
 
-const CAROUSEL_SLOTS: Record<
-  number,
-  { x: string; scale: number; opacity: number; z: number }
-> = {
-  [-2]: { x: "-118%", scale: 0.7, opacity: 1, z: 10 },
-  [-1]: { x: "-68%", scale: 0.84, opacity: 1, z: 20 },
-  [0]: { x: "0%", scale: 1, opacity: 1, z: 30 },
-  [1]: { x: "68%", scale: 0.84, opacity: 1, z: 20 },
-  [2]: { x: "118%", scale: 0.7, opacity: 1, z: 10 },
-};
-
-function GalleryCarousel({
-  items,
-  onSelect,
-}: {
-  items: GalleryItem[];
-  onSelect: (item: GalleryItem) => void;
-}) {
-  const initialIndex = Math.max(
-    0,
-    items.findIndex((item) => item.type === "video"),
-  );
-  const [index, setIndex] = useState(initialIndex);
-  const count = items.length;
-
-  const go = useCallback(
-    (dir: -1 | 1) => {
-      setIndex((current) => (current + dir + count) % count);
-    },
-    [count],
-  );
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") go(-1);
-      if (e.key === "ArrowRight") go(1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [go]);
-
-  if (count === 0) return null;
-
-  const sideBtnClass =
-    "absolute top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-secondary/20 bg-dominant-surface/95 text-secondary shadow-md backdrop-blur-sm transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground md:h-12 md:w-12";
-
-  return (
-    <div className="relative mx-auto w-full max-w-5xl px-12 md:px-14 xl:max-w-[58rem]">
-      <button type="button" onClick={() => go(-1)} className={`${sideBtnClass} left-2 md:left-3`} aria-label="Previous">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
-      </button>
-      <button type="button" onClick={() => go(1)} className={`${sideBtnClass} right-2 md:right-3`} aria-label="Next">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-5 w-5">
-          <path d="M9 18l6-6-6-6" />
-        </svg>
-      </button>
-
-      <div className="relative mx-auto flex h-[20rem] w-full max-w-[16rem] items-center justify-center sm:h-[24rem] sm:max-w-[20rem] md:h-[28rem] md:max-w-[24rem] lg:h-[30rem] lg:max-w-[26rem]">
-        {items.map((item, i) => {
-          let rel = i - index;
-          if (rel > Math.floor(count / 2)) rel -= count;
-          if (rel < -Math.floor(count / 2)) rel += count;
-
-          const slot = CAROUSEL_SLOTS[rel];
-          const visible = Boolean(slot);
-          const isCenter = rel === 0;
-
-          return (
-            <button
-              key={item.id}
-              type="button"
-              tabIndex={isCenter ? 0 : -1}
-              aria-hidden={!visible}
-              aria-label={item.type === "video" ? `Video: ${item.caption}` : item.caption}
-              onClick={() => {
-                if (isCenter) onSelect(item);
-                else if (visible) setIndex(i);
-              }}
-              className={`group absolute inset-0 overflow-hidden rounded-2xl shadow-[0_12px_36px_rgba(61,24,35,0.14)] ring-1 ring-secondary/10 transition-[transform,opacity,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary hover:ring-secondary/25 hover:shadow-[0_14px_40px_rgba(61,24,35,0.2)] ${
-                isCenter ? "cursor-zoom-in" : visible ? "cursor-pointer" : "pointer-events-none"
-              }`}
-              style={{
-                transform: slot
-                  ? `translateX(${slot.x}) scale(${slot.scale})`
-                  : "translateX(0) scale(0.6)",
-                opacity: slot ? slot.opacity : 0,
-                zIndex: slot ? slot.z : 0,
-              }}
-            >
-              <MediaThumb
-                item={item}
-                playing={isCenter && item.type === "video"}
-                className="absolute inset-0 h-full w-full object-cover object-[center_20%] transition-transform duration-300 ease-out group-hover:scale-[1.04]"
-              />
-              <div className="pointer-events-none absolute inset-0 bg-secondary-dark/0 transition-colors duration-300 group-hover:bg-secondary-dark/8" />
-            </button>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
 function GalleryGrid({
   items,
   onSelect,
@@ -306,51 +198,28 @@ function GalleryGrid({
   );
 }
 
-export function Gallery({ variant = "preview" }: GalleryProps) {
-  const isPreview = variant === "preview";
-  const items = isPreview ? getGalleryPreviewImages() : GALLERY_ITEMS;
+export function Gallery({ variant = "home" }: GalleryProps) {
+  const isHome = variant === "home";
+  const items = isHome ? getGalleryLatestItems() : GALLERY_ITEMS;
   const { activeItem, setActiveItem, isClosing, close } = useLightbox();
 
   return (
     <section
-      id={isPreview ? "gallery" : undefined}
-      className={`relative overflow-x-hidden ${
-        isPreview
-          ? "surface-dominant-muted py-24 md:py-32"
-          : "bg-dominant-surface py-16 md:py-24"
-      }`}
+      id={isHome ? "gallery" : undefined}
+      className="relative overflow-x-hidden section-pad bg-dominant-surface"
     >
-      <div className="relative z-[2] mx-auto max-w-7xl px-6">
+      <div className="relative z-[2] section-shell">
         <AnimateIn className="mx-auto max-w-2xl text-center">
           <p className="section-eyebrow">Gallery</p>
-          <h2 className="section-title">Photo & Video Gallery</h2>
-          <p className="section-lead mt-6">
+          <h2 className="section-title">Photo & Video</h2>
+          <p className="section-lead mt-4">
             Lessons, recitals, and moments from our studio.
           </p>
         </AnimateIn>
       </div>
 
-      <div className={`relative z-[2] ${isPreview ? "mt-14" : "mx-auto mt-14 max-w-7xl px-6"}`}>
-        {isPreview ? (
-          <AnimateIn>
-            <GalleryCarousel items={items} onSelect={setActiveItem} />
-          </AnimateIn>
-        ) : (
-          <GalleryGrid items={items} onSelect={setActiveItem} />
-        )}
-      </div>
-
-      <div className="relative z-[2] mx-auto max-w-7xl px-6">
-        <AnimateIn delay={120}>
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
-            {isPreview && (
-              <Link href={pageHref("/gallery", "gallery")} className="btn-secondary-dark">
-                View Full Gallery
-              </Link>
-            )}
-            <ContactLink className="btn-primary">Book a Lesson</ContactLink>
-          </div>
-        </AnimateIn>
+      <div className="relative z-[2] section-shell mt-8">
+        <GalleryGrid items={items} onSelect={setActiveItem} />
       </div>
 
       {activeItem && <Lightbox activeItem={activeItem} isClosing={isClosing} close={close} />}

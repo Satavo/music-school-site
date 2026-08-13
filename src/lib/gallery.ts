@@ -48,6 +48,7 @@ export const GALLERY_ITEMS = parseGalleryItems(galleryData);
 
 export const GALLERY_PREVIEW_LIMIT = 6;
 
-export function getGalleryPreviewImages() {
-  return GALLERY_ITEMS.slice(0, GALLERY_PREVIEW_LIMIT);
+/** Latest entries from gallery.json (items are appended to the end of the array). */
+export function getGalleryLatestItems(limit = GALLERY_PREVIEW_LIMIT) {
+  return GALLERY_ITEMS.slice(-limit);
 }

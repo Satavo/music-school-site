@@ -1,31 +1,5 @@
-import type { Metadata } from "next";
-import { Contact } from "@/components/Contact";
-import { Curriculum } from "@/components/Curriculum";
-import { PageHero } from "@/components/PageHero";
+import { HashRedirect } from "@/components/HashRedirect";
 
-export const metadata: Metadata = {
-  title: "Curriculum",
-  description:
-    "Explore the Family Music Academy piano curriculum — from young beginners to advanced students and ABRSM exam preparation.",
-};
-
-export default async function CurriculumPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ from?: string }>;
-}) {
-  const { from } = await searchParams;
-
-  return (
-    <>
-      <PageHero
-        from={from}
-        minimal
-        imageSrc="/images/sheet-music.jpg"
-        imageAlt="Piano performance in a concert hall"
-      />
-      <Curriculum />
-      <Contact deferred />
-    </>
-  );
+export default function CurriculumPage() {
+  return <HashRedirect id="curriculum" />;
 }

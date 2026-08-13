@@ -1,17 +1,22 @@
 import Link from "next/link";
+import { ContactDetails } from "@/components/ContactDetails";
+import { Logo } from "@/components/Logo";
 import { NAV_LINKS } from "@/lib/content";
 
 export function Footer() {
   return (
-    <footer className="border-t border-accent/15 bg-dominant-muted">
-      <div className="mx-auto max-w-7xl px-6 py-12">
+    <footer className="border-t border-secondary/10 bg-dominant-muted pb-[env(safe-area-inset-bottom,0px)]">
+      <div className="section-shell py-12">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
-            <p className="font-serif text-xl font-semibold text-secondary-dark">
-              Family Music Academy
-            </p>
-            <p className="mt-2 max-w-xs text-base leading-relaxed text-dominant-subtle">
-            One-on-one classical piano instruction for children, teens, and adults.
+            <div className="flex items-center gap-3">
+              <Logo variant="mark" />
+              <p className="font-serif text-xl font-semibold text-secondary">
+                Family Music Academy
+              </p>
+            </div>
+            <p className="about-bio-text mt-3 max-w-xs">
+              One-on-one classical piano instruction for children, teens, and adults.
             </p>
           </div>
           <div>
@@ -23,7 +28,7 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-base text-dominant-foreground/70 transition-colors hover:text-secondary"
+                  className="about-bio-text transition-colors hover:text-secondary"
                 >
                   {link.label}
                 </Link>
@@ -34,15 +39,13 @@ export function Footer() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
               Contact
             </p>
-            <div className="mt-4 space-y-2 text-base text-dominant-foreground/70">
-              <a href="mailto:familymusicacademyglenview@gmail.com" className="block hover:text-secondary">
-                familymusicacademyglenview@gmail.com
-              </a>
+            <div className="mt-4">
+              <ContactDetails compact />
             </div>
           </div>
         </div>
-        <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-accent/15 pt-6 text-center text-sm text-dominant-subtle sm:flex-row sm:text-left">
-          <p>© {new Date().getFullYear()} Family Music Academy. All rights reserved.</p>
+        <div className="mt-10 flex flex-col items-center justify-between gap-2 border-t border-secondary/10 pt-6 text-center text-sm text-dominant-subtle sm:flex-row sm:text-left">
+          <p suppressHydrationWarning>© {new Date().getFullYear()} Family Music Academy. All rights reserved.</p>
           <p className="text-sm text-dominant-subtle/35">
             Developed by{" "}
             <a

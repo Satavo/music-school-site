@@ -1,19 +1,23 @@
 export const NAV_LINKS = [
   { href: "/#home", label: "Home" },
-  { href: "/about", label: "Meet the Owner" },
-  { href: "/curriculum", label: "Curriculum" },
-  { href: "/policies", label: "Policies & Tuition" },
-  { href: "/gallery", label: "Gallery" },
+  { href: "/#curriculum", label: "Curriculum" },
+  { href: "/#policies", label: "Policies & Tuition" },
+  { href: "/#about", label: "Meet the Owner" },
+  { href: "/#gallery", label: "Gallery" },
 ] as const;
 
 export const SCHOOL_CONTACT = {
-  email: "familymusicacademyglenview@gmail.com",
-  emailHref: "mailto:familymusicacademyglenview@gmail.com",
-  addressLines: ["1740 Waukegan Rd,", "Glenview, IL 60025"],
+  email: "musicglenview@gmail.com",
+  emailHref: "mailto:musicglenview@gmail.com",
+  addressLines: ["1740 Waukegan Rd, Glenview", "IL 60025"],
+  mapsHref:
+    "https://www.google.com/maps/search/?api=1&query=1740+Waukegan+Rd,+Glenview,+IL+60025",
+  instagramHref: "https://www.instagram.com/family_music_academy/",
+  instagramHandle: "@family_music_academy",
 } as const;
 
 export const HOME_INTRO =
-  "At Family Music Academy, we believe every child deserves an education that builds not only strong musical skills but also confidence, discipline, creativity, and a love of learning. Teaching combines the rich traditions of the European piano school with modern American teaching methods.";
+  "We believe every child deserves an education that builds not only strong musical skills but also confidence, discipline, creativity, and a love of learning. Teaching combines the rich traditions of the European piano school with modern American teaching methods.";
 
 export const WHY_CHOOSE_ITEMS = [
   "Individualized one-on-one instruction",
@@ -37,11 +41,21 @@ export const DIRECTOR = {
       alt: "Maria Alexeeva before a performance",
       objectPosition: "object-[center_20%]",
     },
+    {
+      src: "/images/gallery/recital-students.png",
+      alt: "Maria with students after a performance",
+      objectPosition: "object-center",
+    },
+    {
+      src: "/images/gallery/recital-performance.png",
+      alt: "Maria with a young performer on stage",
+      objectPosition: "object-center",
+    },
   ],
   paragraphs: [
     "Music has always been a natural part of my life. I began playing the violin at the age of four before switching to the piano a year later. Growing up in a family of professional musicians, with both of my parents being pianists, I was surrounded by classical music from an early age. Watching my mother and father work with their students gave me an understanding of what it means to be a teacher and inspired me to continue our family's musical tradition. Today, I am proud to continue my family's legacy as a third-generation professional musician, and I am passionate about inspiring children to develop their musical abilities and confidence through music.",
     "I earned both my Bachelor's and Master's degrees in Piano Performance from the St. Petersburg State Conservatory, followed by an Artist Diploma from Ball State University in Indiana. Throughout my career, I have performed as a soloist with symphony orchestras, collaborated with opera, ballet, and chamber ensembles, and worked alongside internationally acclaimed musicians in master classes and concerts. I have also been honored with numerous national and international piano competition awards.",
-    "For more than 15 years, I have taught students of all ages—from preschool beginners to advanced pianists. I also have extensive experience accompanying instrumentalists, singers, and orchestras, giving me a deep understanding of musical collaboration and performance.",
+    "For more than 15 years, I have taught students of all ages — from preschool beginners to advanced pianists. I also have extensive experience accompanying instrumentalists, singers, and orchestras, giving me a deep understanding of musical collaboration and performance.",
     "I believe music has the power to bring families together. Our academy welcomes students of all ages, from young beginners to advanced musicians, and many families enjoy learning together. Whether siblings, parents and children, or adults pursuing a lifelong dream, we strive to create a warm, supportive community where every student feels encouraged to grow.",
   ],
 } as const;
@@ -95,6 +109,19 @@ export const CURRICULUM_LEVELS = [
     ],
   },
 ] as const;
+
+export const ADVANCED_TRACK = {
+  eyebrow: "Advanced Track",
+  title: "ABRSM & Competition Preparation",
+  description:
+    "Specialized coaching in repertoire selection, sight-reading, aural skills, and performance psychology — ensuring students feel confident on exam day.",
+  highlights: [
+    "Graded exam repertoire coaching",
+    "Sight-reading & aural training",
+    "Competition performance prep",
+    "Studio recital opportunities",
+  ],
+} as const;
 
 export const DIRECTOR_STATS = [
   { value: "15+", label: "Years Teaching" },

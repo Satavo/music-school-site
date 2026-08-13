@@ -1,56 +1,40 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const VIDEO_SRC = "/videos/hero-bg.mp4";
+const HERO_POSTER_SRC = "/images/piano.jpg";
 
 export function HeroBackground() {
-  const [useImage, setUseImage] = useState(false);
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setUseImage(true);
-    }
-  }, []);
-
-  if (useImage) {
-    return (
-      <Image
-        src="/images/main.jpg"
-        alt=""
-        fill
-        priority
-        unoptimized
-        className="object-cover object-[center_30%]"
-        sizes="100vw"
-      />
-    );
-  }
+  const [videoFailed, setVideoFailed] = useState(false);
 
   return (
-    <>
-      <Image
-        src="/images/main.jpg"
-        alt=""
-        fill
-        priority
-        unoptimized
-        aria-hidden
-        className="object-cover object-[center_30%]"
-        sizes="100vw"
-      />
+    <div className="absolute inset-0" aria-hidden>
       <video
         autoPlay
         muted
         loop
         playsInline
-        poster="/images/main.jpg"
-        onError={() => setUseImage(true)}
-        className="absolute inset-0 h-full w-full object-cover object-[center_30%]"
+        preload="auto"
+        onError={() => setVideoFailed(true)}
+        className={`absolute inset-0 h-full w-full object-cover object-[center_30%] motion-reduce:hidden ${
+          videoFailed ? "hidden" : ""
+        }`}
       >
         <source src={VIDEO_SRC} type="video/mp4" />
       </video>
-    </>
+      <Image
+        src={HERO_POSTER_SRC}
+        alt=""
+        fill
+        priority
+        unoptimized
+        className={`object-cover object-[center_30%] ${
+          videoFailed ? "block" : "hidden motion-reduce:block"
+        }`}
+        sizes="100vw"
+      />
+    </div>
   );
 }
