@@ -11,7 +11,7 @@ const TOP_SCROLL_THRESHOLD = 8;
 export function FloatingContactButton() {
   const [atTop, setAtTop] = useState(true);
   const [pastHero, setPastHero] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
+  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
 
   useEffect(() => {
     const media = window.matchMedia(`(min-width: ${LG_BREAKPOINT}px)`);
@@ -50,8 +50,12 @@ export function FloatingContactButton() {
     };
   }, []);
 
-  const expanded = atTop && !isDesktop;
-  const visible = isDesktop ? pastHero : true;
+  const expanded = atTop && isDesktop === false;
+  const visible = isDesktop === true ? pastHero : isDesktop === false;
+
+  if (isDesktop === null) {
+    return null;
+  }
 
   return (
     <div

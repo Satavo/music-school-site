@@ -514,6 +514,20 @@ body {
   pointer-events: none;
 }
 
+@media (min-width: 1024px) {
+  .floating-contact-wrap-expanded .floating-contact-fab-label {
+    max-width: 0;
+    padding-inline: 0;
+    opacity: 0;
+  }
+
+  .floating-contact-wrap-expanded .floating-contact-fab-icon-wrap {
+    width: 3.25rem;
+    max-width: 3.25rem;
+    opacity: 1;
+  }
+}
+
 .btn-secondary {
   @apply inline-flex items-center justify-center rounded-full border border-secondary-foreground/40 bg-white/10 px-8 py-3 text-base font-medium tracking-wide text-secondary-foreground backdrop-blur-sm transition-all duration-300 hover:bg-white/20;
 }
@@ -597,6 +611,21 @@ body {
     transform: scale(1.14);
     opacity: 0;
   }
+}
+
+@keyframes hero-load-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.hero-load-spinner {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 9999px;
+  border: 2px solid rgb(255 255 255 / 0.12);
+  border-top-color: var(--secondary);
+  animation: hero-load-spin 0.85s linear infinite;
 }
 
 @keyframes shimmer {
@@ -731,7 +760,8 @@ body {
   .animate-fade-up,
   .animate-fade-up-delay-1,
   .animate-fade-up-delay-2,
-  .floating-contact-wrap-visible .floating-contact-wave {
+  .floating-contact-wrap-visible .floating-contact-wave,
+  .hero-load-spinner {
     animation: none;
   }
 }

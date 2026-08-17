@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 /** Lock mobile hero height once on mount — never update on visualViewport resize (Chrome toolbar). */
 export function HeroViewportLock() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (window.matchMedia("(min-width: 1024px)").matches) return;
 
     const hero = document.getElementById("home");
