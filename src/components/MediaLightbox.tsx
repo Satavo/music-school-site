@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
+import { useOverlayViewport } from "@/lib/overlay-viewport";
 
 export type MediaLightboxItem = {
   id: string;
@@ -91,7 +92,7 @@ function LightboxVideo({
       controls
       autoPlay
       playsInline
-      className="mx-auto block max-h-[75vh] w-full rounded-2xl object-contain"
+      className="lightbox-media mx-auto block w-full rounded-2xl object-contain"
     >
       Your browser does not support the video tag.
     </video>
@@ -109,49 +110,54 @@ export function MediaLightbox({
   close: () => void;
   videoRef?: RefObject<HTMLVideoElement | null>;
 }) {
+  const rootRef = useOverlayViewport();
+
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      ref={rootRef}
+      className="lightbox-root"
       role="dialog"
       aria-modal
       aria-label={item.caption}
     >
       <button
         type="button"
-        className={`absolute inset-0 cursor-default bg-black/80 backdrop-blur-md ${
+        className={`lightbox-scrim ${
           isClosing ? "animate-lightbox-backdrop-out" : "animate-lightbox-backdrop-in"
         }`}
         onClick={close}
         aria-label="Close preview"
       />
-      <button
-        type="button"
-        onClick={close}
-        className="absolute top-6 right-6 z-10 rounded-full bg-white/10 p-2.5 text-secondary-foreground/90 transition-colors hover:bg-white/20 hover:text-secondary-foreground"
-        aria-label="Close preview"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-7 w-7">
-          <path d="M18 6L6 18M6 6l12 12" />
-        </svg>
-      </button>
-      <div
-        className={`relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col items-center ${
-          isClosing ? "animate-lightbox-content-out" : "animate-lightbox-content-in"
-        }`}
-        onClick={(event) => event.stopPropagation()}
-        onPointerDown={(event) => event.stopPropagation()}
-      >
-        {item.type === "video" ? (
-          <LightboxVideo item={item} videoRef={videoRef} />
-        ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={item.src}
-            alt={item.alt}
-            className="mx-auto block max-h-[75vh] w-full rounded-2xl object-contain"
-          />
-        )}
-        <p className="mt-4 px-2 text-center text-base text-white/90">{item.caption}</p>
+      <div className="lightbox-overlay">
+        <button
+          type="button"
+          onClick={close}
+          className="lightbox-close rounded-full bg-white/10 p-2.5 text-secondary-foreground/90 transition-colors hover:bg-white/20 hover:text-secondary-foreground"
+          aria-label="Close preview"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-7 w-7">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+        <div
+          className={`lightbox-panel ${
+            isClosing ? "animate-lightbox-content-out" : "animate-lightbox-content-in"
+          }`}
+          onClick={(event) => event.stopPropagation()}
+          onPointerDown={(event) => event.stopPropagation()}
+        >
+          {item.type === "video" ? (
+            <LightboxVideo item={item} videoRef={videoRef} />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={item.src}
+              alt={item.alt}
+              className="lightbox-media mx-auto block w-full rounded-2xl object-contain"
+            />
+          )}
+          <p className="mt-4 px-2 text-center text-base text-white/90">{item.caption}</p>
+        </div>
       </div>
     </div>
   );

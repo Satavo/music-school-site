@@ -889,6 +889,75 @@ body {
   }
 }
 
+/* Lightbox + modal scrims: extend past visual viewport for Telegram / iOS WebView gaps. */
+.lightbox-root {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  pointer-events: none;
+}
+
+.lightbox-scrim,
+.modal-scrim {
+  inset: -100vmax;
+  background-color: rgb(0 0 0 / 0.8);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  pointer-events: auto;
+  cursor: default;
+}
+
+.lightbox-scrim {
+  position: absolute;
+  z-index: 0;
+}
+
+.modal-scrim {
+  position: fixed;
+  z-index: 0;
+}
+
+.lightbox-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(1rem, calc(env(safe-area-inset-top, 0px) + 0.75rem))
+    max(1rem, env(safe-area-inset-right, 0px))
+    max(1rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem))
+    max(1rem, env(safe-area-inset-left, 0px));
+  pointer-events: none;
+}
+
+.lightbox-overlay > * {
+  pointer-events: auto;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: max(1.5rem, calc(env(safe-area-inset-top, 0px) + 0.5rem));
+  right: max(1.5rem, env(safe-area-inset-right, 0px));
+  z-index: 10;
+}
+
+.lightbox-panel {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  max-width: 56rem;
+  max-height: calc(100% - 0.5rem);
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightbox-media {
+  max-height: min(75svh, calc(100% - 3rem));
+}
+
 /* Modal: oversized scrim for Telegram/iOS WebView gaps; overlay centers the form. */
 .modal-root {
   position: fixed;
@@ -914,17 +983,6 @@ body {
   height: 1px;
   overflow: hidden;
   opacity: 0;
-}
-
-.modal-scrim {
-  position: fixed;
-  z-index: 0;
-  inset: 0;
-  background-color: rgb(0 0 0 / 0.8);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  pointer-events: auto;
-  cursor: default;
 }
 
 .modal-overlay {
