@@ -3,7 +3,6 @@ export const HOME_SECTIONS = [
   "who",
   "why",
   "about",
-  "curriculum",
   "policies",
   "gallery",
   "contact",

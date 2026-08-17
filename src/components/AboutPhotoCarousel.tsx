@@ -9,7 +9,7 @@ import { useSwipeCarousel } from "@/lib/use-swipe-carousel";
 const photos = DIRECTOR.photos;
 
 const sideBtnClass =
-  "hidden h-9 w-9 shrink-0 items-center justify-center rounded-full border border-secondary/15 bg-transparent text-secondary/55 transition-all duration-300 hover:border-secondary/25 hover:bg-secondary/8 hover:text-secondary md:flex md:h-10 md:w-10";
+  "hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-transparent text-white transition-all duration-300 hover:bg-white/10 md:flex md:h-10 md:w-10";
 
 export function AboutPhotoCarousel() {
   const { index, go, swipeRef } = useSwipeCarousel(photos.length);
@@ -27,7 +27,7 @@ export function AboutPhotoCarousel() {
     <div>
       <div
         ref={swipeRef}
-        className="carousel-swipe relative aspect-[3/4] overflow-hidden rounded-2xl bg-dominant-muted shadow-[0_16px_48px_rgba(61,24,35,0.14)] ring-1 ring-secondary/15"
+        className="carousel-swipe relative aspect-[3/4] overflow-hidden rounded-2xl bg-dominant-muted shadow-[0_16px_48px_rgba(61,24,35,0.14)] ring-1 ring-line/15"
         aria-roledescription="carousel"
         aria-label={`Photo ${index + 1} of ${photos.length}`}
       >

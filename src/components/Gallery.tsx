@@ -1,10 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimateIn } from "@/components/AnimateIn";
+import { createPortal } from "react-dom";
+import { ContactLink } from "@/components/ContactLink";
+import { MediaLightbox } from "@/components/MediaLightbox";
+import { SectionReveal } from "@/components/SectionReveal";
+import { SectionTitle } from "@/components/SectionTitle";
 import { GALLERY_ITEMS, getGalleryLatestItems, type GalleryItem } from "@/lib/gallery";
-
-const LIGHTBOX_CLOSE_MS = 220;
 
 type GalleryProps = {
   variant?: "home" | "full";
@@ -70,96 +72,31 @@ function MediaThumb({
   );
 }
 
-function useLightbox() {
+const LIGHTBOX_CLOSE_MS = 220;
+
+function useGalleryLightbox() {
   const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
   const [isClosing, setIsClosing] = useState(false);
 
   const close = useCallback(() => {
-    if (isClosing) return;
+    if (isClosing || !activeItem) return;
     setIsClosing(true);
     window.setTimeout(() => {
       setActiveItem(null);
       setIsClosing(false);
     }, LIGHTBOX_CLOSE_MS);
-  }, [isClosing]);
+  }, [activeItem, isClosing]);
 
   useEffect(() => {
     if (!activeItem) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") close();
     };
-    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", onKey);
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [activeItem, close]);
 
   return { activeItem, setActiveItem, isClosing, close };
-}
-
-function Lightbox({
-  activeItem,
-  isClosing,
-  close,
-}: {
-  activeItem: GalleryItem;
-  isClosing: boolean;
-  close: () => void;
-}) {
-  return (
-    <div
-      className={`fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4 backdrop-blur-md ${
-        isClosing ? "animate-lightbox-backdrop-out" : "animate-lightbox-backdrop-in"
-      }`}
-      onClick={close}
-      role="dialog"
-      aria-modal
-      aria-label={activeItem.caption}
-    >
-      <button
-        type="button"
-        onClick={close}
-        className="absolute top-6 right-6 z-10 rounded-full bg-white/10 p-2.5 text-secondary-foreground/90 transition-colors hover:bg-white/20 hover:text-secondary-foreground"
-        aria-label="Close preview"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-7 w-7">
-          <path d="M18 6L6 18M6 6l12 12" />
-        </svg>
-      </button>
-      <div
-        className={`relative flex max-h-[90vh] w-full max-w-4xl flex-col items-center ${
-          isClosing ? "animate-lightbox-content-out" : "animate-lightbox-content-in"
-        }`}
-        onClick={(e) => e.stopPropagation()}
-      >
-        {activeItem.type === "video" ? (
-          <video
-            key={activeItem.id}
-            src={activeItem.src}
-            poster={activeItem.poster}
-            controls
-            autoPlay
-            playsInline
-            className="mx-auto block max-h-[75vh] w-full rounded-2xl object-contain"
-          >
-            Your browser does not support the video tag.
-          </video>
-        ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={activeItem.src}
-            alt={activeItem.alt}
-            className="mx-auto block max-h-[75vh] w-full rounded-2xl object-contain"
-          />
-        )}
-        <p className="mt-4 px-2 text-center text-base text-white/90">
-          {activeItem.caption}
-        </p>
-      </div>
-    </div>
-  );
 }
 
 function GalleryGrid({
@@ -170,14 +107,13 @@ function GalleryGrid({
   onSelect: (item: GalleryItem) => void;
 }) {
   return (
-    <AnimateIn motion="fade" className="mt-14">
-      <div className="columns-2 gap-4 md:columns-3 lg:gap-5">
+    <div className="mt-14 columns-2 gap-4 md:columns-3 lg:gap-5">
         {items.map((item) => (
           <div key={item.id} className="mb-4 break-inside-avoid md:mb-5">
             <button
               type="button"
               onClick={() => onSelect(item)}
-              className="group relative block w-full overflow-hidden rounded-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2"
+              className="group relative block w-full cursor-pointer overflow-hidden rounded-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-line focus-visible:ring-offset-2"
             >
               <MediaThumb
                 item={item}
@@ -194,35 +130,51 @@ function GalleryGrid({
           </div>
         ))}
       </div>
-    </AnimateIn>
   );
 }
 
 export function Gallery({ variant = "home" }: GalleryProps) {
   const isHome = variant === "home";
   const items = isHome ? getGalleryLatestItems() : GALLERY_ITEMS;
-  const { activeItem, setActiveItem, isClosing, close } = useLightbox();
+  const { activeItem, setActiveItem, isClosing, close } = useGalleryLightbox();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <section
       id={isHome ? "gallery" : undefined}
-      className="relative overflow-x-hidden section-pad bg-dominant-surface"
+      className="relative overflow-x-hidden section-pad bg-dominant"
     >
-      <div className="relative z-[2] section-shell">
-        <AnimateIn className="mx-auto max-w-2xl text-center">
-          <p className="section-eyebrow">Gallery</p>
-          <h2 className="section-title">Photo & Video</h2>
-          <p className="section-lead mt-4">
-            Lessons, recitals, and moments from our studio.
-          </p>
-        </AnimateIn>
-      </div>
+      <SectionReveal motion="fade">
+        <div className="section-shell">
+          <div className="mx-auto max-w-2xl text-center">
+            <SectionTitle underline={false}>Photo & Video</SectionTitle>
+            <p className="section-lead mt-4">
+              Lessons, recitals, and moments from our studio.
+            </p>
+          </div>
+        </div>
 
-      <div className="relative z-[2] section-shell mt-8">
-        <GalleryGrid items={items} onSelect={setActiveItem} />
-      </div>
+        <div className="section-shell">
+          <GalleryGrid items={items} onSelect={setActiveItem} />
+        </div>
+      </SectionReveal>
 
-      {activeItem && <Lightbox activeItem={activeItem} isClosing={isClosing} close={close} />}
+      {isHome && (
+        <div className="section-shell mt-12 flex justify-center sm:mt-14">
+          <ContactLink className="btn-primary-static">Get in Touch</ContactLink>
+        </div>
+      )}
+
+      {mounted &&
+        activeItem &&
+        createPortal(
+          <MediaLightbox item={activeItem} isClosing={isClosing} close={close} />,
+          document.body,
+        )}
     </section>
   );
 }

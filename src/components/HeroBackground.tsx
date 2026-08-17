@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { HERO_STUDENT_VIDEO } from "@/lib/content";
 
-const VIDEO_SRC = "/videos/hero-bg.mp4";
-const HERO_POSTER_SRC = "/images/piano.jpg";
+const VIDEO_SRC = HERO_STUDENT_VIDEO.src;
+const HERO_POSTER_SRC = HERO_STUDENT_VIDEO.poster ?? "/images/piano.jpg";
 
 export function HeroBackground() {
   const [videoFailed, setVideoFailed] = useState(false);

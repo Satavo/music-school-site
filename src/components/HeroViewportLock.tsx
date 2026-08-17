@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-/** Lock mobile hero height after hydration to avoid Telegram/iOS viewport jumps. */
+/** Lock mobile hero height once on mount — never update on visualViewport resize (Chrome toolbar). */
 export function HeroViewportLock() {
   useEffect(() => {
     if (window.matchMedia("(min-width: 1024px)").matches) return;

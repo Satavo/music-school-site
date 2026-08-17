@@ -20,7 +20,7 @@ export function PerformancesCarousel() {
         aria-label={`Performance ${index + 1} of ${videos.length}`}
       >
         <article>
-          <div className="relative aspect-video overflow-hidden rounded-2xl bg-secondary-dark shadow-[0_16px_48px_rgba(61,24,35,0.14)] ring-1 ring-secondary/15">
+          <div className="relative aspect-video overflow-hidden rounded-2xl bg-secondary-dark shadow-[0_16px_48px_rgba(61,24,35,0.14)] ring-1 ring-line/15">
             <iframe
               key={activeVideo.id}
               suppressHydrationWarning
@@ -33,7 +33,7 @@ export function PerformancesCarousel() {
             />
           </div>
           {activeVideo.title && (
-            <h4 className="mt-4 text-center font-serif text-xl font-semibold text-secondary-dark">
+            <h4 className="mt-4 text-center font-serif text-xl font-semibold text-dominant-foreground">
               {activeVideo.title}
             </h4>
           )}

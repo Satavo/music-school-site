@@ -3,6 +3,7 @@
 import { useId, useState, type ReactNode } from "react";
 import {
   MAKEUP_RULES,
+  LESSON_TUITION_OPTIONS,
   POLICIES_CLOSING,
   POLICIES_INTRO,
   POLICY_SECTIONS,
@@ -16,11 +17,44 @@ function ChevronIcon({ className = "" }: { className?: string }) {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
-      className={`h-5 w-5 shrink-0 text-secondary transition-transform duration-300 ${className}`}
+      className={`h-5 w-5 shrink-0 text-paper-foreground transition-transform duration-300 ${className}`}
       aria-hidden
     >
       <path d="M6 9l6 6 6-6" />
     </svg>
+  );
+}
+
+function PolicyTable({
+  columns,
+  children,
+  layout = "balanced",
+}: {
+  columns: { label: string; align?: "left" | "right" }[];
+  children: ReactNode;
+  layout?: "balanced" | "numbered";
+}) {
+  const gridClass =
+    layout === "numbered"
+      ? "grid grid-cols-[3rem_minmax(0,1fr)] gap-4 md:grid-cols-[3.5rem_minmax(0,1fr)]"
+      : "grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-4";
+
+  return (
+    <div className="policy-table">
+      <div className={`policy-table-header ${gridClass}`}>
+        {columns.map((column) => (
+          <p
+            key={column.label}
+            className={`policy-table-header-label ${
+              column.align === "right" ? "policy-table-header-label-right" : ""
+            }`}
+          >
+            {column.label}
+          </p>
+        ))}
+      </div>
+      <ul className="policy-table-body">{children}</ul>
+    </div>
   );
 }
 
@@ -40,8 +74,8 @@ function PolicyAccordionItem({
 
   return (
     <div
-      className={`overflow-hidden rounded-2xl border-2 bg-dominant-surface/70 transition-colors duration-300 ${
-        open ? "border-secondary/35 shadow-[0_10px_32px_rgba(61,24,35,0.06)]" : "border-secondary/22"
+      className={`overflow-hidden rounded-2xl border-2 border-paper-line/12 bg-paper transition-colors duration-300 ${
+        open ? "shadow-[0_10px_32px_rgba(0,0,0,0.08)]" : ""
       }`}
     >
       <button
@@ -50,9 +84,9 @@ function PolicyAccordionItem({
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((current) => !current)}
-        className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-dominant-muted/40 md:px-7 md:py-5"
+        className="flex w-full cursor-pointer items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-paper-muted/60 md:px-7 md:py-5"
       >
-        <span className="font-serif text-xl font-semibold text-secondary-dark md:text-2xl">
+        <span className="text-xl font-semibold text-paper-foreground md:text-2xl">
           {title}
         </span>
         <ChevronIcon className={open ? "rotate-180" : ""} />
@@ -66,7 +100,7 @@ function PolicyAccordionItem({
         className={`policy-accordion-panel ${open ? "policy-accordion-panel-open" : ""}`}
       >
         <div className="policy-accordion-panel-inner">
-          <div className="policy-accordion-panel-content border-t-2 border-secondary/18 px-5 pb-5 pt-4 md:px-7 md:pb-6 md:pt-5">
+          <div className="policy-accordion-panel-content px-5 pb-5 pt-4 md:px-7 md:pb-6 md:pt-5">
             {children}
           </div>
         </div>
@@ -78,6 +112,25 @@ function PolicyAccordionItem({
 export function PoliciesAccordion() {
   return (
     <div className="mt-8 space-y-3 md:space-y-4">
+      <PolicyAccordionItem title="Lesson Options & Monthly Tuition" defaultOpen>
+        <PolicyTable
+          columns={[
+            { label: "Lesson Length" },
+            { label: "Monthly Tuition", align: "right" },
+          ]}
+        >
+          {LESSON_TUITION_OPTIONS.map((item) => (
+            <li
+              key={item.length}
+              className="policy-table-row grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-baseline gap-4"
+            >
+              <span className="policy-table-cell-text">{item.length}</span>
+              <span className="policy-table-cell-text text-right !mt-0">{item.tuition}</span>
+            </li>
+          ))}
+        </PolicyTable>
+      </PolicyAccordionItem>
+
       <PolicyAccordionItem title="Annual Tuition & Lesson Schedule">
         <p className="about-bio-text !mt-0">{POLICIES_INTRO}</p>
       </PolicyAccordionItem>
@@ -88,30 +141,23 @@ export function PoliciesAccordion() {
           are already included in the annual tuition schedule.
         </p>
 
-        <div className="mt-6 overflow-hidden rounded-2xl border border-secondary/12 bg-dominant-muted/50">
-          <div className="grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-4 border-b border-secondary/12 bg-dominant-muted/80 px-4 py-3 md:px-5">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-secondary md:text-sm">
-              Break
-            </p>
-            <p className="text-right text-xs font-bold uppercase tracking-[0.2em] text-secondary md:text-sm">
-              Dates
-            </p>
-          </div>
-          <ul className="divide-y divide-secondary/10">
+        <div className="mt-6">
+          <PolicyTable
+            columns={[
+              { label: "Break" },
+              { label: "Dates", align: "right" },
+            ]}
+          >
             {STUDIO_HOLIDAYS.map((item) => (
               <li
                 key={item.name}
-                className="grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-baseline gap-4 px-4 py-3.5 md:px-5 md:py-4"
+                className="policy-table-row grid grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] items-baseline gap-4"
               >
-                <span className="font-serif text-lg font-semibold text-secondary-dark md:text-xl">
-                  {item.name}
-                </span>
-                <span className="about-bio-text text-right !mt-0">
-                  {item.dates}
-                </span>
+                <span className="policy-table-cell-emphasis">{item.name}</span>
+                <span className="policy-table-cell-text text-right !mt-0">{item.dates}</span>
               </li>
             ))}
-          </ul>
+          </PolicyTable>
         </div>
       </PolicyAccordionItem>
 
@@ -119,35 +165,25 @@ export function PoliciesAccordion() {
         <p className="about-bio-text !mt-0">
           Family Music Academy understands that occasional conflicts, illnesses, or unexpected
           situations may occur. To provide flexibility, each enrolled student is eligible for
-          up to <span className="font-semibold text-secondary">4 makeup lessons</span> per
-          academic year for missed lessons.
+          up to <span className="font-semibold">4 makeup lessons</span> per academic year for
+          missed lessons.
         </p>
-        <p className="about-bio-text mt-5 font-semibold text-secondary-dark md:mt-6">
-          To qualify for a makeup lesson:
-        </p>
+        <p className="about-bio-text mt-5 font-semibold md:mt-6">To qualify for a makeup lesson:</p>
 
-        <div className="mt-5 overflow-hidden rounded-2xl border border-secondary/12 bg-dominant-muted/50 md:mt-6">
-          <div className="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 border-b border-secondary/12 bg-dominant-muted/80 px-4 py-3 md:grid-cols-[3.5rem_minmax(0,1fr)] md:px-5">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-secondary md:text-sm">
-              #
-            </p>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-secondary md:text-sm">
-              Requirement
-            </p>
-          </div>
-          <ul className="divide-y divide-secondary/10">
+        <div className="mt-5 md:mt-6">
+          <PolicyTable layout="numbered" columns={[{ label: "#" }, { label: "Requirement", align: "left" }]}>
             {MAKEUP_RULES.map((rule, index) => (
               <li
                 key={rule}
-                className="grid grid-cols-[3rem_minmax(0,1fr)] items-start gap-4 px-4 py-3.5 md:grid-cols-[3.5rem_minmax(0,1fr)] md:px-5 md:py-4"
+                className="policy-table-row grid grid-cols-[3rem_minmax(0,1fr)] items-start gap-4 md:grid-cols-[3.5rem_minmax(0,1fr)]"
               >
-                <span className="font-serif text-lg font-semibold text-secondary md:text-xl">
+                <span className="policy-table-cell-text tabular-nums">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="about-bio-text !mt-0">{rule}</span>
+                <span className="policy-table-cell-text !mt-0">{rule}</span>
               </li>
             ))}
-          </ul>
+          </PolicyTable>
         </div>
       </PolicyAccordionItem>
 

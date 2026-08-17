@@ -1,10 +1,19 @@
 export const NAV_LINKS = [
   { href: "/#home", label: "Home" },
-  { href: "/#curriculum", label: "Curriculum" },
-  { href: "/#policies", label: "Policies & Tuition" },
+  { href: "/#who", label: "About" },
   { href: "/#about", label: "Meet the Owner" },
+  { href: "/#policies", label: "Policies & Tuition" },
   { href: "/#gallery", label: "Gallery" },
 ] as const;
+
+export const HOME_INTRO = [
+  "As a local parent myself, I understand the importance of high-quality education for their children close to home. With more than 10 years of experience teaching in North Shore communities—both through music schools and as an independent teacher—I have developed a deep understanding of the goals and needs of families.",
+  "At Family Music Academy, music education is about more than learning to play the piano. We help students develop strong musical skills while building confidence, discipline and creativity.",
+] as const;
+
+export const SCHOOL_NAME = "Family Music Academy";
+
+export const SCHOOL_SLOGAN = "Music shapes the Mind";
 
 export const SCHOOL_CONTACT = {
   email: "musicglenview@gmail.com",
@@ -16,20 +25,29 @@ export const SCHOOL_CONTACT = {
   instagramHandle: "@family_music_academy",
 } as const;
 
-export const HOME_INTRO =
-  "We believe every child deserves an education that builds not only strong musical skills but also confidence, discipline, creativity, and a love of learning. Teaching combines the rich traditions of the European piano school with modern American teaching methods.";
+export const HERO_VIDEO_CREDIT = "Student Eric Shpigelskiy, 16 years old";
+
+export const HERO_STUDENT_VIDEO = {
+  id: "hero-student-eric",
+  type: "video" as const,
+  src: "/videos/hero-bg.mp4",
+  poster: "/images/piano.jpg",
+  alt: "Eric Shpigelskiy performing at the piano",
+  caption: HERO_VIDEO_CREDIT,
+  defaultVolume: 0.2,
+};
 
 export const WHY_CHOOSE_ITEMS = [
   "Individualized one-on-one instruction",
-  "Classical piano education",
+  "Lessons from professional Master Degree Teachers",
   "Preparation for ABRSM exams and competitions",
-  "Performance opportunities",
+  "Regular performance opportunity: Summer and Winter Recitals",
   "A positive, encouraging learning environment",
-  "Lessons for children, teens, and adults",
 ] as const;
 
 export const DIRECTOR = {
   name: "Maria Alexeeva",
+  sectionTitle: "Meet Maria Alexeeva",
   photos: [
     {
       src: "/images/about.png",
@@ -53,12 +71,47 @@ export const DIRECTOR = {
     },
   ],
   paragraphs: [
-    "Music has always been a natural part of my life. I began playing the violin at the age of four before switching to the piano a year later. Growing up in a family of professional musicians, with both of my parents being pianists, I was surrounded by classical music from an early age. Watching my mother and father work with their students gave me an understanding of what it means to be a teacher and inspired me to continue our family's musical tradition. Today, I am proud to continue my family's legacy as a third-generation professional musician, and I am passionate about inspiring children to develop their musical abilities and confidence through music.",
-    "I earned both my Bachelor's and Master's degrees in Piano Performance from the St. Petersburg State Conservatory, followed by an Artist Diploma from Ball State University in Indiana. Throughout my career, I have performed as a soloist with symphony orchestras, collaborated with opera, ballet, and chamber ensembles, and worked alongside internationally acclaimed musicians in master classes and concerts. I have also been honored with numerous national and international piano competition awards.",
-    "For more than 15 years, I have taught students of all ages — from preschool beginners to advanced pianists. I also have extensive experience accompanying instrumentalists, singers, and orchestras, giving me a deep understanding of musical collaboration and performance.",
-    "I believe music has the power to bring families together. Our academy welcomes students of all ages, from young beginners to advanced musicians, and many families enjoy learning together. Whether siblings, parents and children, or adults pursuing a lifelong dream, we strive to create a warm, supportive community where every student feels encouraged to grow.",
+    "Maria holds a Master's degree in Piano Performance from the St. Petersburg State Conservatory, Russia, with specialized training in chamber music, piano collaboration, and teaching. After graduating from the Conservatory, she continued her professional education in the United States at Ball State University in Indiana, where she earned an Artist Diploma and further expanded her experience as a performer and piano teacher.",
+    "Music has always been a natural and essential part of Maria's life. She began playing the violin at the age of four and switched to the piano a year later. Growing up in a family of professional musicians, with both of her parents being pianists, she was surrounded by classical music from an early age. Watching her mother and father teach their students gave Maria an early understanding of the meaningful role a music teacher can play in a child's development and inspired her to continue her family's musical tradition.",
+    "Today, Maria is proud to carry on her family's legacy as a third-generation professional musician. Throughout her career, she has performed as a soloist with symphony orchestras, collaborated with opera, ballet, and chamber ensembles, and worked alongside internationally acclaimed musicians in master classes and concerts. She has also received numerous awards in national and international piano competitions.",
+    "As a teacher, Maria combines her extensive classical training and professional performance experience with a warm and encouraging approach to music education. She is passionate about helping children develop strong musical and technical skills while also building confidence, creativity, discipline, and a lifelong appreciation for music.",
   ],
 } as const;
+
+export const DIRECTOR_ACHIEVEMENT_SECTIONS = [
+  {
+    title: "Awards and Honors",
+    items: [
+      "Winner of the Ball State Graduate Concerto Competition, Muncie, IN (2012)",
+      "Recipient of the Rose Meyer Scholarship, Ball State University, Muncie, IN (2012)",
+      '1st prize — International Competition "St. Petersburg Spring", St. Petersburg, Russia (2010)',
+      "2nd prize — Maria Yudina International Competition, St. Petersburg, Russia (2008)",
+      "3rd prize — Syzran All-Russian Competition, Syzran, Russia (2003)",
+      'Awarded the "Mayor\'s Prize" and the Ministerial grant, Krasnoyarsk, Russia (2000)',
+      '1st prize — International Competition "Siberian Chamber Assembly", Krasnoyarsk, Russia (1998)',
+      '3rd prize — All-Russian Competition "Hope", Krasnoyarsk, Russia (1996)',
+    ],
+  },
+  {
+    title: "Solo Performances with Orchestra",
+    items: [
+      "Ball State Symphony Orchestra — Sergei Rachmaninov Piano Concerto No. 1 in F-sharp minor, op. 1. Sursa Performance Hall, Muncie, IN, USA (2013)",
+      "Krasnoyarsk State Symphony Orchestra — Camille Saint-Saëns Concerto No. 2 in G minor, op. 22. Krasnoyarsk Academic Philharmonic, Krasnoyarsk, Russia (2003)",
+    ],
+  },
+  {
+    title: "Master Classes with Acclaimed Artists",
+    items: [
+      "Berlin Philharmonic Wind Quintet — performed F. Poulenc Sextet. Ball State University, IN, USA (2013)",
+      "Dr. Thomas (T.J.) Lymenstull — Instructor of Piano, Interlochen Arts Academy. Ball State University, IN, USA (2012)",
+      "Dina Yoffe, solo pianist — Ball State University, IN, USA (2011)",
+      "Accompanied for the master class with Sergey Nakaryakov (trumpet) (2011)",
+      "American Piano Trio — St. Petersburg Conservatory, Russia (2008)",
+      "Stéphane Silvester, Canada — St. Petersburg State Conservatory, Russia (2007)",
+      "Lubov Timofeeva — Krasnoyarsk Academy, Russia (1998)",
+    ],
+  },
+] as const;
 
 /** YouTube performance videos on the Meet the Owner page. */
 export const DIRECTOR_PERFORMANCES = [
@@ -69,7 +122,7 @@ export const DIRECTOR_PERFORMANCES = [
   },
   {
     id: "rachmaninoff",
-    title: "Rachmaninoff",
+    title: "S. Rachmaninov Concerto no. 1",
     youtubeId: "h2XlCNvkFt0",
   },
 ] as const;
@@ -131,6 +184,12 @@ export const DIRECTOR_STATS = [
 
 export const POLICIES_INTRO =
   "Family Music Academy operates on an annual tuition model. Tuition includes 46 private lessons per academic year and reserves each student's weekly lesson time throughout the studio year. The annual schedule is designed around the local Glenview/Northbrook school calendar and includes planned breaks for major holidays and family vacations. Monthly tuition payments provide families with a convenient and predictable payment schedule while ensuring consistent weekly instruction.";
+
+export const LESSON_TUITION_OPTIONS = [
+  { length: "30-minute private lesson", tuition: "$175/month" },
+  { length: "45-minute private lesson", tuition: "$250/month" },
+  { length: "60-minute private lesson", tuition: "$310/month" },
+] as const;
 
 export const STUDIO_HOLIDAYS = [
   { name: "Labor Day Weekend", dates: "September 5–7, 2026" },

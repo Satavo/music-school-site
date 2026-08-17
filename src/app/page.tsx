@@ -1,5 +1,4 @@
 import { AboutContent } from "@/components/AboutContent";
-import { CurriculumContent } from "@/components/CurriculumContent";
 import { Gallery } from "@/components/Gallery";
 import { Hero } from "@/components/Hero";
 import { PoliciesContent } from "@/components/PoliciesContent";
@@ -10,9 +9,8 @@ export default function Home() {
     <>
       <Hero />
       <WhyAcademy />
-      <CurriculumContent />
-      <PoliciesContent />
       <AboutContent />
+      <PoliciesContent />
       <Gallery variant="home" />
     </>
   );

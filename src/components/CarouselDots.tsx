@@ -28,7 +28,7 @@ export function CarouselDots({
           aria-label={`Show slide ${i + 1}`}
           onClick={() => onSelect(i)}
           className={`h-1 rounded-full transition-all duration-300 ${
-            i === index ? "w-4 bg-secondary/50" : "w-1 bg-secondary/20 hover:bg-secondary/35"
+            i === index ? "w-4 bg-white" : "w-1 bg-white hover:bg-white"
           }`}
         />
       ))}

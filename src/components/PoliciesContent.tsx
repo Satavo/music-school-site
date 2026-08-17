@@ -1,25 +1,25 @@
-import { AnimateIn } from "@/components/AnimateIn";
 import { ContactLink } from "@/components/ContactLink";
 import { PoliciesAccordion } from "@/components/PoliciesAccordion";
+import { SectionReveal } from "@/components/SectionReveal";
+import { SectionTitle } from "@/components/SectionTitle";
 
 export function PoliciesContent() {
   return (
-    <section id="policies" className="section-pad border-t border-secondary/10 bg-dominant">
+    <section id="policies" className="policies-section section-pad border-t border-paper-line/10 bg-paper text-paper-foreground">
       <div className="section-shell">
-        <AnimateIn>
-          <p className="section-eyebrow">Policies & Tuition</p>
-          <h2 className="section-title max-w-3xl">Studio Policies</h2>
-        </AnimateIn>
+        <SectionReveal>
+          <SectionTitle className="max-w-3xl text-paper-foreground" underline={false}>
+            Studio Policies
+          </SectionTitle>
 
-        <AnimateIn delay={80}>
-          <PoliciesAccordion />
-        </AnimateIn>
+          <div className="mt-8">
+            <PoliciesAccordion />
+          </div>
 
-        <AnimateIn delay={120}>
           <div className="mt-8 flex justify-center">
             <ContactLink className="btn-primary">Enroll on lessons</ContactLink>
           </div>
-        </AnimateIn>
+        </SectionReveal>
       </div>
     </section>
   );

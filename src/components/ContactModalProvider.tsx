@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
-import { ContactFormLazy } from "@/components/ContactFormLazy";
+import { ContactForm } from "@/components/ContactForm";
 import { ContactSectionIntro } from "@/components/ContactSectionIntro";
 import { registerContactModalHandlers } from "@/lib/contact-modal";
 
@@ -38,52 +38,70 @@ function CloseIcon() {
   );
 }
 
-function ContactModalDialog({
+function ContactModalPortal({
+  open,
   isClosing,
   onClose,
 }: {
+  open: boolean;
   isClosing: boolean;
   onClose: () => void;
 }) {
-  return (
-    <div
-      className="modal-root"
-      role="dialog"
-      aria-modal
-      aria-labelledby="contact-modal-title"
-    >
-      <div className="modal-scrim" onClick={onClose} aria-hidden="true" />
+  const visible = open || isClosing;
 
-      <div className="modal-overlay">
+  return (
+    <div className="modal-root" aria-hidden={!open}>
+      {visible ? (
+        <div
+          className={`modal-scrim ${isClosing ? "animate-lightbox-backdrop-out" : "animate-lightbox-backdrop-in"}`}
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      ) : null}
+
+      <div
+        className={`modal-overlay ${visible ? "" : "pointer-events-none invisible"}`}
+        role={open ? "dialog" : undefined}
+        aria-modal={open || undefined}
+        aria-labelledby={open ? "contact-modal-title" : undefined}
+      >
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-[max(1.25rem,calc(env(safe-area-inset-top,0px)+0.5rem))] right-[max(1.25rem,env(safe-area-inset-right,0px))] z-10 hidden rounded-full border border-white/15 bg-white/10 p-2.5 text-secondary-foreground transition-colors hover:bg-white/20 lg:block lg:top-6 lg:right-6"
+          tabIndex={visible ? 0 : -1}
+          className="absolute top-[max(1.25rem,calc(env(safe-area-inset-top,0px)+0.5rem))] right-[max(1.25rem,env(safe-area-inset-right,0px))] z-10 hidden rounded-full border border-paper-line/15 bg-paper-muted p-2.5 text-paper-foreground transition-colors hover:bg-paper-muted/80 lg:block lg:top-6 lg:right-6"
           aria-label="Close contact form"
         >
           <CloseIcon />
         </button>
 
         <div
-          className={`contact-modal-panel relative z-10 w-full max-w-lg overflow-y-auto rounded-3xl border border-secondary/12 bg-dominant-surface shadow-[0_24px_64px_rgba(0,0,0,0.22)] ${
-            isClosing ? "animate-lightbox-content-out" : "animate-lightbox-content-in"
+          className={`contact-modal-panel relative z-10 w-full max-w-lg overflow-y-auto rounded-3xl border border-paper-line/12 bg-paper text-paper-foreground shadow-[0_24px_64px_rgba(0,0,0,0.35)] ${
+            visible
+              ? isClosing
+                ? "animate-lightbox-content-out"
+                : "animate-lightbox-content-in"
+              : "opacity-0"
           }`}
           onClick={(event) => event.stopPropagation()}
+          onPointerDown={(event) => event.stopPropagation()}
+          aria-hidden={!open}
         >
           <div className="relative p-4 sm:p-8">
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-2.5 right-2.5 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-secondary/15 bg-dominant-muted text-secondary transition-colors hover:border-secondary/30 hover:bg-secondary/8 sm:top-3 sm:right-3 sm:h-10 sm:w-10 lg:hidden"
+              tabIndex={visible ? 0 : -1}
+              className="absolute top-2.5 right-2.5 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-paper-line/15 bg-paper-muted text-paper-foreground transition-colors hover:border-paper-line/30 hover:bg-paper-muted/80 sm:top-3 sm:right-3 sm:h-10 sm:w-10 lg:hidden"
               aria-label="Close contact form"
             >
               <CloseIcon />
             </button>
             <div className="pe-11 sm:pe-12 lg:pe-0">
-              <ContactSectionIntro titleId="contact-modal-title" compact />
+              <ContactSectionIntro titleId="contact-modal-title" compact theme="paper" />
             </div>
             <div className="mt-4 sm:mt-6">
-              <ContactFormLazy compact />
+              <ContactForm compact theme="paper" />
             </div>
           </div>
         </div>
@@ -135,33 +153,6 @@ export function ContactModalProvider({ children }: { children: ReactNode }) {
   ]);
 
   useEffect(() => {
-    if (!open && !isClosing) return;
-
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevBodyOverflow = body.style.overflow;
-    const prevHtmlBackground = html.style.backgroundColor;
-    const prevBodyBackground = body.style.backgroundColor;
-
-    html.classList.add("modal-open");
-    body.classList.add("modal-open");
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    html.style.backgroundColor = "var(--secondary-dark)";
-    body.style.backgroundColor = "var(--secondary-dark)";
-
-    return () => {
-      html.classList.remove("modal-open");
-      body.classList.remove("modal-open");
-      html.style.overflow = prevHtmlOverflow;
-      body.style.overflow = prevBodyOverflow;
-      html.style.backgroundColor = prevHtmlBackground;
-      body.style.backgroundColor = prevBodyBackground;
-    };
-  }, [open, isClosing]);
-
-  useEffect(() => {
     if (!open) return;
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -190,9 +181,9 @@ export function ContactModalProvider({ children }: { children: ReactNode }) {
   return (
     <ContactModalContext.Provider value={{ open: openModal, close: closeModal }}>
       {children}
-      {mounted && open
+      {mounted
         ? createPortal(
-            <ContactModalDialog isClosing={isClosing} onClose={closeModal} />,
+            <ContactModalPortal open={open} isClosing={isClosing} onClose={closeModal} />,
             document.body,
           )
         : null}

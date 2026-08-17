@@ -10,7 +10,6 @@ const SCROLL_SECTIONS = [
   "home",
   "who",
   "why",
-  "curriculum",
   "policies",
   "about",
   "gallery",
@@ -142,13 +141,10 @@ export function Header() {
       <div className="section-shell flex items-center justify-between py-3 sm:py-3.5 md:py-5">
         <Link
           href="/#home"
-          className="group flex min-w-0 shrink items-center gap-2.5 transition-opacity duration-200 hover:opacity-90 sm:gap-3 lg:transition-none lg:hover:opacity-100"
+          className="group flex min-w-0 shrink transition-opacity duration-200 hover:opacity-90 lg:transition-none lg:hover:opacity-100"
           onClick={(e) => handleNavClick(e, "/#home")}
         >
           <Logo variant="header" tone="light" priority />
-          <span className="font-serif text-[clamp(1.125rem,4.5vw,1.625rem)] font-semibold leading-tight text-secondary-foreground sm:text-2xl lg:text-lg xl:text-xl">
-            Family Music Academy
-          </span>
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">

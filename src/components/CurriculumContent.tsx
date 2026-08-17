@@ -1,6 +1,7 @@
 import { AnimateIn } from "@/components/AnimateIn";
 import { ContactLink } from "@/components/ContactLink";
 import { CurriculumPathsGrid } from "@/components/CurriculumPathsGrid";
+import { SectionTitle } from "@/components/SectionTitle";
 
 export function CurriculumContent({ compact = false }: { compact?: boolean }) {
   return (
@@ -9,8 +10,7 @@ export function CurriculumContent({ compact = false }: { compact?: boolean }) {
         <div>
           {!compact && (
             <AnimateIn>
-              <p className="section-eyebrow">Our Program</p>
-              <h2 className="section-title max-w-2xl">Paths for every stage</h2>
+              <SectionTitle className="max-w-2xl">Paths for every stage</SectionTitle>
               <p className="section-lead mt-4 max-w-2xl">
                 Structured, individualized piano instruction designed for every age and stage — from
                 first notes to competition-ready performance.

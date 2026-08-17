@@ -40,13 +40,18 @@ function InstagramIcon({
 export function ContactDetails({
   compact = false,
   dense = false,
+  theme = "dark",
 }: {
   compact?: boolean;
   dense?: boolean;
+  theme?: "dark" | "paper";
 }) {
-  const rowClass = `about-bio-text flex items-center transition-colors hover:text-secondary ${
-    compact ? "gap-2.5" : "gap-4"
-  }`;
+  const isPaper = theme === "paper";
+  const rowClass = `${
+    isPaper
+      ? "flex items-center text-lg leading-[1.8] text-paper-foreground transition-colors hover:text-secondary md:text-[1.1875rem] md:leading-[1.85]"
+      : "about-bio-text flex items-center transition-colors hover:text-secondary"
+  } ${compact ? "gap-2.5" : "gap-4"}`;
 
   return (
     <div className={dense ? "space-y-2" : compact ? "space-y-3" : "space-y-4"}>
