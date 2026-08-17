@@ -241,18 +241,6 @@ body {
   @apply text-paper-foreground;
 }
 
-.why-section .about-bio-text {
-  color: #000;
-}
-
-.why-section .section-title {
-  color: #000;
-}
-
-.why-section .why-note-icon {
-  color: #000;
-}
-
 .section-lead {
   @apply text-lg leading-[1.8] text-dominant-foreground md:text-[1.1875rem] md:leading-[1.85];
 }
