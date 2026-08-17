@@ -22,14 +22,14 @@ export function Hero() {
         <Header />
         <HeroViewportLock />
 
-        <HeroVideoCredit />
-
-        <div className="relative z-[2] mx-auto flex w-full max-w-7xl flex-1 flex-col items-end justify-end safe-x pb-[max(10rem,env(safe-area-inset-bottom))] pt-[calc(5rem+env(safe-area-inset-top,0px))] max-lg:min-h-0 sm:pb-[max(10.75rem,env(safe-area-inset-bottom))] sm:pt-[calc(5.5rem+env(safe-area-inset-top,0px))] lg:flex-none lg:pb-48 lg:pt-28">
-          <div className="flex w-full flex-col items-end gap-3 sm:gap-4 lg:w-auto">
+        <div className="pointer-events-none relative z-[2] mx-auto flex w-full max-w-7xl flex-1 flex-col items-end justify-end safe-x pb-[max(10rem,env(safe-area-inset-bottom))] pt-[calc(5rem+env(safe-area-inset-top,0px))] max-lg:min-h-0 sm:pb-[max(10.75rem,env(safe-area-inset-bottom))] sm:pt-[calc(5.5rem+env(safe-area-inset-top,0px))] lg:flex-none lg:pb-48 lg:pt-28">
+          <div className="pointer-events-auto flex w-full flex-col items-end gap-3 sm:gap-4 lg:w-auto">
             <HeroMobileContact />
             <HeroStudioContact />
           </div>
         </div>
+
+        <HeroVideoCredit />
       </HeroLoadProvider>
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
 
 export type MediaLightboxItem = {
   id: string;
@@ -45,14 +45,69 @@ export function useMediaLightbox() {
   return { open, isClosing, show, close };
 }
 
+function LightboxVideo({
+  item,
+  videoRef,
+}: {
+  item: MediaLightboxItem;
+  videoRef?: RefObject<HTMLVideoElement | null>;
+}) {
+  const localRef = useRef<HTMLVideoElement>(null);
+
+  useLayoutEffect(() => {
+    const video = localRef.current;
+    if (!video) return;
+
+    if (item.defaultVolume !== undefined) {
+      video.volume = Math.min(1, Math.max(0, item.defaultVolume));
+    }
+
+    const play = () => {
+      void video.play().catch(() => {
+        video.muted = true;
+        void video.play().catch(() => {});
+      });
+    };
+
+    if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+      play();
+    } else {
+      video.addEventListener("loadedmetadata", play, { once: true });
+      return () => video.removeEventListener("loadedmetadata", play);
+    }
+  }, [item.defaultVolume, item.id]);
+
+  return (
+    <video
+      ref={(node) => {
+        localRef.current = node;
+        if (videoRef) {
+          videoRef.current = node;
+        }
+      }}
+      key={item.id}
+      src={item.src}
+      poster={item.poster}
+      controls
+      autoPlay
+      playsInline
+      className="mx-auto block max-h-[75vh] w-full rounded-2xl object-contain"
+    >
+      Your browser does not support the video tag.
+    </video>
+  );
+}
+
 export function MediaLightbox({
   item,
   isClosing,
   close,
+  videoRef,
 }: {
   item: MediaLightboxItem;
   isClosing: boolean;
   close: () => void;
+  videoRef?: RefObject<HTMLVideoElement | null>;
 }) {
   return (
     <div
@@ -87,22 +142,7 @@ export function MediaLightbox({
         onPointerDown={(event) => event.stopPropagation()}
       >
         {item.type === "video" ? (
-          <video
-            key={item.id}
-            src={item.src}
-            poster={item.poster}
-            controls
-            autoPlay
-            playsInline
-            onLoadedMetadata={(event) => {
-              if (item.defaultVolume !== undefined) {
-                event.currentTarget.volume = Math.min(1, Math.max(0, item.defaultVolume));
-              }
-            }}
-            className="mx-auto block max-h-[75vh] w-full rounded-2xl object-contain"
-          >
-            Your browser does not support the video tag.
-          </video>
+          <LightboxVideo item={item} videoRef={videoRef} />
         ) : (
           // eslint-disable-next-line @next/next/no-img-element
           <img
