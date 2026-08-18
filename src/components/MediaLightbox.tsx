@@ -92,7 +92,7 @@ function LightboxVideo({
       controls
       autoPlay
       playsInline
-      className="lightbox-media mx-auto block w-full rounded-2xl object-contain"
+      className="lightbox-media rounded-2xl"
     >
       Your browser does not support the video tag.
     </video>
@@ -153,10 +153,10 @@ export function MediaLightbox({
             <img
               src={item.src}
               alt={item.alt}
-              className="lightbox-media mx-auto block w-full rounded-2xl object-contain"
+              className="lightbox-media rounded-2xl"
             />
           )}
-          <p className="mt-4 px-2 text-center text-base text-white/90">{item.caption}</p>
+          <p className="mt-4 shrink-0 px-2 text-center text-base text-white/90">{item.caption}</p>
         </div>
       </div>
     </div>

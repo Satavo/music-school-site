@@ -112,7 +112,10 @@ function GalleryGrid({
           <div key={item.id} className="mb-4 break-inside-avoid md:mb-5">
             <button
               type="button"
-              onClick={() => onSelect(item)}
+              onClick={(event) => {
+                event.preventDefault();
+                onSelect(item);
+              }}
               className="group relative block w-full cursor-pointer overflow-hidden rounded-2xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-line focus-visible:ring-offset-2"
             >
               <MediaThumb

@@ -2,7 +2,11 @@
 
 import { useEffect, useRef } from "react";
 
-/** Pin a fixed overlay to visualViewport and lock scroll (Telegram / iOS WebView). */
+function shouldPinToVisualViewport() {
+  return window.matchMedia("(max-width: 1023px)").matches;
+}
+
+/** Lock page scroll while overlay is open; pin to visualViewport on mobile WebViews. */
 export function useOverlayViewport() {
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -10,32 +14,32 @@ export function useOverlayViewport() {
     const root = rootRef.current;
     if (!root) return;
 
-    const scrollY = window.scrollY;
     const { body, documentElement } = document;
+    const scrollbarWidth = window.innerWidth - documentElement.clientWidth;
 
-    const prevBody = {
-      overflow: body.style.overflow,
-      position: body.style.position,
-      top: body.style.top,
-      width: body.style.width,
+    const prev = {
+      bodyOverflow: body.style.overflow,
+      htmlOverflow: documentElement.style.overflow,
+      bodyPaddingRight: body.style.paddingRight,
     };
-    const prevHtmlOverflow = documentElement.style.overflow;
 
     body.style.overflow = "hidden";
     documentElement.style.overflow = "hidden";
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.width = "100%";
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${scrollbarWidth}px`;
+    }
 
     const sync = () => {
-      const vv = window.visualViewport;
-      if (!vv) {
+      if (!shouldPinToVisualViewport()) {
         root.style.removeProperty("top");
         root.style.removeProperty("left");
         root.style.removeProperty("width");
         root.style.removeProperty("height");
         return;
       }
+
+      const vv = window.visualViewport;
+      if (!vv) return;
 
       root.style.top = `${vv.offsetTop}px`;
       root.style.left = `${vv.offsetLeft}px`;
@@ -46,18 +50,16 @@ export function useOverlayViewport() {
     sync();
     window.visualViewport?.addEventListener("resize", sync);
     window.visualViewport?.addEventListener("scroll", sync);
+    window.addEventListener("resize", sync);
 
     return () => {
       window.visualViewport?.removeEventListener("resize", sync);
       window.visualViewport?.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
 
-      body.style.overflow = prevBody.overflow;
-      body.style.position = prevBody.position;
-      body.style.top = prevBody.top;
-      body.style.width = prevBody.width;
-      documentElement.style.overflow = prevHtmlOverflow;
-
-      window.scrollTo(0, scrollY);
+      body.style.overflow = prev.bodyOverflow;
+      documentElement.style.overflow = prev.htmlOverflow;
+      body.style.paddingRight = prev.bodyPaddingRight;
     };
   }, []);
 

@@ -22,7 +22,10 @@ export function ClickablePhoto({ item, children, className = "" }: ClickablePhot
     <>
       <button
         type="button"
-        onClick={show}
+        onClick={(event) => {
+          event.preventDefault();
+          show();
+        }}
         aria-label={`View photo: ${item.alt}`}
         className={`cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-line focus-visible:ring-offset-2 ${className}`.trim()}
       >

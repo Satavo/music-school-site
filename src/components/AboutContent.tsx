@@ -13,7 +13,7 @@ export function AboutContent({
   from?: string;
 }) {
   return (
-    <section id="about" className="section-pad">
+    <section id="about" className="section-pad bg-dominant-muted">
       <div className="section-shell">
         <AboutMain compact={compact} />
       </div>

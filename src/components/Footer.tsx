@@ -15,10 +15,7 @@ export function Footer() {
                 Family Music Academy
               </p>
             </div>
-            <p className="about-bio-text mt-3 max-w-xs">
-              One-on-one classical piano instruction for children, teens, and adults.
-            </p>
-            <p className="mt-auto max-w-xs pt-2 font-serif text-lg font-medium italic tracking-wide text-dominant-foreground/90 md:pt-1">
+            <p className="about-bio-text mt-3 max-w-xs font-serif text-lg font-medium italic tracking-wide text-dominant-foreground/90">
               {SCHOOL_SLOGAN}
             </p>
           </div>

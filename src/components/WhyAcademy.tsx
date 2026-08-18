@@ -8,7 +8,7 @@ import { HOME_INTRO, WHY_CHOOSE_ITEMS } from "@/lib/content";
 export function WhyAcademy() {
   return (
     <>
-      <section className="section-pad bg-dominant">
+      <section className="section-pad bg-dominant-muted">
         <div id="who" className="section-shell">
           <SectionReveal>
             <div className="flex flex-col gap-6 lg:grid lg:grid-cols-2 lg:items-center lg:gap-10">

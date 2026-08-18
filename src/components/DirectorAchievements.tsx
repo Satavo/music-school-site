@@ -31,9 +31,9 @@ function AchievementList({
         return (
           <li
             key={item}
-            className="grid grid-cols-[2.25rem_minmax(0,1fr)] items-start gap-x-2 text-[0.8125rem] font-medium leading-snug text-black sm:text-sm"
+            className="grid grid-cols-[2.25rem_minmax(0,1fr)] items-start gap-x-2 text-[0.8125rem] font-medium leading-snug text-dominant-foreground sm:text-sm"
           >
-            <span className="pt-px text-[0.8125rem] font-extrabold tabular-nums text-black sm:text-sm">
+            <span className="pt-px text-[0.8125rem] font-extrabold tabular-nums text-secondary sm:text-sm">
               {year ?? ""}
             </span>
             <span className="font-semibold">{text}</span>
@@ -51,7 +51,7 @@ function ChevronIcon({ className = "" }: { className?: string }) {
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
-      className={`h-5 w-5 shrink-0 text-black transition-transform duration-300 ${className}`}
+      className={`h-5 w-5 shrink-0 text-dominant-foreground transition-transform duration-300 ${className}`}
       aria-hidden
     >
       <path d="M6 9l6 6 6-6" />
@@ -72,16 +72,16 @@ function AchievementSection({
   const panelId = `${baseId}-panel`;
 
   return (
-    <div className="border-b border-paper-line/10 last:border-b-0">
+    <div className="border-b border-line/15 last:border-b-0">
       <button
         type="button"
         id={triggerId}
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((current) => !current)}
-        className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3.5 text-left transition-colors hover:bg-paper-muted/60 sm:px-5 sm:py-4 lg:pointer-events-none lg:hover:bg-transparent"
+        className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3.5 text-left transition-colors hover:bg-dominant-muted/60 sm:px-5 sm:py-4 lg:pointer-events-none lg:hover:bg-transparent"
       >
-        <h3 className="font-serif text-lg font-bold text-black sm:text-xl">
+        <h3 className="font-serif text-lg font-bold text-dominant-foreground sm:text-xl">
           {title}
         </h3>
         <ChevronIcon className={`lg:hidden ${open ? "rotate-180" : ""}`} />
@@ -107,7 +107,7 @@ export function DirectorAchievements() {
 
   return (
     <div className="mt-8 md:mt-10">
-      <div className="overflow-hidden rounded-2xl border border-paper-line/12 bg-paper">
+      <div className="overflow-hidden rounded-2xl border border-line/15 bg-dominant-surface">
           {awards ? (
             <AchievementSection title={awards.title}>
               <AchievementList
