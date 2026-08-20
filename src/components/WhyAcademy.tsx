@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { ClickablePhoto } from "@/components/ClickablePhoto";
-import { ContactLink } from "@/components/ContactLink";
 import { SectionReveal } from "@/components/SectionReveal";
 import { SectionTitle } from "@/components/SectionTitle";
 import { HOME_INTRO, WHY_CHOOSE_ITEMS } from "@/lib/content";
@@ -67,9 +66,6 @@ export function WhyAcademy() {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-8 hidden justify-start lg:flex">
-                  <ContactLink className="btn-primary">Enroll on lessons</ContactLink>
-                </div>
               </div>
 
               <ClickablePhoto
@@ -90,10 +86,6 @@ export function WhyAcademy() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </ClickablePhoto>
-
-              <div className="flex justify-center lg:hidden">
-                <ContactLink className="btn-primary">Enroll on lessons</ContactLink>
-              </div>
             </div>
           </SectionReveal>
         </div>

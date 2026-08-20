@@ -17,7 +17,7 @@ export function PoliciesContent() {
           </div>
 
           <div className="mt-8 flex justify-center">
-            <ContactLink className="btn-primary">Enroll on lessons</ContactLink>
+            <ContactLink className="btn-primary">Enroll now</ContactLink>
           </div>
         </SectionReveal>
       </div>

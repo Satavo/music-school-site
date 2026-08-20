@@ -101,7 +101,7 @@ function ContactModalPortal({
               <ContactSectionIntro titleId="contact-modal-title" compact theme="paper" />
             </div>
             <div className="mt-4 sm:mt-6">
-              <ContactForm compact theme="paper" />
+              <ContactForm compact theme="paper" onSuccess={onClose} />
             </div>
           </div>
         </div>

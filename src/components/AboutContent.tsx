@@ -1,5 +1,4 @@
 import { AboutPhotoCarousel } from "@/components/AboutPhotoCarousel";
-import { ContactLink } from "@/components/ContactLink";
 import { DirectorAchievements } from "@/components/DirectorAchievements";
 import { PerformancesCarousel } from "@/components/PerformancesCarousel";
 import { SectionReveal } from "@/components/SectionReveal";
@@ -82,10 +81,6 @@ function AboutMain({ compact = false }: { compact?: boolean }) {
                   )}
                 </article>
               ))}
-            </div>
-
-            <div className="mt-8 flex justify-center md:mt-10">
-              <ContactLink className="btn-primary">Schedule a Consultation</ContactLink>
             </div>
           </SectionReveal>
         </div>

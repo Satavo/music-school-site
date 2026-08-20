@@ -7,7 +7,7 @@ export const NAV_LINKS = [
 ] as const;
 
 export const HOME_INTRO = [
-  "As a local parent myself, I understand the importance of high-quality education for their children close to home. With more than 10 years of experience teaching in North Shore communities—both through music schools and as an independent teacher—I have developed a deep understanding of the goals and needs of families.",
+  "As a local parent myself, I understand the importance of high-quality education for my child close to home. With more than 10 years of experience teaching in North Shore communities — both through music schools and as an independent teacher — I have developed a deep understanding of the goals and needs of families.",
   "At Family Music Academy, music education is about more than learning to play the piano. We help students develop strong musical skills while building confidence, discipline and creativity.",
 ] as const;
 
@@ -39,10 +39,10 @@ export const HERO_STUDENT_VIDEO = {
 
 export const WHY_CHOOSE_ITEMS = [
   "Individualized one-on-one instruction",
-  "Lessons from professional Master Degree Teachers",
+  "Lessons from professional Master Degree teachers",
   "Preparation for ABRSM exams and competitions",
-  "Regular performance opportunity: Summer and Winter Recitals",
-  "A positive, encouraging learning environment",
+  "Regular performance opportunity with summer and winter recitals",
+  "A positive, encouraging, learning environment",
 ] as const;
 
 export const DIRECTOR = {
@@ -185,10 +185,10 @@ export const DIRECTOR_STATS = [
 export const POLICIES_INTRO =
   "Family Music Academy operates on an annual tuition model. Tuition includes 46 private lessons per academic year and reserves each student's weekly lesson time throughout the studio year. The annual schedule is designed around the local Glenview/Northbrook school calendar and includes planned breaks for major holidays and family vacations. Monthly tuition payments provide families with a convenient and predictable payment schedule while ensuring consistent weekly instruction.";
 
-export const LESSON_TUITION_OPTIONS = [
-  { length: "30-minute private lesson", tuition: "$175/month" },
-  { length: "45-minute private lesson", tuition: "$250/month" },
-  { length: "60-minute private lesson", tuition: "$310/month" },
+export const LESSON_OPTIONS = [
+  "30-minute private lesson",
+  "45-minute private lesson",
+  "60-minute private lesson",
 ] as const;
 
 export const STUDIO_HOLIDAYS = [
@@ -199,41 +199,3 @@ export const STUDIO_HOLIDAYS = [
   { name: "Memorial Day Weekend", dates: "May 29–31, 2027" },
   { name: "Summer Break", dates: "Two weeks in July 2027" },
 ] as const;
-
-export const MAKEUP_RULES = [
-  "Parents must provide at least 24 hours advance notice before the scheduled lesson time.",
-  "Missed lessons without advance notice are not eligible for a makeup lesson.",
-  "Makeup lessons must be completed within the same academic year.",
-  "Unused makeup lessons do not carry over to the following year.",
-] as const;
-
-export const POLICY_SECTIONS = [
-  {
-    id: "teacher-absences",
-    title: "Teacher Absences",
-    body: "If a lesson is canceled due to teacher illness, emergency, or professional obligation, Family Music Academy will provide a rescheduled makeup lesson.",
-  },
-  {
-    id: "attendance",
-    title: "Lesson Attendance & Punctuality",
-    body: "Students should arrive on time and prepared for each lesson with all required materials, including music books and assignments. Because each lesson time is reserved specifically for each student, late arrivals will not extend the scheduled lesson time.",
-  },
-  {
-    id: "practice",
-    title: "Practice & Student Progress",
-    body: "Consistent practice between lessons is essential for progress. Students are expected to maintain a regular practice routine appropriate to their age and level. Parents of younger students are encouraged to support healthy practice habits at home.",
-  },
-  {
-    id: "recitals",
-    title: "Recitals & Performance Opportunities",
-    body: "Students are encouraged to participate in studio recitals, competitions, examinations, and other performance opportunities. These experiences help students develop confidence, musical expression, and a deeper appreciation for music.",
-  },
-  {
-    id: "communication",
-    title: "Studio Communication",
-    body: "Important announcements, schedule updates, and studio information will be communicated through email or by phone.",
-  },
-] as const;
-
-export const POLICIES_CLOSING =
-  "By enrolling at Family Music Academy, families agree to these policies and commit to creating a positive, respectful, and successful musical learning experience.";
