@@ -14,7 +14,7 @@ const HERO_CONTACT_TEXT_CLASS =
 const HERO_SCHOOL_NAME_CLASS =
   "text-gradient-shimmer text-right font-serif font-semibold leading-tight text-[clamp(1.625rem,6.8vw,2.375rem)] sm:text-[clamp(1.75rem,6.2vw,2.5rem)] lg:text-[clamp(1.375rem,5.5vw,2.125rem)] xl:text-[clamp(1.5rem,4vw,2.25rem)] mr-12 sm:mr-[3.25rem] lg:mr-10 xl:mr-12";
 
-export function HeroSchoolName({ className = "" }: { className?: string }) {
+function HeroSchoolName({ className = "" }: { className?: string }) {
   return (
     <p className={`${HERO_SCHOOL_NAME_CLASS} ${className}`.trim()}>{SCHOOL_NAME}</p>
   );
@@ -29,7 +29,7 @@ function MapPinIcon({ className = "h-5 w-5" }: { className?: string }) {
   );
 }
 
-export function HeroAddress({ className = "" }: { className?: string }) {
+function HeroAddress({ className = "" }: { className?: string }) {
   const addressLabel = SCHOOL_CONTACT.addressLines.join(" ");
 
   return (
@@ -48,7 +48,7 @@ export function HeroAddress({ className = "" }: { className?: string }) {
   );
 }
 
-export function HeroInstagram({ className = "" }: { className?: string }) {
+function HeroInstagram({ className = "" }: { className?: string }) {
   return (
     <a
       href={SCHOOL_CONTACT.instagramHref}

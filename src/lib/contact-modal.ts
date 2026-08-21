@@ -17,7 +17,3 @@ export function registerContactModalHandlers(next: ContactModalHandlers) {
 export function openContactModal() {
   handlers?.open();
 }
-
-export function closeContactModal() {
-  handlers?.close();
-}

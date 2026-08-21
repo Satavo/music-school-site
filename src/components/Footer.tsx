@@ -39,8 +39,11 @@ export function Footer() {
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-secondary">
               Contact
             </p>
-            <div className="mt-4">
+            <div className="mt-4 md:hidden lg:block">
               <ContactDetails compact />
+            </div>
+            <div className="mt-4 hidden md:block lg:hidden">
+              <ContactDetails compact variant="icons" />
             </div>
           </div>
         </div>

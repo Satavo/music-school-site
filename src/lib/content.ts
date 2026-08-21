@@ -2,7 +2,7 @@ export const NAV_LINKS = [
   { href: "/#home", label: "Home" },
   { href: "/#who", label: "About" },
   { href: "/#about", label: "Meet the Owner" },
-  { href: "/#policies", label: "Policies & Tuition" },
+  { href: "/#policies", label: "Lessons & Calendar" },
   { href: "/#gallery", label: "Gallery" },
 ] as const;
 
@@ -53,21 +53,6 @@ export const DIRECTOR = {
       src: "/images/about.png",
       alt: "Maria Alexeeva, owner of Family Music Academy",
       objectPosition: "object-[center_12%]",
-    },
-    {
-      src: "/images/maria_2.jpg",
-      alt: "Maria Alexeeva before a performance",
-      objectPosition: "object-[center_20%]",
-    },
-    {
-      src: "/images/gallery/recital-students.png",
-      alt: "Maria with students after a performance",
-      objectPosition: "object-center",
-    },
-    {
-      src: "/images/gallery/recital-performance.png",
-      alt: "Maria with a young performer on stage",
-      objectPosition: "object-center",
     },
   ],
   paragraphs: [
@@ -125,61 +110,6 @@ export const DIRECTOR_PERFORMANCES = [
     title: "S. Rachmaninov Concerto no. 1",
     youtubeId: "h2XlCNvkFt0",
   },
-] as const;
-
-export const CURRICULUM_LEVELS = [
-  {
-    title: "Young Beginners",
-    ages: "Ages 5–8",
-    description:
-      "A playful introduction to piano through rhythm, ear training, and foundational technique. Students build confidence while developing a genuine love for music.",
-    highlights: [
-      "Note reading & rhythm basics",
-      "Proper hand position",
-      "Creative musical games",
-    ],
-  },
-  {
-    title: "Intermediate Students",
-    ages: "Ages 9–14",
-    description:
-      "Students deepen their technical skills and musical expression while exploring classical repertoire from Baroque through Romantic periods.",
-    highlights: [
-      "Scales, arpeggios & technique",
-      "Classical repertoire study",
-      "Music theory foundations",
-    ],
-  },
-  {
-    title: "Advanced & Adult Learners",
-    ages: "Teens & Adults",
-    description:
-      "Tailored instruction for serious students preparing for exams, competitions, or adults pursuing a lifelong musical dream.",
-    highlights: [
-      "ABRSM exam preparation",
-      "Competition coaching",
-      "Advanced interpretation",
-    ],
-  },
-] as const;
-
-export const ADVANCED_TRACK = {
-  eyebrow: "Advanced Track",
-  title: "ABRSM & Competition Preparation",
-  description:
-    "Specialized coaching in repertoire selection, sight-reading, aural skills, and performance psychology — ensuring students feel confident on exam day.",
-  highlights: [
-    "Graded exam repertoire coaching",
-    "Sight-reading & aural training",
-    "Competition performance prep",
-    "Studio recital opportunities",
-  ],
-} as const;
-
-export const DIRECTOR_STATS = [
-  { value: "15+", label: "Years Teaching" },
-  { value: "St. Petersburg", label: "Conservatory" },
-  { value: "ABRSM", label: "Exam Prep" },
 ] as const;
 
 export const POLICIES_INTRO =

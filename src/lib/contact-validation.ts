@@ -2,7 +2,7 @@ const PHONE_MIN_DIGITS = 10;
 const PHONE_MAX_DIGITS = 15;
 const NAME_MAX_LENGTH = 120;
 
-export type ContactPayload = {
+type ContactPayload = {
   phone: string;
   name: string;
   website?: string;

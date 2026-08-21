@@ -1,20 +1,4 @@
-/** Scroll so the About us block sits roughly in the middle of the viewport. */
-export function scrollToWhoSectionStart() {
-  const el = document.getElementById("who");
-  if (!el) {
-    const hero = document.getElementById("home");
-    window.scrollTo({ top: hero ? hero.offsetHeight : 0, behavior: "smooth" });
-    window.history.pushState(null, "", "#who");
-    return;
-  }
-
-  const rect = el.getBoundingClientRect();
-  const absoluteTop = rect.top + window.scrollY;
-  const top = absoluteTop - (window.innerHeight - rect.height) / 2;
-
-  window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-  window.history.pushState(null, "", "#who");
-}
+import { openContactModal } from "@/lib/contact-modal";
 
 export function scrollToSection(id: string, updateHash = true) {
   const el = document.getElementById(id);
@@ -32,8 +16,6 @@ export function scrollToSection(id: string, updateHash = true) {
     window.history.pushState(null, "", `#${hashId}`);
   }
 }
-
-import { openContactModal } from "@/lib/contact-modal";
 
 export function scrollToContact(_pathname = "/") {
   openContactModal();

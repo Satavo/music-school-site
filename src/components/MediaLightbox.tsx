@@ -120,18 +120,19 @@ export function MediaLightbox({
       aria-modal
       aria-label={item.caption}
     >
-      <button
-        type="button"
+      <div
         className={`lightbox-scrim ${
           isClosing ? "animate-lightbox-backdrop-out" : "animate-lightbox-backdrop-in"
         }`}
-        onClick={close}
-        aria-label="Close preview"
+        aria-hidden="true"
       />
-      <div className="lightbox-overlay">
+      <div className="lightbox-overlay" onClick={close}>
         <button
           type="button"
-          onClick={close}
+          onClick={(event) => {
+            event.stopPropagation();
+            close();
+          }}
           className="lightbox-close rounded-full bg-white/10 p-2.5 text-secondary-foreground/90 transition-colors hover:bg-white/20 hover:text-secondary-foreground"
           aria-label="Close preview"
         >
@@ -146,17 +147,19 @@ export function MediaLightbox({
           onClick={(event) => event.stopPropagation()}
           onPointerDown={(event) => event.stopPropagation()}
         >
-          {item.type === "video" ? (
-            <LightboxVideo item={item} videoRef={videoRef} />
-          ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={item.src}
-              alt={item.alt}
-              className="lightbox-media rounded-2xl"
-            />
-          )}
-          <p className="mt-4 shrink-0 px-2 text-center text-base text-white/90">{item.caption}</p>
+          <div className="lightbox-media-shell">
+            {item.type === "video" ? (
+              <LightboxVideo item={item} videoRef={videoRef} />
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={item.src}
+                alt={item.alt}
+                className="lightbox-media rounded-2xl"
+              />
+            )}
+          </div>
+          <p className="lightbox-caption">{item.caption}</p>
         </div>
       </div>
     </div>

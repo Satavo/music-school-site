@@ -1,34 +1,12 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { ContactForm } from "@/components/ContactForm";
 import { ContactSectionIntro } from "@/components/ContactSectionIntro";
 import { registerContactModalHandlers } from "@/lib/contact-modal";
 
 const MODAL_CLOSE_MS = 220;
-
-type ContactModalContextValue = {
-  open: () => void;
-  close: () => void;
-};
-
-const ContactModalContext = createContext<ContactModalContextValue | null>(null);
-
-export function useContactModal() {
-  const context = useContext(ContactModalContext);
-  if (!context) {
-    throw new Error("useContactModal must be used within ContactModalProvider");
-  }
-  return context;
-}
 
 function CloseIcon() {
   return (
@@ -179,7 +157,7 @@ export function ContactModalProvider({ children }: { children: ReactNode }) {
   }, [openModal]);
 
   return (
-    <ContactModalContext.Provider value={{ open: openModal, close: closeModal }}>
+    <>
       {children}
       {mounted
         ? createPortal(
@@ -187,6 +165,6 @@ export function ContactModalProvider({ children }: { children: ReactNode }) {
             document.body,
           )
         : null}
-    </ContactModalContext.Provider>
+    </>
   );
 }

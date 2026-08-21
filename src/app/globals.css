@@ -984,11 +984,8 @@ body {
     max(1rem, env(safe-area-inset-right, 0px))
     max(1rem, calc(env(safe-area-inset-bottom, 0px) + 0.75rem))
     max(1rem, env(safe-area-inset-left, 0px));
-  pointer-events: none;
-}
-
-.lightbox-overlay > * {
   pointer-events: auto;
+  cursor: default;
 }
 
 .lightbox-close {
@@ -996,28 +993,69 @@ body {
   top: max(1.5rem, calc(env(safe-area-inset-top, 0px) + 0.5rem));
   right: max(1.5rem, env(safe-area-inset-right, 0px));
   z-index: 10;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .lightbox-panel {
   position: relative;
   z-index: 2;
   display: flex;
-  width: 100%;
-  min-width: 0;
-  max-width: 56rem;
-  max-height: 100%;
+  width: auto;
+  max-width: min(100%, 56rem);
+  max-height: calc(
+    100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 2rem
+  );
+  min-height: 0;
+  flex: 0 1 auto;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
+  --lightbox-caption-space: 5rem;
+  --lightbox-media-max-height: min(
+    52rem,
+    84dvh,
+    calc(
+      100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) -
+        var(--lightbox-caption-space)
+    )
+  );
+  --lightbox-media-max-width: min(100%, 56rem, 96vw);
+  pointer-events: auto;
+  cursor: default;
+}
+
+.lightbox-media-shell {
+  display: flex;
+  width: fit-content;
+  max-width: var(--lightbox-media-max-width);
+  min-height: 0;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  max-height: var(--lightbox-media-max-height);
 }
 
 .lightbox-media {
   display: block;
   width: auto;
   height: auto;
-  max-width: 100%;
-  max-height: min(72dvh, calc(100% - 4rem));
+  max-width: var(--lightbox-media-max-width);
+  max-height: var(--lightbox-media-max-height);
   object-fit: contain;
+}
+
+.lightbox-caption {
+  margin-top: 1rem;
+  width: 100%;
+  min-height: 1.5rem;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  padding-inline: 0.5rem;
+  padding-bottom: 0.25rem;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 0.9);
 }
 
 /* Modal: oversized scrim for Telegram/iOS WebView gaps; overlay centers the form. */
