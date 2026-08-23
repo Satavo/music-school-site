@@ -6,13 +6,43 @@ import { ContactForm } from "@/components/ContactForm";
 import { ContactSectionIntro } from "@/components/ContactSectionIntro";
 import { registerContactModalHandlers } from "@/lib/contact-modal";
 
-const MODAL_CLOSE_MS = 220;
+const MODAL_CLOSE_MS = 280;
 
 function CloseIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-6 w-6">
       <path d="M18 6L6 18M6 6l12 12" />
     </svg>
+  );
+}
+
+function ModalCloseButton({
+  isClosing,
+  visible,
+  onClose,
+  variant,
+}: {
+  isClosing: boolean;
+  visible: boolean;
+  onClose: () => void;
+  variant: "floating" | "inline";
+}) {
+  const baseClass =
+    variant === "floating"
+      ? "modal-close modal-close-floating absolute top-[max(1.25rem,calc(env(safe-area-inset-top,0px)+0.5rem))] right-[max(1.25rem,env(safe-area-inset-right,0px))] z-10 hidden rounded-full border border-paper-line/15 bg-paper-muted p-2.5 text-paper-foreground hover:bg-paper-muted/80 lg:block lg:top-6 lg:right-6"
+      : "modal-close modal-close-inline absolute top-2.5 right-2.5 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-paper-line/15 bg-paper-muted text-paper-foreground hover:border-paper-line/30 hover:bg-paper-muted/80 sm:top-3 sm:right-3 sm:h-10 sm:w-10 lg:hidden";
+
+  return (
+    <button
+      type="button"
+      onClick={onClose}
+      tabIndex={visible && !isClosing ? 0 : -1}
+      aria-hidden={isClosing || !visible}
+      className={`${baseClass} ${isClosing ? "modal-close-hidden" : "modal-close-visible"}`}
+      aria-label="Close contact form"
+    >
+      <CloseIcon />
+    </button>
   );
 }
 
@@ -43,15 +73,12 @@ function ContactModalPortal({
         aria-modal={open || undefined}
         aria-labelledby={open ? "contact-modal-title" : undefined}
       >
-        <button
-          type="button"
-          onClick={onClose}
-          tabIndex={visible ? 0 : -1}
-          className="absolute top-[max(1.25rem,calc(env(safe-area-inset-top,0px)+0.5rem))] right-[max(1.25rem,env(safe-area-inset-right,0px))] z-10 hidden rounded-full border border-paper-line/15 bg-paper-muted p-2.5 text-paper-foreground transition-colors hover:bg-paper-muted/80 lg:block lg:top-6 lg:right-6"
-          aria-label="Close contact form"
-        >
-          <CloseIcon />
-        </button>
+        <ModalCloseButton
+          isClosing={isClosing}
+          visible={visible}
+          onClose={onClose}
+          variant="floating"
+        />
 
         <div
           className={`contact-modal-panel relative z-10 w-full max-w-lg overflow-y-auto rounded-3xl border border-paper-line/12 bg-paper text-paper-foreground shadow-[0_24px_64px_rgba(0,0,0,0.35)] ${
@@ -66,15 +93,12 @@ function ContactModalPortal({
           aria-hidden={!open}
         >
           <div className="relative p-4 sm:p-8">
-            <button
-              type="button"
-              onClick={onClose}
-              tabIndex={visible ? 0 : -1}
-              className="absolute top-2.5 right-2.5 z-20 flex h-9 w-9 items-center justify-center rounded-full border border-paper-line/15 bg-paper-muted text-paper-foreground transition-colors hover:border-paper-line/30 hover:bg-paper-muted/80 sm:top-3 sm:right-3 sm:h-10 sm:w-10 lg:hidden"
-              aria-label="Close contact form"
-            >
-              <CloseIcon />
-            </button>
+            <ModalCloseButton
+              isClosing={isClosing}
+              visible={visible}
+              onClose={onClose}
+              variant="inline"
+            />
             <div className="pe-11 sm:pe-12 lg:pe-0">
               <ContactSectionIntro titleId="contact-modal-title" compact theme="paper" />
             </div>

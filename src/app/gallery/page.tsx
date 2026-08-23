@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Gallery } from "@/components/Gallery";
 import { PageHero } from "@/components/PageHero";
+import { getGalleryItems } from "@/lib/gallery";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
     "Browse photos from Family Music Academy — lessons, recitals, and moments from our studio.",
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const galleryItems = await getGalleryItems();
+
   return (
     <>
       <PageHero
@@ -16,7 +19,7 @@ export default function GalleryPage() {
         imageSrc="/images/piano.jpg"
         imageAlt="Grand piano in a warmly lit studio"
       />
-      <Gallery variant="full" />
+      <Gallery variant="full" items={galleryItems} />
     </>
   );
 }
