@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
 import { ContactModalProvider } from "@/components/ContactModalProvider";
 import { FloatingContactButton } from "@/components/FloatingContactButton";
+import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { Footer } from "@/components/Footer";
 import "./globals.css";
 
@@ -72,6 +73,7 @@ export default function RootLayout({
         <ContactModalProvider>
           <main className="flex-1">{children}</main>
           <Footer />
+          <ScrollToTopButton />
           <FloatingContactButton />
         </ContactModalProvider>
       </body>

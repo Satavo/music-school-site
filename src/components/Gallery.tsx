@@ -72,31 +72,73 @@ function MediaThumb({
   );
 }
 
-const LIGHTBOX_CLOSE_MS = 220;
+const LIGHTBOX_CLOSE_MS = 280;
 
-function useGalleryLightbox() {
-  const [activeItem, setActiveItem] = useState<GalleryItem | null>(null);
+function useGalleryLightbox(items: GalleryItem[]) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<"prev" | "next" | null>(null);
+
+  const activeItem = activeIndex !== null ? items[activeIndex] ?? null : null;
+
+  const openItem = useCallback(
+    (item: GalleryItem) => {
+      const index = items.findIndex((entry) => entry.id === item.id);
+      if (index < 0) return;
+      setSlideDirection(null);
+      setIsClosing(false);
+      setActiveIndex(index);
+    },
+    [items],
+  );
 
   const close = useCallback(() => {
-    if (isClosing || !activeItem) return;
+    if (isClosing || activeIndex === null) return;
     setIsClosing(true);
     window.setTimeout(() => {
-      setActiveItem(null);
+      setActiveIndex(null);
+      setSlideDirection(null);
       setIsClosing(false);
     }, LIGHTBOX_CLOSE_MS);
-  }, [activeItem, isClosing]);
+  }, [activeIndex, isClosing]);
+
+  const goToIndex = useCallback(
+    (index: number, direction: "prev" | "next") => {
+      if (index < 0 || index >= items.length) return;
+      setSlideDirection(direction);
+      setIsClosing(false);
+      setActiveIndex(index);
+    },
+    [items.length],
+  );
 
   useEffect(() => {
-    if (!activeItem) return;
+    if (activeIndex === null) return;
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") close();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [activeItem, close]);
+  }, [activeIndex, close]);
 
-  return { activeItem, setActiveItem, isClosing, close };
+  return {
+    activeItem,
+    activeIndex,
+    isClosing,
+    slideDirection,
+    openItem,
+    close,
+    goToPrevious:
+      activeIndex !== null && activeIndex > 0
+        ? () => goToIndex(activeIndex - 1, "prev")
+        : undefined,
+    goToNext:
+      activeIndex !== null && activeIndex < items.length - 1
+        ? () => goToIndex(activeIndex + 1, "next")
+        : undefined,
+    positionLabel:
+      activeIndex !== null && items.length > 1 ? `${activeIndex + 1} / ${items.length}` : undefined,
+  };
 }
 
 function GalleryGrid({
@@ -139,7 +181,16 @@ function GalleryGrid({
 export function Gallery({ variant = "home" }: GalleryProps) {
   const isHome = variant === "home";
   const items = isHome ? getGalleryLatestItems() : GALLERY_ITEMS;
-  const { activeItem, setActiveItem, isClosing, close } = useGalleryLightbox();
+  const {
+    activeItem,
+    isClosing,
+    slideDirection,
+    openItem,
+    close,
+    goToPrevious,
+    goToNext,
+    positionLabel,
+  } = useGalleryLightbox(items);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -162,7 +213,7 @@ export function Gallery({ variant = "home" }: GalleryProps) {
         </div>
 
         <div className="section-shell">
-          <GalleryGrid items={items} onSelect={setActiveItem} />
+          <GalleryGrid items={items} onSelect={openItem} />
         </div>
       </SectionReveal>
 
@@ -175,7 +226,15 @@ export function Gallery({ variant = "home" }: GalleryProps) {
       {mounted &&
         activeItem &&
         createPortal(
-          <MediaLightbox item={activeItem} isClosing={isClosing} close={close} />,
+          <MediaLightbox
+            item={activeItem}
+            isClosing={isClosing}
+            close={close}
+            onPrevious={goToPrevious}
+            onNext={goToNext}
+            positionLabel={positionLabel}
+            slideDirection={slideDirection}
+          />,
           document.body,
         )}
     </section>

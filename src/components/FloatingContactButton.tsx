@@ -4,36 +4,19 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { PhoneIcon } from "@/components/icons/PhoneIcon";
 import { openContactModal } from "@/lib/contact-modal";
+import { useFloatingActionVisibility } from "@/lib/use-floating-action-visibility";
 
-const LG_BREAKPOINT = 1024;
 const TOP_SCROLL_THRESHOLD = 8;
 
 export function FloatingContactButton() {
+  const { ready, visible, isDesktop } = useFloatingActionVisibility();
   const [atTop, setAtTop] = useState(true);
-  const [pastHero, setPastHero] = useState(false);
-  const [isDesktop, setIsDesktop] = useState<boolean | null>(null);
-
-  useEffect(() => {
-    const media = window.matchMedia(`(min-width: ${LG_BREAKPOINT}px)`);
-    const syncDesktop = () => setIsDesktop(media.matches);
-
-    syncDesktop();
-    media.addEventListener("change", syncDesktop);
-
-    return () => media.removeEventListener("change", syncDesktop);
-  }, []);
 
   useEffect(() => {
     let frame = 0;
 
     const update = () => {
-      const hero = document.getElementById("home");
-      const scrolledPastHero = hero
-        ? window.scrollY >= hero.offsetHeight - 32
-        : window.scrollY > window.innerHeight * 0.85;
-
       setAtTop(window.scrollY <= TOP_SCROLL_THRESHOLD);
-      setPastHero(scrolledPastHero);
     };
 
     const onScroll = () => {
@@ -51,9 +34,8 @@ export function FloatingContactButton() {
   }, []);
 
   const expanded = atTop && isDesktop === false;
-  const visible = isDesktop === true ? pastHero : isDesktop === false;
 
-  if (isDesktop === null) {
+  if (!ready) {
     return null;
   }
 
