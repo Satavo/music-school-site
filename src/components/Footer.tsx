@@ -47,19 +47,8 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-6 flex flex-col items-center justify-between gap-2 border-t border-white/10 pt-6 text-center text-sm text-dominant-subtle sm:flex-row sm:text-left">
+        <div className="mt-6 border-t border-white/10 pt-6 text-center text-sm text-dominant-subtle sm:text-left">
           <p suppressHydrationWarning>© {new Date().getFullYear()} Family Music Academy. All rights reserved.</p>
-          <p className="text-sm text-dominant-subtle/35">
-            Developed by{" "}
-            <a
-              href="https://t.me/Satavo"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="transition-colors hover:text-dominant-subtle/55"
-            >
-              @Satavo
-            </a>
-          </p>
         </div>
       </div>
     </footer>

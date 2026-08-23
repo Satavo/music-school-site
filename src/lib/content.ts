@@ -27,11 +27,12 @@ export const SCHOOL_CONTACT = {
 
 export const HERO_VIDEO_CREDIT = "Student Eric Shpigelskiy, 16 years old";
 
+export const HERO_BACKGROUND_VIDEO_SRC = "/videos/hero-bg.mp4";
+
 export const HERO_STUDENT_VIDEO = {
   id: "hero-student-eric",
   type: "video" as const,
-  src: "/videos/hero-bg.mp4",
-  poster: "/images/piano.jpg",
+  src: "/videos/hero-student.mp4",
   alt: "Eric Shpigelskiy performing at the piano",
   caption: HERO_VIDEO_CREDIT,
   defaultVolume: 0.2,
