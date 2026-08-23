@@ -127,7 +127,7 @@ function LightboxVideo({
   return (
     <div className="lightbox-video-shell">
       {isLoading ? (
-        <div className="lightbox-video-loader" aria-hidden>
+        <div className="lightbox-media-loader" aria-hidden>
           <div className="hero-load-spinner" />
         </div>
       ) : null}
@@ -250,6 +250,41 @@ function useLightboxSwipe(onPrevious?: () => void, onNext?: () => void) {
   return swipeRef;
 }
 
+function LightboxImage({ item }: { item: MediaLightboxItem }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [item.id, item.src]);
+
+  const handleImageRef = (img: HTMLImageElement | null) => {
+    if (img?.complete) setIsLoading(false);
+  };
+
+  return (
+    <div className="lightbox-media-loader-shell">
+      {isLoading ? (
+        <div className="lightbox-media-loader" aria-hidden>
+          <div className="hero-load-spinner" />
+        </div>
+      ) : null}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        ref={handleImageRef}
+        key={item.id}
+        src={item.src}
+        alt={item.alt}
+        decoding="async"
+        onLoad={() => setIsLoading(false)}
+        onError={() => setIsLoading(false)}
+        className={`lightbox-media rounded-2xl transition-opacity duration-300 ${
+          isLoading ? "opacity-0" : "opacity-100"
+        }`}
+      />
+    </div>
+  );
+}
+
 function LightboxSlideFrame({
   item,
   slideDirection,
@@ -274,8 +309,7 @@ function LightboxSlideFrame({
         {item.type === "video" ? (
           <LightboxVideo item={item} videoRef={videoRef} deferPlayback={deferVideoPlayback} />
         ) : (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={item.src} alt={item.alt} className="lightbox-media rounded-2xl" />
+          <LightboxImage item={item} />
         )}
       </div>
       <div className="lightbox-caption-row">

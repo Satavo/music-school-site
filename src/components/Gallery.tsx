@@ -6,10 +6,11 @@ import { ContactLink } from "@/components/ContactLink";
 import { MediaLightbox } from "@/components/MediaLightbox";
 import { SectionReveal } from "@/components/SectionReveal";
 import { SectionTitle } from "@/components/SectionTitle";
-import { GALLERY_ITEMS, getGalleryLatestItems, type GalleryItem } from "@/lib/gallery";
+import type { GalleryItem } from "@/lib/gallery-types";
 
 type GalleryProps = {
   variant?: "home" | "full";
+  items: GalleryItem[];
 };
 
 function PlayBadge({ size = "md" }: { size?: "sm" | "md" }) {
@@ -38,6 +39,11 @@ function MediaThumb({
   playing?: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+  }, [item.id, item.src]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -51,24 +57,48 @@ function MediaThumb({
     }
   }, [playing, item.type]);
 
-  if (item.type === "video") {
-    return (
-      <video
-        ref={videoRef}
-        src={item.src}
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        className={className}
-        aria-hidden
-      />
-    );
-  }
+  const mediaClassName = `${className} transition-opacity duration-300 ${
+    isLoading ? "opacity-0" : "opacity-100"
+  }`;
+
+  const handleImageRef = (img: HTMLImageElement | null) => {
+    if (img?.complete) setIsLoading(false);
+  };
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img src={item.src} alt={item.alt} loading="lazy" className={className} />
+    <div className="gallery-thumb-shell">
+      {isLoading ? (
+        <div className="gallery-thumb-loader" aria-hidden>
+          <div className="gallery-thumb-spinner hero-load-spinner" />
+        </div>
+      ) : null}
+      {item.type === "video" ? (
+        <video
+          ref={videoRef}
+          src={item.src}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          onLoadedData={() => setIsLoading(false)}
+          onError={() => setIsLoading(false)}
+          className={mediaClassName}
+          aria-hidden
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          ref={handleImageRef}
+          src={item.src}
+          alt={item.alt}
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setIsLoading(false)}
+          onError={() => setIsLoading(false)}
+          className={mediaClassName}
+        />
+      )}
+    </div>
   );
 }
 
@@ -178,9 +208,8 @@ function GalleryGrid({
   );
 }
 
-export function Gallery({ variant = "home" }: GalleryProps) {
+export function Gallery({ variant = "home", items }: GalleryProps) {
   const isHome = variant === "home";
-  const items = isHome ? getGalleryLatestItems() : GALLERY_ITEMS;
   const {
     activeItem,
     isClosing,

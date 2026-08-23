@@ -1,54 +1,40 @@
-import galleryData from "../../content/gallery.json";
+import { unstable_cache } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { withResolvedGalleryMedia } from "@/lib/blob-config";
+import { getEffectiveGalleryItems } from "@/lib/gallery-store";
+import { STATIC_GALLERY_ITEMS } from "@/lib/gallery-static";
+import type { GalleryItem } from "@/lib/gallery-types";
 
-export type GalleryItem = {
-  id: string;
-  type: "image" | "video";
-  src: string;
-  poster?: string;
-  alt: string;
-  caption: string;
-};
+export type { GalleryItem } from "@/lib/gallery-types";
 
-function isGalleryItem(value: unknown): value is GalleryItem {
-  if (!value || typeof value !== "object") return false;
-  const item = value as Record<string, unknown>;
-  return (
-    typeof item.id === "string" &&
-    (item.type === "image" || item.type === "video") &&
-    typeof item.src === "string" &&
-    typeof item.alt === "string" &&
-    typeof item.caption === "string" &&
-    (item.poster === undefined || typeof item.poster === "string")
-  );
-}
-
-function parseGalleryItems(data: unknown): GalleryItem[] {
-  if (!data || typeof data !== "object" || !("items" in data)) {
-    throw new Error("content/gallery.json must have an \"items\" array");
-  }
-
-  const { items } = data as { items: unknown };
-  if (!Array.isArray(items)) {
-    throw new Error("content/gallery.json \"items\" must be an array");
-  }
-
-  const parsed: GalleryItem[] = [];
-  for (const [index, item] of items.entries()) {
-    if (!isGalleryItem(item)) {
-      throw new Error(
-        `content/gallery.json item at index ${index} is invalid (need id, type, src, alt, caption)`,
-      );
-    }
-    parsed.push(item);
-  }
-  return parsed;
-}
-
-export const GALLERY_ITEMS = parseGalleryItems(galleryData);
-
+export const GALLERY_CACHE_TAG = "gallery";
 const GALLERY_PREVIEW_LIMIT = 6;
 
-/** Latest entries from gallery.json (items are appended to the end of the array). */
-export function getGalleryLatestItems(limit = GALLERY_PREVIEW_LIMIT) {
-  return GALLERY_ITEMS.slice(-limit);
+const loadGalleryItems = unstable_cache(
+  async () => {
+    const items = await getEffectiveGalleryItems();
+    return items.map(withResolvedGalleryMedia);
+  },
+  ["gallery-items"],
+  { tags: [GALLERY_CACHE_TAG], revalidate: 60 },
+);
+
+export async function getGalleryItems(): Promise<GalleryItem[]> {
+  return loadGalleryItems();
 }
+
+export async function getGalleryLatestItems(
+  limit = GALLERY_PREVIEW_LIMIT,
+): Promise<GalleryItem[]> {
+  const items = await getGalleryItems();
+  return items.slice(-limit);
+}
+
+export async function revalidateGallery(): Promise<void> {
+  revalidateTag(GALLERY_CACHE_TAG, "max");
+  revalidatePath("/");
+  revalidatePath("/gallery");
+}
+
+/** @deprecated Use getGalleryItems() in server components. */
+export const GALLERY_ITEMS = STATIC_GALLERY_ITEMS;

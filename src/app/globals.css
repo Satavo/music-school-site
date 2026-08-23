@@ -842,14 +842,23 @@ body {
   .lightbox-slide-next,
   .lightbox-slide-prev,
   .lightbox-nav-visible,
-  .lightbox-nav-hidden {
+  .lightbox-nav-hidden,
+  .modal-close-visible,
+  .modal-close-hidden {
     animation: none;
   }
 
   .lightbox-nav-visible,
-  .lightbox-nav-hidden {
+  .lightbox-nav-hidden,
+  .modal-close-visible,
+  .modal-close-hidden {
     opacity: 1;
     transform: translateY(-50%) translateX(0);
+  }
+
+  .modal-close-visible,
+  .modal-close-hidden {
+    transform: scale(1);
   }
 }
 
@@ -1125,7 +1134,8 @@ body {
   object-fit: contain;
 }
 
-.lightbox-video-shell {
+.lightbox-video-shell,
+.lightbox-media-loader-shell {
   position: relative;
   display: flex;
   min-width: min(100%, 18rem);
@@ -1134,6 +1144,7 @@ body {
   justify-content: center;
 }
 
+.lightbox-media-loader,
 .lightbox-video-loader {
   position: absolute;
   inset: 0;
@@ -1141,6 +1152,29 @@ body {
   align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+
+.gallery-thumb-shell {
+  position: relative;
+  width: 100%;
+  min-height: 9rem;
+  overflow: hidden;
+  background: var(--dominant-surface);
+}
+
+.gallery-thumb-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.gallery-thumb-spinner {
+  width: 2rem;
+  height: 2rem;
 }
 
 .lightbox-caption {
@@ -1371,6 +1405,54 @@ body {
   max-height: 90svh;
 }
 
+.modal-close {
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.38s ease,
+    transform 0.42s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.modal-close-visible {
+  opacity: 1;
+  pointer-events: auto;
+  animation: modal-close-in 0.42s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+}
+
+.modal-close-hidden {
+  animation: modal-close-out 0.28s cubic-bezier(0.4, 0, 0.6, 1) both;
+  transition: none;
+  pointer-events: none;
+}
+
+@keyframes modal-close-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modal-close-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
 @media (max-width: 639px) {
   .modal-overlay {
     align-items: stretch;
@@ -1429,5 +1511,215 @@ body {
 @media (min-width: 1024px) {
   .masonry-grid {
     columns: 3;
+  }
+}
+
+.admin-shell {
+  min-height: 100vh;
+  padding: 2rem 1rem 4rem;
+  background: var(--dominant);
+}
+
+.admin-card {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.75rem;
+  border-radius: 1.25rem;
+  background: var(--dominant-surface);
+  border: 1px solid color-mix(in srgb, var(--line) 35%, transparent);
+  box-shadow: 0 18px 50px color-mix(in srgb, var(--secondary-dark) 8%, transparent);
+}
+
+.admin-card-narrow {
+  max-width: 28rem;
+}
+
+.admin-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.admin-subtitle {
+  margin-bottom: 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.admin-lead {
+  margin-top: 0.35rem;
+  color: color-mix(in srgb, var(--foreground) 72%, transparent);
+}
+
+.admin-form {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-upload-form {
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 35%, transparent);
+}
+
+.admin-label {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.admin-input {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--line) 45%, transparent);
+  background: var(--dominant);
+  color: var(--foreground);
+}
+
+.admin-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--secondary) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.admin-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--secondary-dark);
+  color: var(--secondary-foreground);
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.admin-button:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.admin-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.admin-button-ghost {
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid color-mix(in srgb, var(--line) 45%, transparent);
+}
+
+.admin-button-danger {
+  background: color-mix(in srgb, #8b2e2e 88%, black);
+  color: white;
+}
+
+.admin-hint {
+  font-size: 0.875rem;
+  color: color-mix(in srgb, var(--foreground) 62%, transparent);
+}
+
+.admin-status {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+.admin-status-success {
+  color: #166534;
+}
+
+.admin-status-error {
+  color: #991b1b;
+}
+
+.admin-status-info {
+  color: color-mix(in srgb, var(--foreground) 72%, transparent);
+}
+
+.admin-progress {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  color: color-mix(in srgb, var(--foreground) 72%, transparent);
+}
+
+.admin-progress-bar {
+  height: 0.45rem;
+  border-radius: 999px;
+  background: var(--secondary-dark);
+  transition: width 0.2s ease;
+}
+
+.admin-list {
+  margin-top: 1.5rem;
+}
+
+.admin-items {
+  display: grid;
+  gap: 0.85rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-item {
+  display: grid;
+  grid-template-columns: 5rem 1fr auto;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: 0.9rem;
+  background: var(--dominant);
+  border: 1px solid color-mix(in srgb, var(--line) 30%, transparent);
+}
+
+.admin-item-preview {
+  overflow: hidden;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.65rem;
+  background: var(--dominant-surface);
+}
+
+.admin-item-preview img,
+.admin-item-preview video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-item-caption {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.admin-item-meta {
+  margin-top: 0.15rem;
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--foreground) 58%, transparent);
+}
+
+@media (max-width: 640px) {
+  .admin-item {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-item-preview {
+    width: 100%;
+    height: 10rem;
   }
 }
